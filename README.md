@@ -1,12 +1,9 @@
 # Massively parallel modular computations
 
-This package offers a generic massively parrallel implementation for modular algorithms in computational algebra. In the implementation,  we separate the coordination and computations layers allowing the integration of different programming languages without the need to rewrite the entire code. It also facilitates easy editing and optimization of the implementation.  The application relies on the task-based workflow provided by [GPI-Space](http://www.gpi-space.de/) for task coordination, and uses the computer algebra  system [Singular](https://www.singular.uni-kl.de/) for computational tasks.
+This package offers a  massively parrallel implementation for modular algorithms for the computation of free resolution. In the implementation,  we separate the coordination and computations layers allowing the integration of different programming languages without the need to rewrite the entire code. It also facilitates easy editing and optimization of the implementation.  The application relies on the task-based workflow provided by [GPI-Space](http://www.gpi-space.de/) for task coordination, and uses the computer algebra  system [Singular](https://www.singular.uni-kl.de/) for computational tasks.
 
-This application  uses the Singular dynamic module implemented by Lukas Ristau from  the repository
-[framework](https://github.com/singular-gpispace/framework)  with minor modification to trigger the framework directly from the Singular interpreter. Additionaly, we have made contribution to  the serialization of data type of Singular by automating the production of filenames and unifying  the data type  to be serialize.
-
-We demonstrate the practical application of the framework in computational algebra, specifically by computing Groebner bases in characteristic 0. 
-Additionally, in the field of birational geometry, we use the framework to compute the image of a rational map, also in characteristic 0. We highlight that the entirety or a part of this application can be used for a diverse range of problems, such as the  generic two-into-one machinery in the coordination layer.
+This application  uses the generic  framework for modular methods implemented by Patrick Rakotoarisoa from  the repository
+[framework](https://github.com/singular-gpispace/modular).
 
 To use the framework, installing Singular, GPI-Space, along with their dependencies, and the project code are required. 
 We offer two distinct installation methods. The preferred approach involves using the supercomputing package manager Spack, 
@@ -83,7 +80,7 @@ Note that Spack can be uninstalled by just deleting its directory and its config
 #rm -rf .spack
 
 ```
-## Install modular
+## Install modular_res
 
 Once you have installed Spack, our package can be installed with just three lines of code.
 
@@ -104,7 +101,7 @@ Finally, install modular:
 spack install modular
 
 ```
-Optionally, the modular framework can be installed in a Spack environment by replacing the last line of code with the following commands.
+Optionally, the modular framework can be installed in a Spack environment by replacing the last command by the following commands.
 
 Create an environment:
 ```bash
@@ -119,7 +116,7 @@ spack env activate -p myenv
 Add the abstract specs of modular to the environment:
 
 ```bash
-spack add modular
+spack add modular_res
 
 ```
 
@@ -141,7 +138,7 @@ including dependencies. Installing further components of the framework or updati
 
 Once modular is installed, to use modular load the package via:
 ```bash
-spack load modular
+spack load modular_res
 
 ```
 If modular is installed in an environment, run the following command to activate the environment:
@@ -236,28 +233,30 @@ SINGULARPATH="$MODULAR_INSTALL_DIR"  Singular
 ```
 We will provide two examples of computation using the package. The first is for the computation of the image of a rational map. The second is for the computation of Groebner bases.
 
-##  Example for modular computation of the image of a rational map.
-In this example, we compute the image of a quintic plane curve by the the degree 5 Veronese embedding. In Singular, now do what follows below.
+##  Example for modular computation of free resolution.
+In Singular, now do what follows below.
 
 ```bash
 LIB "modulargspc.lib";
+LIB "random.lib";
 
 configToken gc = configure_gspc();
-gc.options.tmpdir = "tempdir";
+gc.options.tmpdir = "/home/hbn/test/temp";
 gc.options.nodefile = "nodefile";
 gc.options.procspernode = 4;
 gc.options.loghostfile = "loghostfile";
 gc.options.logport = 9876;
 
-ring R=0,(t0,t1,t2),dp;
-ideal I = t1^5+10*t1^4*t2+20*t1^3*t2^2+130*t1^2*t2^3-20*t1*t2^4+20*t2^5-2*t1^4*t0-40*t1^3*t2*t0-150*t1^2*t2^2*t0-90*t1*t2^3*t0-40*t2^4*t0+t1^3*t0^2+30*t1^2*t2*t0^2+110*t1*t2^2*t0^2+20*t2^3*t0^2;
-I;
-ideal phi = maxideal(3);
-phi;
+int n = 11;
+ring R = 0,(x(1..n+1)),dp;
+ideal I = randomid(maxideal(1),n+1,10);
+matrix B[2][n] = I[1..n], I[2..n+1];
+ideal J = minor(B,2);
 
-def result = gspc_modimage(phi,I,gc,12,3,20,20,24);
-setring result;
-im;
+ideal L= std(J);
+
+def re = gspc_modular_fres(I,gc,12,3,20,20,24);
+re;
 
 ```
 ## Example for the modular computation of a Gröbner basis over the rationals
