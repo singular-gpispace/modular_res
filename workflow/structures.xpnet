@@ -1,0 +1,46 @@
+<structs>
+    <struct name="mod_input_data">
+		<field name="input" type="string"/>
+		<field name="prime" type="string"/>
+	</struct>
+
+	<struct name="modular_data">
+		<field name="data" type="string"/>
+		<field name="nb_prime" type="unsigned long"/>
+		<field name="hashlead" type="string"/>
+	</struct>
+
+	<struct name="result_bool_type">
+		<field name="farey_lift" type="string"/>
+		<field name="chr_lift" type="string"/>
+		<field name="test" type="bool"/>
+		<field name="nb_prime" type="unsigned long"/>
+		<field name="hashlead" type="string"/>
+	</struct>
+
+	<struct name="result_bool_testToken_type">
+		<field name="farey_lift" type="string"/>
+		<field name="chr_lift" type="string"/>
+		<field name="test" type="bool"/>
+		<field name="nb_prime" type="unsigned long"/>
+		<field name="hashlead" type="string"/>
+		<field name="testToken" type="string"/>
+	</struct>
+
+	<struct name="chr_lift_info">
+		<field name="chr_lift" type="string"/>
+		<field name="nb_prime" type="unsigned long"/>
+		<field name="hashlead" type="string"/>
+    </struct>
+
+	<struct name="generator_data">
+        <field name="data" type="string"/>
+        <field name="nb_generator" type="unsigned long"/>
+    </struct>
+
+	<struct name="generator_bool">
+		<field name="test" type="bool"/>
+		<field name="nb_generator" type="unsigned long"/>
+	</struct>
+
+</structs>
