@@ -255,10 +255,9 @@ ideal J = minor(B,2);
 
 ideal L= std(J);
 
-def re = gspc_modular_fres(I,gc,12,3,20,20,24);
+def re = gspc_modular_fres(L,gc,12,3,20,20,24);
 re;
 
 ```
-## Example for the modular computation of a Gröbner basis over the rationals
 
 
