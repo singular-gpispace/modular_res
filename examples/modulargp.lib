@@ -325,6 +325,7 @@
             def br = basering;
             int p = in_prime.data[1];
             def I = input.data[1];
+            int k =input.data[2];
             def lbr = ringlist(br);
             lbr[1] = p;
             def rp = ring(lbr);
@@ -333,11 +334,11 @@
             option(redSB);
             //attrib(I,"isSB",1);
             I = std(I);
-            resolution s = fres(I,0);
+            resolution s = fres(I,k);
             list ls;
-            for(int i = size(s)-1; i <= size(s)-1; i++)
+            for(int i = 1; i <= size(s); i++)
             {
-                ls[1] = matrix(s[i]);
+                ls[i] = matrix(s[i]);
             }
             setring br;  
             list ls = fetch(rp,ls);

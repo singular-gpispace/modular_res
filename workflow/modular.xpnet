@@ -1,5 +1,5 @@
 <defun name="modular">
-    <include-structs href="structures.xpnet"/>
+   <include-structs href="/home/gnawali/gspc-modres/modular_res/workflow/structures.xpnet"/>
 
     <in name="primes" type="string" place="place_prime"/>
     <in name="implementation" type="string" place="place_implementation"/>
@@ -256,6 +256,7 @@
                                         (implementation, RTLD_GLOBAL | RTLD_NOW | RTLD_DEEPBIND)
                                         .sym<decltype (singular_modular_compute)> ("singular_modular_compute")
                                         ( mod_input.input, mod_input.prime, function_name, needed_library, base_filename));
+           
                                     oa << out.first;
                                     oa << out.second; // save result
                                 }
@@ -343,7 +344,7 @@
         </transition>
 
        <transition name="lift" inline="true">
-            <include-function href="lift.xpnet"/>
+            <include-function href="/home/gnawali/gspc-modres/modular_res/workflow/lift.xpnet"/>
             <place-map virtual="place_in" real="place_mod_res2"/>
             <place-map virtual="place_out" real="place_mod_res3"/>
             <place-map virtual="place_function_name_lift" real="place_function_name_lift"/>
@@ -370,7 +371,7 @@
         </transition>
 
         <transition name="liftAdd" inline="true">
-            <include-function href="liftAdd.xpnet"/>
+             <include-function href="/home/gnawali/gspc-modres/modular_res/workflow/liftAdd.xpnet"/>
             <place-map virtual="place_mod_res3" real="place_mod_res3"/>
             <place-map virtual="place_input_M2" real="place_input_M2"/>
             <place-map virtual="place_function_name_lift" real="place_function_name_lift"/>
@@ -384,7 +385,7 @@
 
         
        <transition name="reconstest" inline="true">
-            <include-function href="reconstest.xpnet"/>
+            <include-function href="/home/gnawali/gspc-modres/modular_res/workflow/reconstest.xpnet"/>
             <place-map virtual="place_bal3" real="place_bal3"/>
             <place-map virtual="place_lifted_res" real="place_lifted_res"/>
             <place-map virtual="place_one" real="place_test"/>

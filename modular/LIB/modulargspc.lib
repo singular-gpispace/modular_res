@@ -284,7 +284,8 @@ proc gspc_modular_fres(ideal I, configToken gc, list #) //optional arguments: ba
   
   token input;
   input.fieldnames = list("generators");
-  input.data = list(I);
+  input.data [1]= I;
+  input.data[2]=2;
   list l = list(input);
   configToken pc = configure_modular(gc);
   pc.options.procCompute = "fresmodp";

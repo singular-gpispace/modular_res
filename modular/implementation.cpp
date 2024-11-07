@@ -68,6 +68,9 @@ std::pair<std::string,std::string>  singular_modular_compute( std::string const&
 	lists u = (lists)out.second->m[3].Data();//ring-lists-ring-lists
 	std::string hash = (char*)u->m[3].Data();
 	out_filename = serialize(out.second,base_filename);
+ 
+
+
 
 	return {out_filename,hash};
 }
