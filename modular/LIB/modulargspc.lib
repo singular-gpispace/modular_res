@@ -279,13 +279,24 @@ proc gspc_modimage(ideal phi, ideal I, configToken gc, list #) //optional argume
 }
 
 
-proc gspc_modular_fres(ideal I, configToken gc, list #) //optional arguments: bal1, bal2, M1, M2, nb_primes
+
+
+
+
+
+
+
+proc gspc_modular_syz_up_k(ideal I, configToken gc, list #) //optional arguments: bal1, bal2, M1, M2, nb_primes
 {
   
   token input;
   input.fieldnames = list("generators");
-  input.data [1]= I;
-  input.data[2]=2;
+  ideal J=I[1..size(I)-1];
+  int k=int(I[size(I)]);
+  print("ideal J");
+  print(J);
+  input.data[1]= J;
+  input.data[2]=k;
   list l = list(input);
   configToken pc = configure_modular(gc);
   pc.options.procCompute = "fresmodp";
