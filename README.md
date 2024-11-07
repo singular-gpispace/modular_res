@@ -241,22 +241,67 @@ LIB "modulargspc.lib";
 LIB "random.lib";
 
 configToken gc = configure_gspc();
-gc.options.tmpdir = "/home/hbn/test/temp";
+gc.options.tmpdir = "/home/gnawali/gspc-modres/example_dir/temp";
 gc.options.nodefile = "nodefile";
 gc.options.procspernode = 4;
-gc.options.loghostfile = "loghostfile";
+gc.options.loghost = "schipp";
 gc.options.logport = 9876;
 
-int n = 11;
+
+
+
+
+int n = 3;
 ring R = 0,(x(1..n+1)),dp;
-ideal I = randomid(maxideal(1),n+1,10);
+ideal I = randomid(maxideal(1),n+1,11);
 matrix B[2][n] = I[1..n], I[2..n+1];
 ideal J = minor(B,2);
 
-ideal L= std(J);
+ideal L= std(J),2;
 
-def re = gspc_modular_fres(L,gc,12,3,20,20,24);
+
+// def res=fres(L,2);
+// print("Fres");
+// res;
+
+//Koszul Case
+// ring R=0,(u,v,w,x,y,z),(lp,c);
+// ideal L=u,v,w,x,y,z;
+
+// ring R= 0, (w,x,y,z), (dp,c);
+// ideal L= w2-x*z, w*x- y*z, x2-w*y, x*y- z2, y2- w*z;
+
+ //Example from Singular book
+//  ring S=0, (x,y,z), (c,dp);
+//  ideal J1=y*z+z^2,y^2 + x*z,x*y+z^2,z^3,x*z^2,x^2*z;
+//  ideal L=std(J1);
+
+
+
+
+
+
+
+list #=list(12,3,20,20,30);
+
+def re = gspc_modular_syz_up_k(L,gc,#);
 re;
+
+
+
+
+//pnet: cat modular.xpnet | pnetc  | pnet2dot | dot -Tsvg > Modular_res.svg
+
+//Starting monitor:gspc-monitor --port 9876 &
+
+
+
+
+
+
+
+
+
 
 ```
 
