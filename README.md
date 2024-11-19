@@ -96,12 +96,12 @@ spack repo add $software_ROOT/spack-packages
 
 ```
 
-Finally, install modular:
+Finally, install modular_res:
 ```bash
-spack install modular
+spack install modular_res
 
 ```
-Optionally, the modular framework can be installed in a Spack environment by replacing the last command by the following commands.
+Optionally, the modular_res framework can be installed in a Spack environment by replacing the last command by the following commands.
 
 Create an environment:
 ```bash
@@ -113,7 +113,7 @@ Activate the environment:
 spack env activate -p myenv
 
 ```
-Add the abstract specs of modular to the environment:
+Add the abstract specs of modular_res to the environment:
 
 ```bash
 spack add modular_res
@@ -134,14 +134,14 @@ spack install
 Note, this may take quite a bit of time, when doing the initial installation, as it needs to build GPI-Space and Singular
 including dependencies. Installing further components of the framework or updating is then typically quick.
 
-## Load modular
+## Load modular_res
 
-Once modular is installed, to use modular load the package via:
+Once modular_res is installed, to use modular load the package via:
 ```bash
 spack load modular_res
 
 ```
-If modular is installed in an environment, run the following command to activate the environment:
+If modular_res is installed in an environment, run the following command to activate the environment:
 ```bash
 spack env activate -p myenv
 
@@ -179,13 +179,13 @@ Your key has to be registered with the machine you want to compute on. On a clus
 ssh-copy-id -f -i "${HOME}/.ssh/id_rsa" "${HOSTNAME}"
 
 ```
-# Example of how to use the modular package
-If you start in a new terminal session (and did not configure your terminal to do this automatically) make sure to set `software_ROOT` and run the `setup-env.sh` script. Make also sure to load the modular package in Spack. As discussed above this can be done by:
+# Example of how to use the modular_res package
+If you start in a new terminal session (and did not configure your terminal to do this automatically) make sure to set `software_ROOT` and run the `setup-env.sh` script. Make also sure to load the modular_res package in Spack. As discussed above this can be done by:
 
 ```bash
 export software_ROOT=~/singular-gpispace
 . $software_ROOT/spack/share/spack/setup-env.sh
-spack load modular
+spack load modular_res
 
 ```
 ## Setup directories and example files

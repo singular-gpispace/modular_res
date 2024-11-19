@@ -1,0 +1,418 @@
+
+
+
+
+
+
+proc modular_rncAntiCanonicalMap(ideal J)
+
+
+{
+ideal I=std(J);
+  def Roriginal = basering;
+  list rl = ring_list(Roriginal);
+  rl[3] = list(list("dp",1:nvars(Roriginal)),list("C",0));
+  def RoriginalDP = ring(rl);
+  setring RoriginalDP;
+  ideal I = imap(Roriginal,I);
+  int c0 = nvars(RoriginalDP)-2;
+  //module AKD1 = Ext_R(c0,I);
+  //print("Ext_module AKD1=");
+  //print(AKD1);
+  int cc = nvars(RoriginalDP);
+  print("c0=");print(c0);
+   //def resI = minres(I, 0);
+   def ResI=mres(I,0);
+ int n=size(ResI);
+ print("size of ResI="); print(n);
+ 
+
+  module lastSyzygyMatrix =ResI[n];
+  matrix A=lastSyzygyMatrix;
+  typeof(A);
+  module AKD=A;//coker(A)=ker(A^T);
+  //print("cokernel");
+  //print(AKD);
+  //def AKD =A;
+  //Module AKD=AKD1;
+ //print("anticanonical module AKD=");
+  //print(AKD);
+  qring qI = std(I);
+  matrix AKD = imap(RoriginalDP,AKD);
+  AKD = syz(AKD);
+  ideal PR = submat(AKD,1..nrows(AKD),1);
+  setring Roriginal;
+  return(imap(qI,PR));
+}
+
+
+
+proc modular_rncItProjOdd(ideal I)
+
+{
+  int n = nvars(basering);
+  if((n mod 2) == 1){ERROR("Pn has even dimension");}
+  def Roriginal = basering;
+  list rlo = ring_list(Roriginal);
+  rlo[3]= list(list("dp",1:n),list("C",0));
+  int k;
+  for(k = 1; k <= n; k++)
+    {
+      rlo[2][k] = "z("+string(k)+")";
+    }
+  def RoriginalCopy = ring(rlo);
+  for(k = 1; k <= n; k++)
+    {
+      rlo[2][k] = "y("+string(k)+")";
+    }
+  def Rold = ring(rlo);
+  setring RoriginalCopy;
+  ideal PHI  = maxideal(1);
+  setring Rold;
+  ideal J = fetch(Roriginal,I);
+ 
+  list rl2;
+  def Rnew;
+  def Rbig;
+  def Relim;
+  //bigintvec HJJ;
+  intvec HJJ;
+  while(n>2)
+     {
+
+
+        ideal PR = modular_rncAntiCanonicalMap(J);
+       
+        list rl = ring_list(Rold);
+        Rbig = Rold + RoriginalCopy;
+        setring Rbig;
+        ideal PHI = imap(RoriginalCopy,PHI);
+        ideal dummy = imap(Rold,PR);
+        for(k = 1; k <= n; k++)
+          {
+             dummy = subst(dummy,var(k),PHI[k]);
+          }
+        setring RoriginalCopy;
+        PHI = imap(Rbig,dummy);
+        /* begin workaround elimination*/
+        setring Rold;
+        for(k = 1; k <= n; k++)
+          {
+            rl[2][k] = "x("+string(k)+")";
+          }
+        for(k = 1; k <= n-2; k++)
+          {
+            rl[2][k+n] = "y("+string(k)+")";
+          }
+        rl[3]= list(list("dp",1:(2*n-2)),list("C",0));
+        Relim = ring(rl);
+        setring Relim;
+        ideal J = fetch(Rold,J);
+        ideal PR = fetch(Rold,PR);
+        ideal JJ = J;
+       
+        poly pvar=1;
+        for(k = 1; k <= n; k++)
+          {
+            pvar = pvar*var(k);
+          }
+        for(k=1;k<=n-2;k++)
+          { 
+            JJ=JJ,var(k+n)-PR[k];
+          }
+        ideal SJJ = std(JJ);
+        HJJ = hilb(SJJ,1);
+        J = eliminate(JJ,pvar,HJJ);
+        list rl = ring_list(Relim);
+        rl2 = rl[2];
+        rl[2] = list(rl2[n+1..2*n-2]);
+        rl[3]= list(list("dp",1:(n-2)),list("C",0));
+        Rnew = ring(rl);
+        setring Rnew;
+        ideal J = imap(Relim,J);
+        /* end workaround elimination*/
+        Rold = Rnew;
+        setring Rold;
+        n = n-2;
+     }
+  setring Roriginal;
+  return(fetch(RoriginalCopy,PHI));
+}
+
+
+
+
+
+
+proc modular_rncItProjEven(ideal I)
+
+{
+  int n = nvars(basering);
+  if((n mod 2) == 0){ERROR("Pn has odd dimension");}
+  def Roriginal = basering;
+  list rlo = ring_list(Roriginal);
+  rlo[3]= list(list("dp",1:n),list("C",0));
+  int k;
+  for(k = 1; k <= n; k++)
+    {
+      rlo[2][k] = "z("+string(k)+")";
+    }
+  def RoriginalCopy = ring(rlo);
+  for(k = 1; k <= n; k++)
+    {
+      rlo[2][k] = "y("+string(k)+")";
+    }
+  def Rold = ring(rlo);
+  setring RoriginalCopy;
+  ideal PHI  = maxideal(1);
+  setring Rold;
+  ideal J = fetch(Roriginal,I);
+  list rl2;
+  def Rnew;
+  def Rbig;
+  def Relim;
+  bigintvec HJJ;
+  while(n>3)
+     {
+        ideal PR = modular_rncAntiCanonicalMap(J);
+        list rl = ring_list(Rold);
+        Rbig = Rold + RoriginalCopy;
+        setring Rbig;
+        ideal PHI = imap(RoriginalCopy,PHI);
+        ideal dummy = imap(Rold,PR);
+        for(k = 1; k <= n; k++)
+          {
+             dummy = subst(dummy,var(k),PHI[k]);
+          }
+        setring RoriginalCopy;
+        PHI = imap(Rbig,dummy);
+        /* begin workaround elimination*/
+        setring Rold;
+        for(k = 1; k <= n; k++)
+          {
+            rl[2][k] = "x("+string(k)+")";
+          }
+        for(k = 1; k <= n-2; k++)
+          {
+            rl[2][k+n] = "y("+string(k)+")";
+          }
+        rl[3]= list(list("dp",1:(2*n-2)),list("C",0));
+        Relim = ring(rl);
+        setring Relim;
+        ideal J = fetch(Rold,J);
+        ideal PR = fetch(Rold,PR);
+        ideal JJ = J;
+        poly pvar=1;
+        for(k = 1; k <= n; k++)
+          {
+            pvar = pvar*var(k);
+          }
+        for(k=1;k<=n-2;k++)
+          {
+            JJ=JJ,var(k+n)-PR[k];
+          }
+        ideal SJJ = std(JJ);
+        HJJ = hilb(SJJ,1);
+        J = eliminate(JJ,pvar,HJJ);
+        list rl = ring_list(Relim);
+        rl2 = rl[2];
+        rl[2] = list(rl2[n+1..2*n-2]);
+        rl[3]= list(list("dp",1:(n-2)),list("C",0));
+        Rnew = ring(rl);
+        setring Rnew;
+        ideal J = imap(Relim,J);
+        /* end workaround elimination*/
+        Rold = Rnew;
+        setring Rold;
+        n = n-2;
+     }
+  poly CONIC = J[1];
+  export(CONIC);
+  setring Roriginal;
+  ideal PHI = fetch(RoriginalCopy,PHI);
+  export(PHI);
+  return(Rold);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+proc invertBirMap(ideal phi, ideal I)
+
+{
+   def Roriginal = basering;
+   int n = nvars(Roriginal);
+   int m = size(phi);
+   /*phi: P^(n-1) --> P^(m-1)*/
+   list rl = ring_list(Roriginal);
+   int k;
+   for(k = 1; k <= n; k++)
+     {
+        rl[2][k] = "x("+string(k)+")";
+     }
+   for(k = 1; k <= m; k++)
+     {
+        rl[2][k+n] = "y("+string(k)+")";
+     }
+   rl[3]= list(list("dp",1:(n+m)),list("C",0));
+   /*Use Hilbert driven Buchberger*/
+   def Rbig0 = ring(rl);
+   setring Rbig0;
+   ideal I = fetch(Roriginal,I);
+   ideal phi = fetch(Roriginal,phi);
+   ideal mi = maxideal(1);
+   ideal xv = mi[1..n];
+   ideal yv  = mi[n+1..n+m];
+   matrix HM[2][m] = concat(transpose(yv),transpose(phi));
+   ideal graph = sat(I+minor(HM,2),phi);
+   graph = sat(graph,xv);
+   bigintvec Hgraph = hilb(graph,1);
+   setring Roriginal;
+   rl[3]= list(list("dp",1:n),list("dp",1:m),list("C",0));
+   def Rbig = ring(rl);
+   setring Rbig;
+   ideal graph = imap(Rbig0,graph);
+   graph = std(graph,Hgraph);
+   ideal xv = imap(Rbig0,xv);
+   /*The ideal J defines the image of phi*/
+   ideal J = graph;
+   for(k = 1; k <= n; k++)
+     {
+        J = subst(J,xv[k],0);
+     }
+   J = compress(J);
+   /*now we start inverting phi to psi*/
+   matrix relpsi = diff(xv,graph);
+   for(k = 1; k <= n; k++)
+     {
+        relpsi = subst(relpsi,xv[k],0);
+     }
+    relpsi = compress(relpsi);
+    list rl = ring_list(Rbig);
+    list rl2 = rl[2];
+    rl[2] = list(rl2[n+1..n+m]);
+    rl[3]= list(list("dp",1:m),list("C",0));
+    def Rtarget = ring(rl);
+    setring Rtarget;
+    ideal J = imap(Rbig,J);
+    qring RtargetmodJ = std(J);
+    matrix relpsi = imap(Rbig,relpsi);
+    relpsi = syz(transpose(relpsi));
+    ideal psi = submat(relpsi,1..nrows(relpsi),1);
+    setring Rtarget;
+    ideal psi = imap(RtargetmodJ,psi);
+    export(J,psi);
+    int p = printlevel - voice + 3;
+    dbprint(p,"// 'invertBirMap' created a ring together with two ideals J and psi.");
+    dbprint(p,"// Supposing you typed, say,  def RPn = invertBirMap(phi,I);");
+    dbprint(p,"// you may access the ideals by typing");
+    dbprint(p,"//      setring RPn; J; psi;");
+    return(Rtarget);
+ }
+
+
+
+proc iterative_invertBirMap(ideal phi, ideal I)
+"USAGE: iterative_invertBirMap(phi, I); phi ideal, I ideal
+ASSUME: The ideal phi in the basering R represents a birational map of the
+        variety given by the ideal I in R to its image in projective space.
+        This procedure computes the inverse of the birational map iteratively,
+        increasing the dimension by 2 in each step.
+RETURN: ring, the coordinate ring of the variety, with an ideal psi,
+        the inverse of phi.";
+{
+   def Roriginal = basering;
+   int n = nvars(Roriginal);  // Number of variables in the original ring
+   int m = size(phi);          // Number of variables in phi (dimension of target space)
+   
+   // Setup ring for the original dimension
+   list rl = ring_list(Roriginal);
+   for(k = 1; k <= n; k++) {
+      rl[2][k] = "x("+string(k)+")";  // Set original variables
+   }
+   for(k = 1; k <= m; k++) {
+      rl[2][k+n] = "y("+string(k)+")";  // Set target variables
+   }
+   rl[3] = list(list("dp", 1:(n+m)), list("C", 0));
+   def Rbig0 = ring(rl);  // Ring with combined variables
+   setring Rbig0;
+   
+   ideal I = fetch(Roriginal, I);  // Fetch the original variety ideal
+   ideal phi = fetch(Roriginal, phi);  // Fetch the birational map
+
+   ideal graph = sat(I + minor(concat(transpose(phi), transpose(xv)), 2), phi);  // Graph ideal
+
+   // Start with the graph and prepare for iterative inversion
+   ideal psi = maxideal(1);  // Initialize psi as the maximal ideal (inverse map)
+   
+   // Now start iterating to increase dimension by 2
+   while(n < 2*(n - m)) {
+      list rl = ring_list(Rbig0);
+      rl[3] = list(list("dp", 1:(n + 2)), list("C", 0));  // Increase dimension by 2
+      def Rbig = ring(rl);
+      setring Rbig;
+      
+      ideal graph = imap(Rbig0, graph);  // Map the graph into the larger space
+      ideal relpsi = diff(xv, graph);  // Compute the differential of the graph
+      
+      // Process the relations and compress them
+      relpsi = compress(relpsi);
+      
+      // Construct the inverse psi by solving the relations
+      matrix relpsiMatrix = syz(transpose(relpsi));
+      ideal psi = submat(relpsiMatrix, 1..nrows(relpsiMatrix), 1);  // Compute inverse
+      
+      // Update ideal and proceed to the next iteration
+      psi = compress(psi);
+      n = n + 2;  // Increase the dimension by 2
+   }
+   
+   // Final result: psi is the inverse birational map in the original space
+   setring Roriginal;
+   return(psi);
+}
+
+   
+   
+   
+   
+   
+   
+
+// ring R = 0,(x,y,z),dp;
+// poly f = y^8-x^3*(z+x)^5;
+// ideal adj = adjointIdeal(f);
+// def Rn = invertBirMap(adj,ideal(f));
+
+// setring(Rn);
+// J;
+
+// psi;
+
+
+
+
+
+
+
+
+
+
+
