@@ -1,0 +1,76 @@
+
+
+ 	
+LIB "decomp.lib";
+LIB "RNC_modular.lib";
+LIB "paraplanecurves.lib";
+ring R = 0,(x,y,z),dp;
+poly f = -x7-10x5y2-10x4y3-3x3y4+8x2y5+7xy6+11y7+3x6+10x5y +30x4y2
++26x3y3-13x2y4-29xy5-33y6-3x5-20x4y-33x3y2-8x2y3+37xy4+33y5
++x4+10x3y+13x2y2-15xy3-11y4;
+f = homog(f,z);
+ideal I=f;
+
+
+
+print("ideal in InvertMap="); print(adj0);
+ideal adj = adjointIdeal(f);
+
+def Rn = mapToRatNormCurve(f,adj);
+
+setring(Rn);
+RNC;
+
+//ring S = 0, (x(1), x(2), x(3), x(4), x(5), x(6)), dp;
+//ideal I = x1^2 - x0*x2, x1*x3 - x2^2, x2*x0 - x1^2;
+
+
+//modular_rncItProjOdd(RNC);
+list PHI=iterative_Odd_rncAntiCanonicalMap(RNC);
+
+print("all Anticanonical map PHI");
+print(PHI); 
+ideal phi;
+  ideal I=fetch(basering,I);
+
+    for(int k=1; k<=size(I); k++){
+    phi = concat(phi,I[k]);
+   }
+    phi=delete(phi,1);
+ for (int k = size(PHI); k >= 1; k--) {
+    list innerList = PHI[k];
+    for (int j = 1; j <= size(innerList); j++) {
+        phi = concat(phi, innerList[j]);
+    }
+}
+  print("phi compose=");print(phi);
+ 
+ideal adj=fetch(basering,adj);
+
+//list PHI=fetch(basering, PHI);
+
+def R_invert=modular_invertBirMap(phi,I);
+setring(R_invert);
+J;
+psi;
+//anticanonical PR=
+//10769*y(2)+4840*y(4)+1331*y(6),
+//1331*y(1)+847*y(2)+968*y(3)+616*y(4)-1210*y(5)-770*y(6),
+//121*y(3)+77*y(4)+88*y(5)+56*y(6),
+//11*y(5)+7*y(6)
+//c0=
+//2
+//size of ResI=
+//2
+//matrix
+//anticanonical PR=
+//y(3)-8*y(4),
+//-y(4)
+
+
+
+
+//10769*z(2)+4840*z(4)+1331*z(6),
+//1331*z(1)+847*z(2)+968*z(3)+616*z(4)-1210*z(5)-770*z(6),
+//121*z(3)+77*z(4)+88*z(5)+56*z(6),
+//11*z(5)+7*z(6)
