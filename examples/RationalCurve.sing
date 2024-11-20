@@ -1,7 +1,7 @@
 
 
  	
-LIB "decomp.lib";
+
 LIB "RNC_modular.lib";
 LIB "paraplanecurves.lib";
 ring R = 0,(x,y,z),dp;
