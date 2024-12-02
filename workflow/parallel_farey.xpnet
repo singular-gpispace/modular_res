@@ -53,7 +53,7 @@
                     <cinclude href="vector"/>
                     <cinclude href="iostream"/>
                     <code><![CDATA[
-                        std::cout << "in singular _.._farey" << std::endl;
+                        //std::cout << "in singular _.._farey" << std::endl;
                         std::pair<std::vector<std::string>, unsigned long> out = fhg::util::scoped_dlhandle
                          (implementation, RTLD_GLOBAL | RTLD_NOW | RTLD_DEEPBIND)
                          .sym<decltype (singular_modular_split)> ("singular_modular_split")

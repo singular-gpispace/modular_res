@@ -87,7 +87,7 @@
                     <cinclude href="util-generic/dynamic_linking.hpp"/>
                     <cinclude href="iostream"/>
                     <code><![CDATA[  
-                        std::cout <<  " in singular_..._compare "<< std::endl;
+                        //std::cout <<  " in singular_..._compare "<< std::endl;
                         rand_res.test  = fhg::util::scoped_dlhandle
                             (implementation, RTLD_GLOBAL | RTLD_NOW | RTLD_DEEPBIND)
                             .sym<decltype (singular_modular_compare)> ("singular_modular_compare")

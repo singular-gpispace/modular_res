@@ -65,6 +65,28 @@ std::pair<std::string,std::string>  singular_modular_compute( std::string const&
 	ScopedLeftv args( input.first, lCopy(input.second));
 	ScopedLeftv arg(args,p.first,lCopy(p.second));
 	out = call_user_proc(function_name, needed_library, args);
+ 
+
+
+
+  //  lists Token = (lists)(args.leftV()->data);
+   
+  // int L_size = lSize(Token)+1;
+  // std::cout << "Size of J in the transition: " << L_size << std::endl;
+  // for (int i = 0; i < L_size; i++) {
+  //         sleftv& listElement = Token->m[i];  // Access each element as `leftv`
+  //     if(listElement.data==NULL) {
+  //       std::cout << "Input: NULL"  << std::endl;
+  //     }
+  //  else
+  //  std::cout << "INPUT: " << listElement.String()  << std::endl;
+     
+  // }
+
+
+
+
+
 	lists u = (lists)out.second->m[3].Data();//ring-lists-ring-lists
 	std::string hash = (char*)u->m[3].Data();
 	out_filename = serialize(out.second,base_filename);

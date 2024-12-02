@@ -1,24 +1,23 @@
 <defun name="modular">
-    <include-structs href="structures.xpnet"/>
+   <include-structs href="/home/gnawali/gspc-modres/modular_res/workflow/structures.xpnet"/>
 
     <in name="primes" type="string" place="place_prime"/>
     <in name="implementation" type="string" place="place_implementation"/>
     <in name="input" type="string" place="place_input"/>
     <in name="last_prime" type="int" place="place_last_prime"/>
     <in name="function_name_compute" type="string" place="place_function_name_compute"/>
-    <in name="function_name_lift" type="string" place="place_function_name_lift"/>
-    <in name="function_name_split" type="string" place="place_function_name_split"/>
-	<in name="function_name_farey" type="string" place="place_function_name_farey"/>
-    <in name="function_name_append" type="string" place="place_function_name_append"/>
-    <in name="function_name_compatible" type="string" place="place_function_name_compatible"/>
-    <in name="function_name_compare" type="string" place="place_function_name_compare"/>
+    
+    
+	
+    
+    
+   
     <in name="function_name_genNextPrime" type="string" place="place_function_name_genNextPrime"/>
 	<in name="needed_library" type="string" place="place_needed_library"/>
 	<in name="base_filename" type="string" place="place_base_filename"/>
 	<in name="input_bal1" type="long" place="place_input_bal1"/>
 	<in name="input_bal2" type="long" place="place_input_bal2"/>
-    <in name="input_M1" type="unsigned long" place="place_input_M1"/>
-    <in name="input_M2" type="unsigned long" place="place_input_M2"/>
+    
 	<out name="output" type="string" place="place_output"/>
 
     <net>
@@ -27,8 +26,7 @@
 		<place name="place_prime" type="string"/>
 		<place name="place_input_bal1" type="long"/>
 		<place name="place_input_bal2" type="long"/>
-        <place name="place_input_M1" type="unsigned long"/>
-        <place name="place_input_M2" type="unsigned long"/>
+        
         <place name="place_eureka_group" type="string">
             <token>
                 <value>"DONE"</value>
@@ -41,24 +39,24 @@
 		<place name="place_implementation" type="string"/>
 		<place name="place_mod_input" type="mod_input_data"/>
 		<place name="place_function_name_compute" type="string"/>
-		<place name="place_function_name_lift" type="string"/>
-        <place name="place_function_name_split" type="string"/>
-		<place name="place_function_name_farey" type="string"/>
-        <place name="place_function_name_append" type="string"/>
-        <place name="place_function_name_compatible" type="string"/>
-        <place name="place_function_name_compare" type="string"/>
+		
+       
+		
+       
+       
+       
         <place name="place_function_name_genNextPrime" type="string"/>
 		<place name="place_needed_library" type="string"/>
 		<place name="place_base_filename" type="string"/>
         <place name="place_output" type="string"/>
 		<place name="place_mod_res1" type="modular_data"/>
 		<place name="place_mod_res2" type="modular_data"/>
-        <place name="place_mod_res3" type="modular_data"/>
+       
         <place name="place_ct1" type="long"><token><value>0L</value></token></place>
 		<place name="place_test" type="modular_data"/>
 		<place name="place_accumulator" type="modular_data"/>
 		<place name="place_init_accumulator" type="string"><token><value>""</value></token></place>
-		<place name="place_lifted_res" type="modular_data"/>
+	
 		<place name="place_rand_res" type="result_bool_type"/>
 
         <transition name="init">
@@ -239,7 +237,7 @@
                     <cinclude href="boost/archive/binary_iarchive.hpp"/>
                     <cinclude href="boost/archive/binary_oarchive.hpp"/>
                     <code><![CDATA[
-                        
+                        std::cout << " in singular_..._compute " <<  std::endl;
                         std::string const filename (fhg::util::scoped_dlhandle
                                                         (implementation, RTLD_GLOBAL | RTLD_NOW | RTLD_DEEPBIND)
                                                         .sym<decltype (filename_gen)> ("filename_gen")
@@ -256,6 +254,7 @@
                                         (implementation, RTLD_GLOBAL | RTLD_NOW | RTLD_DEEPBIND)
                                         .sym<decltype (singular_modular_compute)> ("singular_modular_compute")
                                         ( mod_input.input, mod_input.prime, function_name, needed_library, base_filename));
+           
                                     oa << out.first;
                                     oa << out.second; // save result
                                 }
@@ -281,7 +280,6 @@
                             mod_res1.nb_prime = 1UL;
                             bal1 = we::type::literal::control{};
                         }
-                        std::cout << " in singularcompute " <<  std::endl;
                         ]]></code>
                     </module>
                 <condition>
@@ -343,18 +341,6 @@
             <connect-out port="extract_test" place="place_test"/>
         </transition>
 
-       <transition name="lift" inline="true">
-            <include-function href="lift.xpnet"/>
-            <place-map virtual="place_in" real="place_mod_res2"/>
-            <place-map virtual="place_out" real="place_mod_res3"/>
-            <place-map virtual="place_function_name_lift" real="place_function_name_lift"/>
-            <place-map virtual="place_base_filename" real="place_base_filename"/>
-            <place-map virtual="place_needed_library" real="place_needed_library"/>
-            <place-map virtual="place_implementation" real="place_implementation"/>
-            <place-map virtual="place_input_M1" real="place_input_M1"/>
-            <place-map virtual="place_bal" real="place_bal2"/>  
-            <place-map virtual="place_eureka_group" real="place_eureka_group"/>
-        </transition>
 
         <transition name="init_accumulator">
             <defun>
@@ -370,36 +356,7 @@
             <connect-out port="accumulator" place="place_accumulator"/>
         </transition>
 
-        <transition name="liftAdd" inline="true">
-            <include-function href="liftAdd.xpnet"/>
-            <place-map virtual="place_mod_res3" real="place_mod_res3"/>
-            <place-map virtual="place_input_M2" real="place_input_M2"/>
-            <place-map virtual="place_function_name_lift" real="place_function_name_lift"/>
-            <place-map virtual="place_base_filename" real="place_base_filename"/>
-            <place-map virtual="place_needed_library" real="place_needed_library"/>
-            <place-map virtual="place_implementation" real="place_implementation"/>
-            <place-map virtual="place_eureka_group" real="place_eureka_group"/>
-            <place-map virtual="place_accumulator" real="place_accumulator"/>
-            <place-map virtual="place_lifted_res" real="place_lifted_res"/>
-        </transition>
-
-        
-       <transition name="reconstest" inline="true">
-            <include-function href="reconstest.xpnet"/>
-            <place-map virtual="place_bal3" real="place_bal3"/>
-            <place-map virtual="place_lifted_res" real="place_lifted_res"/>
-            <place-map virtual="place_one" real="place_test"/>
-            <place-map virtual="place_rand_res" real="place_rand_res"/>
-            <place-map virtual="place_function_name_split" real="place_function_name_split"/>
-            <place-map virtual="place_function_name_farey" real="place_function_name_farey"/>
-            <place-map virtual="place_function_name_append" real="place_function_name_append"/>
-            <place-map virtual="place_function_name_compatible" real="place_function_name_compatible"/>
-            <place-map virtual="place_function_name_compare" real="place_function_name_compare"/>
-            <place-map virtual="place_implementation" real="place_implementation"/>
-            <place-map virtual="place_base_filename" real="place_base_filename"/>
-            <place-map virtual="place_needed_library" real="place_needed_library"/>
-
-        </transition>
+    
 
 
         <transition name="Continue">

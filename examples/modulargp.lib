@@ -17,7 +17,18 @@
        compatible(token, token)           
        compare(token, token)
 ";
-        
+LIB "elim.lib";
+LIB "general.lib";
+LIB "primdec.lib";
+LIB "absfact.lib";
+LIB "matrix.lib";
+LIB "random.lib";
+LIB "homolog.lib";
+LIB "integralbasis.lib";
+LIB "normal.lib";
+
+
+
         proc genNextPrime(token input, int p, int m)
         {
             LIB "modstd.lib";
@@ -352,6 +363,220 @@
            // output.data[4] = hashlead(I);
             return(output);
        }
+
+
+
+
+
+
+
+
+
+
+proc modular_invertBirMap(ideal J0, ideal I) {
+    def Roriginal = basering;
+    int n = nvars(Roriginal);
+    int m = size(J0);
+    
+   
+    
+    // Initialize the graph
+    list rl = ring_list(Roriginal);
+       int k;
+   for(k = 1; k <= n; k++)
+     {
+        rl[2][k] = "x("+string(k)+")";
+     }
+   for(k = 1; k <= m; k++)
+     {
+        rl[2][k+n] = "y("+string(k)+")";
+     }
+
+    rl[3] = list(list("dp", 1:(n + m)), list("C", 0));
+    def Rbig0 = ring(rl);
+   setring Rbig0;
+    ideal I = fetch(Roriginal, I);
+    ideal J0 = fetch(Roriginal, J0);
+    
+    ideal mi = maxideal(1);
+    print("mi=");print(mi);
+   ideal xv = mi[1..n];
+   print("ideal xv=");print(xv);
+   ideal yv  = mi[n+1..n+m];
+   print("m=");print(m);print("n=");print(n);
+   print("ideal yv=");print(yv);
+
+    matrix HM[2][m] = concat(transpose(yv),transpose(J0));
+   ideal graph = sat(I+minor(HM,2),J0)[1];
+   graph = sat(graph,xv)[1];
+    
+   intvec Hgraph = hilb(graph,1);
+   setring Roriginal;
+   rl[3]= list(list("dp",1:n),list("dp",1:m),list("C",0));
+   def Rbig = ring(rl);
+   setring Rbig;
+   ideal graph = imap(Rbig0,graph);
+   graph = std(graph,Hgraph);
+   ideal xv = imap(Rbig0,xv);
+   /*The ideal J defines the image of phi*/
+   ideal J = graph;
+   for(k = 1; k <= n; k++)
+     {
+        J = subst(J,xv[k],0);
+     }
+   J = compress(J);
+   /*now we start inverting phi to psi*/
+   matrix relpsi = diff(xv,graph);
+   for(k = 1; k <= n; k++)
+     {
+        relpsi = subst(relpsi,xv[k],0);
+     }
+    relpsi = compress(relpsi);
+    list rl = ring_list(Rbig);
+    list rl2 = rl[2];
+    rl[2] = list(rl2[n+1..n+m]);
+    rl[3]= list(list("dp",1:m),list("C",0));
+    def Rtarget = ring(rl);
+    setring Rtarget;
+    ideal J = imap(Rbig,J);
+    qring RtargetmodJ = std(J);
+    matrix relpsi = imap(Rbig,relpsi);
+    relpsi = syz(transpose(relpsi));
+    ideal psi = submat(relpsi,1..nrows(relpsi),1);
+    setring Rtarget;
+    ideal psi = imap(RtargetmodJ,psi);
+    export(J,psi);
+    int p = printlevel - voice + 3;
+    dbprint(p,"// 'invertBirMap' created a ring together with two ideals J and psi.");
+    dbprint(p,"// Supposing you typed, say,  def RPn = invertBirMap(phi,I);");
+    dbprint(p,"// you may access the ideals by typing");
+    dbprint(p,"//      setring RPn; J; psi;");
+    return(Rtarget);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+proc modular_parametrization_C(token input, token in_prime)
+            "USAGE: liftPhi(token input, token in_prime, token phi); input token
+            RETURN: an token output containing a free resolution of the input 
+            NOTE: The types token are defined . This procedure is 
+                    intended to be called as a transition procedure inside the
+                    in a workflow.
+"
+        {
+          
+            def br = basering;
+            int p = in_prime.data[1];
+             def adj=input.data[1];
+            def I = input.data[2];
+
+           
+            def lbr = ringlist(br);
+            lbr[1] = p;
+   
+   
+            def rp = ring(lbr);
+            setring rp;
+
+
+            def I = imap(br,I);
+            def adj=imap(br,adj);
+            option(redSB);
+
+            //attrib(I,"isSB",1);
+            I = std(I);
+            adj=std(adj);
+                string path = "/home/gnawali/gspc-modres/example_dir/temp/";  // Ensure the path ends with a "/"
+string filename = "modularInvertBirMap.ssi";
+link l0 = "ssi:w " + path + filename;
+
+write(l0, br, "basering");
+close(l0);
+               string path = "/home/gnawali/gspc-modres/example_dir/temp/";  // Ensure the path ends with a "/"
+string filename = "idealInvertBirMap.ssi";
+link l = "ssi:w " + path + filename;
+
+write(l,I, "ideal");
+close(l);
+               string path = "/home/gnawali/gspc-modres/example_dir/temp/";  // Ensure the path ends with a "/"
+string filename = "adjidealInvertBirMap.ssi";
+link l1 = "ssi:w " + path + filename;
+
+write(l1,adj, "adjideal");
+close(l1);
+            def Rn=modular_invertBirMap(adj,I);
+             setring(Rn);
+             psi;
+             
+   write(l1,psi, "inverse map");
+close(l1);
+write(l1,size(psi), "size(psi)");
+close(l1);
+            list ls;
+ matrix s0[1][size(psi)];
+ for(int k=1; k<=size(psi); k++){
+    s0[1,k]=psi[k];
+ }
+
+write(l1, s0, "matrix s0[1][size(psi)]");
+close(l1);
+ ls[1]=s0;
+    write(l1, ls, "lift s0");
+close(l1);        setring br;  
+   list ls = fetch(rp,ls);
+
+   
+    write(l1, ls, "lift s0 in rp");
+close(l1); 
+            //ideal I = ls[1];
+            token output;
+            output.fieldnames = list("resolution","modulus",
+                                    "numberofprimes","hash");
+            output.data[1] = ls;
+            output.data[2] = bigint(p);
+            output.data[3] = int(1);
+            output.data[4] = hashresolution(ls);
+           // output.data[4] = hashlead(I);
+            return(output);
+       }
+
+
+
+
 
        proc hashresolution(list ls)
        {
