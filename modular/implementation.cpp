@@ -115,6 +115,7 @@ std::string  singular_modular_lift( std::string const& left
   ScopedLeftv arg(args,r.first,lCopy(r.second));
   out = call_user_proc(function_name, needed_library, args);
   out_filename = serialize(out.second, base_filename);
+  //std::cout << "out_filename: " << out_filename << std::endl;
   return out_filename;
 }
 
