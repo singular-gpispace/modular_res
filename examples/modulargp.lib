@@ -554,8 +554,7 @@ list ls=fetch(rp,ls);
     output.data[4] = hashresolution(ls);
 
     // Debug: Write final lifted map
-    write(l1, ls, "Lifted map");
-    close(l1);
+   
 
     // Return the output token
     return(output);
