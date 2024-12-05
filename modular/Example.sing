@@ -1,0 +1,89 @@
+LIB "modulargspc.lib";
+LIB "random.lib";
+LIB "paraplanecurves.lib";
+configToken gc = configure_gspc();
+gc.options.tmpdir = "/home/gnawali/gspc-modres/example_dir/temp";
+gc.options.nodefile = "nodefile";
+gc.options.procspernode = 4;
+gc.options.loghost = "schipp";
+gc.options.logport = 9876;
+
+
+
+
+ring R = 0,(x,y,z),dp;
+poly f = y^8-x^3*(z+x)^5;
+ideal adj = adjointIdeal(f);
+// def Rn = mapToRatNormCurve(f,adj);
+// setring(Rn);
+// RNC;
+// print(Rn);
+// def Rc = rncItProjEven(RNC);
+// PHI;
+// print(Rc);
+// setring Rc;
+
+// CONIC;
+// def lbr = ringlist(Rn);
+// def rp = ring(lbr);
+// setring rp;
+// print(rp);
+// ideal PHI=imap(Rn,PHI);
+// //setring Rc;
+// ideal CONIC=imap(Rc,CONIC);
+// //setring Rn;
+// print("PHI=");print(PHI);
+// ideal L= ideal(CONIC);
+// ideal Adj=ideal(PHI);
+// int n = 11;
+// ring R = 0,(x(1..n+1)),dp;
+// ideal I = randomid(maxideal(1),n+1,10);
+// matrix B[2][n] = I[1..n], I[2..n+1];
+// ideal J = minor(B,2);
+
+//ideal L= std(J);
+
+
+
+//Koszul Case
+// ring R=0,(u,v,w,x,y,z),(lp,c);
+// ideal L=u,v,w,x,y,z;
+
+// ring R= 0, (w,x,y,z), (dp,c);
+// ideal L= w2-x*z, w*x- y*z, x2-w*y, x*y- z2, y2- w*z;
+
+// def res=fres(L,0);
+// size(res);
+// print("Fres");
+// print(matrix(res[size(res)-1]));
+ //Example from Singular book
+//  ring S=0, (x,y,z), (c,dp);
+//  ideal J1=y*z+z^2,y^2 + x*z,x*y+z^2,z^3,x*z^2,x^2*z;
+//  ideal L=std(J1);
+
+
+
+
+ideal PHI=adj;
+ideal L=ideal(f);
+print("PHI=");print(PHI);
+print("poly f=");print(L[1]);
+
+list #=list(12,3,20,20,30);
+
+// def re = gspc_modular_fres(adj,L,gc,#);
+// re;
+def re = gspc_modular_parametrization_C(PHI,L,gc,#);
+
+
+
+//pnet: cat modular.xpnet | pnetc  | pnet2dot | dot -Tsvg > Modular_res.svg
+
+//Starting monitor:gspc-monitor --port 9876 &
+
+
+//<include-structs href="/home/gnawali/gspc-modres/modular_res/workflow/structures.xpnet"/>
+
+
+
+
