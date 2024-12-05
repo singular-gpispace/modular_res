@@ -495,7 +495,8 @@ proc modular_parametrization_C(token input, token in_prime)
     link l1 = "ssi:w " + path + filename;
     write(l1, adj, "adjideal");
     close(l1);
-     
+  
+        
     // Compute inverse birational map
     def Rn = modular_invertBirMap(adj, I);
     setring(Rn);
@@ -507,26 +508,26 @@ proc modular_parametrization_C(token input, token in_prime)
 
     // Set up the new ring `rp` based on `Rn` but with characteristic p
     def lbr = ringlist(Rn);
-    write(l1, lbr, "Ring list from Rn before modification");
-    close(l1);
+    // write(l1, lbr, "Ring list from Rn before modification");
+    // close(l1);
     lbr[1] = p;  // Set the new characteristic
-    write(l1, lbr, "Modified ring list for rp");
-    close(l1);
+    // write(l1, lbr, "Modified ring list for rp");
+    // close(l1);
     // Check number of variables in Rn
 int num_vars = nvars(Rn);
-write(l1, num_vars, "Number of variables in Rn");
-close(l1);
+// write(l1, num_vars, "Number of variables in Rn");
+// close(l1);
     def rp = ring(lbr);
-    write(l1,rp, "Ring list for rp after creation");
-    close(l1);
+    // write(l1,rp, "Ring list for rp after creation");
+    // close(l1);
     setring rp;
 
     // Map `psi` into the new ring `rp`
    ideal psi = imap(Rn, psi);
 
     // Debug: Write size of psi
-    write(l1, size(psi), "size(psi)");
-    close(l1);
+    // write(l1, size(psi), "size(psi)");
+    // close(l1);
 
     // Construct matrix `s0` from `psi`
     list ls;
@@ -536,13 +537,13 @@ close(l1);
     }
 
     // Debug: Write matrix `s0`
-    write(l1, s0, "matrix s0[1][size(psi)]");
-    close(l1);
+    // write(l1, s0, "matrix s0[1][size(psi)]");
+    // close(l1);
 
     // Store the matrix in a list
     ls[1] = s0;
-    write(l1, ls, "lift s0");
-    close(l1);
+    // write(l1, ls, "lift s0");
+    // close(l1);
 setring Rn;
 list ls=fetch(rp,ls);
     // Prepare output token
