@@ -316,12 +316,6 @@ def re = gspc_modular_parametrization_C(PHI,L,gc,#);
 
 
 
-//pnet: cat modular.xpnet | pnetc  | pnet2dot | dot -Tsvg > Modular_res.svg
-
-//Starting monitor:gspc-monitor --port 9876 &
-
-
-//<include-structs href="/home/gnawali/gspc-modres/modular_res/workflow/structures.xpnet"/>
 
 
 
