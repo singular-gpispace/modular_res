@@ -427,9 +427,11 @@ proc gspc_modular_parametrization_C(ideal adj,ideal I, configToken gc, list #) /
   def re = gspc_modular(l,primelists, gc, pc);
   def originalRing = basering;
   def ringResult = re.r_data;
+
   setring ringResult; //ring where the result is defined
-  def result = re.data[1];
-  setring originalRing;
-  def result = imap(ringResult,result); //copy the result to the basering
-  return(result);
+ def im = re.data[1];
+//  print("ideal im");
+//  print(im);
+  export(im);
+return(ringResult);
 }

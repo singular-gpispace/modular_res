@@ -237,33 +237,33 @@ We will provide two examples of computation using the package. The first is for 
 In Singular, now do what follows below.
 
 ```bash
-# LIB "modulargspc.lib";
-# LIB "random.lib";
+// # LIB "modulargspc.lib";
+// # LIB "random.lib";
 
-# configToken gc = configure_gspc();
-# gc.options.tmpdir = "/home/hbn/test/temp";
-# gc.options.nodefile = "nodefile";
-# gc.options.procspernode = 4;
-# gc.options.loghostfile = "loghostfile";
-# gc.options.logport = 9876;
+// # configToken gc = configure_gspc();
+// # gc.options.tmpdir = "/home/hbn/test/temp";
+// # gc.options.nodefile = "nodefile";
+// # gc.options.procspernode = 4;
+// # gc.options.loghostfile = "loghostfile";
+// # gc.options.logport = 9876;
 
-# int n = 11;
-# ring R = 0,(x(1..n+1)),dp;
-# ideal I = randomid(maxideal(1),n+1,10);
-# matrix B[2][n] = I[1..n], I[2..n+1];
-# ideal J = minor(B,2);
+// # int n = 11;
+// # ring R = 0,(x(1..n+1)),dp;
+// # ideal I = randomid(maxideal(1),n+1,10);
+// # matrix B[2][n] = I[1..n], I[2..n+1];
+// # ideal J = minor(B,2);
 
-# ideal L= std(J);
+// # ideal L= std(J);
 
-# def re = gspc_modular_fres(L,gc,12,3,20,20,24);
-re;
+// # def re = gspc_modular_fres(L,gc,12,3,20,20,24);
+// re;
 LIB "modulargspc.lib";
 LIB "random.lib";
 LIB "paraplanecurves.lib";
 configToken gc = configure_gspc();
 gc.options.tmpdir = "/home/gnawali/gspc-modres/example_dir/temp";
 gc.options.nodefile = "nodefile";
-gc.options.procspernode = 4;
+gc.options.procspernode = 3;
 gc.options.loghost = "schipp";
 gc.options.logport = 9876;
 
@@ -322,8 +322,12 @@ gc.options.logport = 9876;
 
 
 
- ring R=0,(x0,x1,x2,x3),dp;
- matrix m[2][3]=x0,x1,x2,x1,x2,x3;
+//  ring R=0,(x0,x1,x2,x3),dp;
+//  matrix m[2][3]=x0,x1,x2,x1,x2,x3;
+
+ring S=0, (x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
+matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+
  ideal RNC=minor(m,2);
  RNC;
  ideal f=rncAntiCanonicalMap(RNC);
@@ -337,10 +341,15 @@ list #=list(12,3,20,20,30);
 
 // def re = gspc_modular_fres(adj,L,gc,#);
 // re;
+rtimer=0;
+ system("--ticks-per-sec",1000); // set timer resolution to ms
+ int t=rtimer;
 def re = gspc_modular_parametrization_C(PHI,L,gc,#);
 
-
-
+setring re;
+im;
+rtimer-t;
+print("timer");
 
 
 
