@@ -231,7 +231,7 @@ cd $software_ROOT
 SINGULARPATH="$MODULAR_INSTALL_DIR"  Singular
 
 ```
-We will provide two examples of computation using the package. The first is for the computation of the image of a rational map. The second is for the computation of Groebner bases.
+We will provide two examples of computation using the package. The first is for the computation of the anticanonical map. The second is for the computation of inverse of RNC.
 
 ##  Example for modular computation of free resolution.
 In Singular, now do what follows below.
