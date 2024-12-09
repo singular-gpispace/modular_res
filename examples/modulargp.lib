@@ -473,12 +473,10 @@ proc modular_parametrization_C(token input, token in_prime)
                   intended to be called as a transition procedure inside the
                   workflow."
 {
-
-    LIB "paraplanecurves.lib";
     int p = in_prime.data[1];
     def adj = input.data[1];
     def I = input.data[2];
-  poly f=I[1];
+
     // Write debugging information
     string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
     string filename;
@@ -490,7 +488,7 @@ proc modular_parametrization_C(token input, token in_prime)
 
     filename = "ideal.ssi";
     link l = "ssi:w " + path + filename;
-    write(l, f, "poly");
+    write(l, I, "ideal");
     close(l);
 
     filename = "adjideal.ssi";
@@ -498,54 +496,15 @@ proc modular_parametrization_C(token input, token in_prime)
     write(l1, adj, "adjideal");
     close(l1);
   
-   def R0 = mapToRatNormCurve(f,adj);
-   filename = "mapToRNC.ssi";
-    link l0 = "ssi:w " + path + filename;
-    write(l0, R0, "RING");
-    close(l0);
-setring(R0);
-RNC;
-write(l0, RNC, "RNC");
-    close(l0);
-print(R0);
-def Rc = rncItProjEven(RNC);
-PHI;
- filename = "rncItProjEven.ssi";
- link l00 = "ssi:w " + path + filename;
-    write(l00, Rc, "Rc");
-    close(l00);
- write(l00, PHI, "PHI");
-    close(l00);
-setring Rc;
-
-CONIC;
- write(l00, CONIC, "CONIC");
-    close(l00);
-def lb = ringlist(R0);
-
-def r0 = ring(lb);
-setring r0;
-write(l00, r0, "newRing");
-    close(l00);
-ideal PHI=imap(R0,PHI);
-//setring Rc;
-ideal CONIC=imap(Rc,CONIC);
-//setring Rn;
-print("PHI=");print(PHI);
-ideal L= ideal(CONIC);
-
+        
     // Compute inverse birational map
-    def Rn = modular_invertBirMap(PHI, L);
-     filename = "modular_invertBirMap.ssi";
- link l000 = "ssi:w " + path + filename;
-    write(l000, Rn, "Rn");
-    close(l000);
+    def Rn = modular_invertBirMap(adj, I);
     setring(Rn);
     psi;  // Assume `psi` is computed in Rn as part of the birational map computation.
- write(l000, psi, "psi");
-    close(l000);
+
     // Debug: Write the inverse map
-   
+    write(l1, psi, "inverse map");
+    close(l1);
 
     // Set up the new ring `rp` based on `Rn` but with characteristic p
     def lbr = ringlist(Rn);
@@ -565,8 +524,7 @@ int num_vars = nvars(Rn);
 
     // Map `psi` into the new ring `rp`
    ideal psi = imap(Rn, psi);
-      write(l000, psi, "psi_lifted to Rn");
-    close(l000);
+
     // Debug: Write size of psi
     // write(l1, size(psi), "size(psi)");
     // close(l1);
@@ -579,8 +537,8 @@ int num_vars = nvars(Rn);
     }
 
     // Debug: Write matrix `s0`
-    write(l000, s0, "matrix s0[1][size(psi)]");
-    close(l000);
+    // write(l1, s0, "matrix s0[1][size(psi)]");
+    // close(l1);
 
     // Store the matrix in a list
     ls[1] = s0;

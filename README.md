@@ -237,6 +237,26 @@ We will provide two examples of computation using the package. The first is for 
 In Singular, now do what follows below.
 
 ```bash
+# LIB "modulargspc.lib";
+# LIB "random.lib";
+
+# configToken gc = configure_gspc();
+# gc.options.tmpdir = "/home/hbn/test/temp";
+# gc.options.nodefile = "nodefile";
+# gc.options.procspernode = 4;
+# gc.options.loghostfile = "loghostfile";
+# gc.options.logport = 9876;
+
+# int n = 11;
+# ring R = 0,(x(1..n+1)),dp;
+# ideal I = randomid(maxideal(1),n+1,10);
+# matrix B[2][n] = I[1..n], I[2..n+1];
+# ideal J = minor(B,2);
+
+# ideal L= std(J);
+
+# def re = gspc_modular_fres(L,gc,12,3,20,20,24);
+re;
 LIB "modulargspc.lib";
 LIB "random.lib";
 LIB "paraplanecurves.lib";
@@ -250,9 +270,9 @@ gc.options.logport = 9876;
 
 
 
-ring R = 0,(x,y,z),dp;
-poly f = y^8-x^3*(z+x)^5;
-ideal adj = adjointIdeal(f);
+// ring R = 0,(x,y,z),dp;
+// poly f = y^8-x^3*(z+x)^5;
+// ideal adj = adjointIdeal(f);
 // def Rn = mapToRatNormCurve(f,adj);
 // setring(Rn);
 // RNC;
@@ -302,11 +322,16 @@ ideal adj = adjointIdeal(f);
 
 
 
+ ring R=0,(x0,x1,x2,x3),dp;
+ matrix m[2][3]=x0,x1,x2,x1,x2,x3;
+ ideal RNC=minor(m,2);
+ RNC;
+ ideal f=rncAntiCanonicalMap(RNC);
 
-ideal PHI=adj;
-ideal L=ideal(f);
-print("PHI=");print(PHI);
-print("poly f=");print(L[1]);
+ideal PHI=f;
+ideal L=RNC;
+
+
 
 list #=list(12,3,20,20,30);
 
