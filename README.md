@@ -325,13 +325,14 @@ gc.options.logport = 9876;
 //  ring R=0,(x0,x1,x2,x3),dp;
 //  matrix m[2][3]=x0,x1,x2,x1,x2,x3;
 
-ring S=0, (x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
-matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+ring S=0, (x0,x1,x2,x3,x4,x5,x6,x7),dp;
+matrix m[2][7]=x0,x1,x2,x3,x4,x5,x6,x1,x2,x3,x4,x5,x6,x7;
 
  ideal RNC=minor(m,2);
  RNC;
- ideal f=rncAntiCanonicalMap(RNC);
-
+ ideal f=rncItProjOdd(RNC);
+print("ideal f=");
+print(f);
 ideal PHI=f;
 ideal L=RNC;
 
@@ -350,6 +351,25 @@ setring re;
 im;
 rtimer-t;
 print("timer");
+
+
+
+
+
+
+
+
+//pnet: cat modular.xpnet | pnetc  | pnet2dot | dot -Tsvg > Modular_res.svg
+
+//Starting monitor:gspc-monitor --port 9876 &
+
+
+//<include-structs href="/home/gnawali/gspc-modres/modular_res/workflow/structures.xpnet"/>
+
+
+
+
+
 
 
 
