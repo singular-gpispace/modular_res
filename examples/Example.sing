@@ -82,14 +82,17 @@ gc.options.logport = 9876;
 //  ideal L=std(J1);
 
 
-
-//  ring R=0,(x0,x1,x2,x3),dp;
-//  matrix m[2][3]=x0,x1,x2,x1,x2,x3;
-
-ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
-matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
-
+// Example1
+ring S=0, (x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
+matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
  ideal RNC=minor(m,2);
+
+
+//Example2
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
+// matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
+
+//  ideal RNC=minor(m,2);
  RNC;
 // ideal f=rncItProjOdd(RNC);
 // print("ideal f=");
