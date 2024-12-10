@@ -24,7 +24,7 @@ LIB "paraplanecurves.lib";
 configToken gc = configure_gspc();
 gc.options.tmpdir = "/home/gnawali/gspc-modres/example_dir/temp";
 gc.options.nodefile = "nodefile";
-gc.options.procspernode = 3;
+gc.options.procspernode = 6;
 gc.options.loghost = "schipp";
 gc.options.logport = 9876;
 
@@ -83,17 +83,36 @@ gc.options.logport = 9876;
 
 
 // Example1
-ring S=0, (x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
-matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
- ideal RNC=minor(m,2);
+// ring S=0, (x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
+// matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+//  ideal RNC=minor(m,2);
 
 
 //Example2
-// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
-// matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
+ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
+matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
 
+ ideal RNC=minor(m,2);
+
+
+//Example3
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13),dp;
+// matrix m[2][13]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13;
+// print("m=");
+// print(m);
 //  ideal RNC=minor(m,2);
- RNC;
+
+
+//Example4
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15),dp;
+// matrix m[2][15]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15;
+// print("m=");
+// print(m);
+//  ideal RNC=minor(m,2);
+
+
+
+RNC;
 // ideal f=rncItProjOdd(RNC);
 // print("ideal f=");
 // print(f);
