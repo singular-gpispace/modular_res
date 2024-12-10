@@ -473,11 +473,10 @@ proc modular_parametrization_C(token input, token in_prime)
                   intended to be called as a transition procedure inside the
                   workflow."
 {
-    LIB "paraplanecurves.lib";
     int p = in_prime.data[1];
-    def RNC = input.data[1];
-    //def I = input.data[2];
-  ideal f=rncItProjOdd(RNC);
+    def adj = input.data[1];
+    def I = input.data[2];
+
     // Write debugging information
     string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
     string filename;
@@ -489,17 +488,17 @@ proc modular_parametrization_C(token input, token in_prime)
 
     filename = "ideal.ssi";
     link l = "ssi:w " + path + filename;
-    write(l, RNC, "ideal");
+    write(l, I, "ideal");
     close(l);
 
     filename = "adjideal.ssi";
     link l1 = "ssi:w " + path + filename;
-    write(l1, f, "RNC");
+    write(l1, adj, "adjideal");
     close(l1);
   
         
     // Compute inverse birational map
-    def Rn = modular_invertBirMap(f, RNC);
+    def Rn = modular_invertBirMap(adj, I);
     setring(Rn);
     psi;  // Assume `psi` is computed in Rn as part of the birational map computation.
 
