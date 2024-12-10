@@ -473,32 +473,55 @@ proc modular_parametrization_C(token input, token in_prime)
                   intended to be called as a transition procedure inside the
                   workflow."
 {
+    LIB "paraplanecurves.lib";
+    def R0=basering;
     int p = in_prime.data[1];
-    def adj = input.data[1];
-    def I = input.data[2];
+    def RNC = input.data[1];
 
-    // Write debugging information
-    string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
+    
+    //def I = input.data[2];
+ def Rc = rncItProjEven(RNC);
+PHI;
+print(Rc);
+setring Rc;
+
+
+CONIC;
+  string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
     string filename;
     
     filename = "prime.ssi";
-    link l0 = "ssi:w " + path + filename;
+     link l0 = "ssi:w " + path + filename;
     write(l0, p, "prime");
     close(l0);
 
+    filename = "CONIC.ssi";
+    link l = "ssi:w " + path + filename;
+    write(l, CONIC, "conic");
+    close(l);
+
+// def lb = ringlist(R0);
+
+// def r0 = ring(lb);
+// setring r0;
+// ideal PHI=imap(R0,PHI);
+// ideal RNC=imap(R0,RNC);
+   
+   
+setring R0;
     filename = "ideal.ssi";
     link l = "ssi:w " + path + filename;
-    write(l, I, "ideal");
+    write(l, RNC, "ideal");
     close(l);
 
     filename = "adjideal.ssi";
     link l1 = "ssi:w " + path + filename;
-    write(l1, adj, "adjideal");
+    write(l1, PHI, "PHI");
     close(l1);
   
         
     // Compute inverse birational map
-    def Rn = modular_invertBirMap(adj, I);
+    def Rn = modular_invertBirMap(PHI, RNC);
     setring(Rn);
     psi;  // Assume `psi` is computed in Rn as part of the birational map computation.
 

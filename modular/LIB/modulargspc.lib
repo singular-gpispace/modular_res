@@ -355,15 +355,15 @@ proc gspc_modular_fres(ideal I, configToken gc, list #) //optional arguments: ba
 
 
 
-proc gspc_modular_parametrization_C(ideal adj,ideal I, configToken gc, list #) //optional arguments: bal1, bal2, M1, M2, nb_primes
+proc gspc_modular_parametrization_C(ideal I, configToken gc, list #) //optional arguments: bal1, bal2, M1, M2, nb_primes
 {
   
   token input;
   input.fieldnames = list("generators");
-  input.data[1] = adj;
-  print("adj ideal=");print(adj);
+  input.data[1] = I;
+  
   print("ideal I="); print(I);
-  input.data[2]=I;
+ 
   list l = list(input);
   print("input data");
   print(l);

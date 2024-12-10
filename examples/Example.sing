@@ -24,39 +24,36 @@ LIB "paraplanecurves.lib";
 configToken gc = configure_gspc();
 gc.options.tmpdir = "/home/gnawali/gspc-modres/example_dir/temp";
 gc.options.nodefile = "nodefile";
-gc.options.procspernode = 4;
+gc.options.procspernode = 6;
 gc.options.loghost = "schipp";
 gc.options.logport = 9876;
 
 
 
 
-ring R = 0,(x,y,z),dp;
-poly f = y^8-x^3*(z+x)^5;
-ideal adj = adjointIdeal(f);
-def Rn = mapToRatNormCurve(f,adj);
-setring(Rn);
-RNC;
-print(Rn);
-def Rc = rncItProjEven(RNC);
-PHI;
-print(Rc);
-setring Rc;
+// ring R = 0,(x,y,z),dp;
+// poly f = y^8-x^3*(z+x)^5;
+// ideal adj = adjointIdeal(f);
+// def Rn = mapToRatNormCurve(f,adj);
+// setring(Rn);
+// RNC;
+// print(Rn);
+// def Rc = rncItProjEven(RNC);
+// PHI;
+// print(Rc);
+// setring Rc;
 
-CONIC;
-def lbr = ringlist(Rn);
-def rp = ring(lbr);
-setring rp;
-print(rp);
-ideal PHI=imap(Rn,PHI);
-//setring Rc;
-ideal CONIC=imap(Rc,CONIC);
-ideal RNC=imap(Rn,RNC);
-//setring Rn;
-print("PHI=");print(PHI);
-ideal L= ideal(CONIC);
-ideal l=RNC;
-print("RNC=");print(l);
+// CONIC;
+// def lbr = ringlist(Rn);
+// def rp = ring(lbr);
+// setring rp;
+// print(rp);
+// ideal PHI=imap(Rn,PHI);
+// //setring Rc;
+// ideal CONIC=imap(Rc,CONIC);
+// //setring Rn;
+// print("PHI=");print(PHI);
+// ideal L= ideal(CONIC);
 // ideal Adj=ideal(PHI);
 // int n = 11;
 // ring R = 0,(x(1..n+1)),dp;
@@ -88,6 +85,48 @@ print("RNC=");print(l);
 
 
 
+// // Example0 why conic is 0?
+// ring S=0, (x0,x1,x2),dp;
+// matrix m[2][4]=x0,x1,x1,x2;
+//  ideal RNC=minor(m,2);
+
+//Example1
+ring S=0, (x0,x1,x2,x3,x4),dp;
+matrix m[2][4]=x0,x1,x2,x3,x1,x2,x3,x4;
+ ideal RNC=minor(m,2);
+
+
+// //Example2
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
+// matrix m[2][10]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10;
+
+//  ideal RNC=minor(m,2);
+
+
+//Example3
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12),dp;
+// matrix m[2][12]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12;
+
+//  ideal RNC=minor(m,2);
+
+
+//Example4 Not terminated??
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14),dp;
+// matrix m[2][14]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14;
+
+//  ideal RNC=minor(m,2);
+
+
+
+RNC;
+print("ideal=RNC");
+print(RNC);
+// ideal f=rncItProjOdd(RNC);
+// print("ideal f=");
+// print(f);
+// ideal PHI=f;
+ideal L=RNC;
+
 
 
 list #=list(12,3,20,20,30);
@@ -97,13 +136,12 @@ list #=list(12,3,20,20,30);
 rtimer=0;
  system("--ticks-per-sec",1000); // set timer resolution to ms
  int t=rtimer;
-def re = gspc_modular_parametrization_C(PHI,l,gc,#);
+def re = gspc_modular_parametrization_C(L,gc,#);
+
 setring re;
 im;
 rtimer-t;
-
-
-
+print("timer");
 
 
 
