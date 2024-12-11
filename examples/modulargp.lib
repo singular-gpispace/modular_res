@@ -474,11 +474,16 @@ proc modular_parametrization_C(token input, token in_prime)
                   workflow."
 {
     LIB "paraplanecurves.lib";
-    int p = in_prime.data[1];
-    def RNC = input.data[1];
-    //def I = input.data[2];
-  ideal f=rncItProjOdd(RNC);
-    // Write debugging information
+  
+   
+
+           def br = basering;
+            int p = in_prime.data[1];
+            def I = input.data[1];
+
+
+
+          // Write debugging information
     string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
     string filename;
     
@@ -489,52 +494,30 @@ proc modular_parametrization_C(token input, token in_prime)
 
     filename = "ideal.ssi";
     link l = "ssi:w " + path + filename;
-    write(l, RNC, "ideal");
+    write(l, I, "ideal");
     close(l);
 
-    filename = "adjideal.ssi";
-    link l1 = "ssi:w " + path + filename;
-    write(l1, f, "RNC");
-    close(l1);
   
-        
-    // Compute inverse birational map
-    def Rn = modular_invertBirMap(f, RNC);
-    setring(Rn);
-    psi;  // Assume `psi` is computed in Rn as part of the birational map computation.
+  
 
-    // Debug: Write the inverse map
-    write(l1, psi, "inverse map");
-    close(l1);
 
-    // Set up the new ring `rp` based on `Rn` but with characteristic p
-    def lbr = ringlist(Rn);
-    // write(l1, lbr, "Ring list from Rn before modification");
-    // close(l1);
-    lbr[1] = p;  // Set the new characteristic
-    // write(l1, lbr, "Modified ring list for rp");
-    // close(l1);
-    // Check number of variables in Rn
-int num_vars = nvars(Rn);
-// write(l1, num_vars, "Number of variables in Rn");
-// close(l1);
-    def rp = ring(lbr);
-    // write(l1,rp, "Ring list for rp after creation");
-    // close(l1);
-    setring rp;
 
-    // Map `psi` into the new ring `rp`
-   ideal psi = imap(Rn, psi);
 
-    // Debug: Write size of psi
-    // write(l1, size(psi), "size(psi)");
-    // close(l1);
-
-    // Construct matrix `s0` from `psi`
-    list ls;
-    matrix s0[1][size(psi)];
-    for (int k = 1; k <= size(psi); k++) {
-        s0[1, k] = psi[k];
+            def lbr = ringlist(br);
+            lbr[1] = p;
+            def rp = ring(lbr);
+            setring rp;
+            def I = imap(br,I);
+            option(redSB);
+            //attrib(I,"isSB",1);
+            I = std(I);
+    
+                ideal f=rncAntiCanonicalMap(I);
+          
+            list ls;
+    matrix s0[1][size(f)];
+    for (int k = 1; k <= size(f); k++) {
+        s0[1, k] = f[k];
     }
 
     // Debug: Write matrix `s0`
@@ -543,23 +526,19 @@ int num_vars = nvars(Rn);
 
     // Store the matrix in a list
     ls[1] = s0;
-    // write(l1, ls, "lift s0");
-    // close(l1);
-setring Rn;
-list ls=fetch(rp,ls);
-    // Prepare output token
-    token output;
-    output.fieldnames = list("Lifted_map", "modulus", "numberofprimes", "hash");
-    output.data[1] = ls;  // The lifted map in the new modularized ring
-    output.data[2] = bigint(p);
-    output.data[3] = int(1);
-    output.data[4] = hashresolution(ls);
-
-    // Debug: Write final lifted map
-   
-
-    // Return the output token
-    return(output);
+         
+            setring br;  
+            list ls = fetch(rp,ls);
+            //ideal I = ls[1];
+            token output;
+            output.fieldnames = list("resolution","modulus",
+                                    "numberofprimes","hash");
+            output.data[1] = ls;
+            output.data[2] = bigint(p);
+            output.data[3] = int(1);
+            output.data[4] = hashresolution(ls);
+           // output.data[4] = hashlead(I);
+            return(output);
 }
 
 

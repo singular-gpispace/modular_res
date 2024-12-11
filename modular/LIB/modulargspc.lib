@@ -424,14 +424,14 @@ proc gspc_modular_parametrization_C(ideal I, configToken gc, list #) //optional 
     t.data = list(primeiv[i]);
 	  primelists[i] = t;
   }
-  def re = gspc_modular(l,primelists, gc, pc);
+ def re = gspc_modular(l,primelists, gc, pc);
   def originalRing = basering;
   def ringResult = re.r_data;
 
   setring ringResult; //ring where the result is defined
  def im = re.data[1];
-//  print("ideal im");
-//  print(im);
+// print("ideal im");
+// print(im);
   export(im);
 return(ringResult);
 }

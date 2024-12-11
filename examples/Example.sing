@@ -1,19 +1,39 @@
+// # LIB "modulargspc.lib";
+// # LIB "random.lib";
+
+// # configToken gc = configure_gspc();
+// # gc.options.tmpdir = "/home/hbn/test/temp";
+// # gc.options.nodefile = "nodefile";
+// # gc.options.procspernode = 4;
+// # gc.options.loghostfile = "loghostfile";
+// # gc.options.logport = 9876;
+
+// # int n = 11;
+// # ring R = 0,(x(1..n+1)),dp;
+// # ideal I = randomid(maxideal(1),n+1,10);
+// # matrix B[2][n] = I[1..n], I[2..n+1];
+// # ideal J = minor(B,2);
+
+// # ideal L= std(J);
+
+// # def re = gspc_modular_fres(L,gc,12,3,20,20,24);
+// re;
 LIB "modulargspc.lib";
 LIB "random.lib";
 LIB "paraplanecurves.lib";
 configToken gc = configure_gspc();
 gc.options.tmpdir = "/home/gnawali/gspc-modres/example_dir/temp";
 gc.options.nodefile = "nodefile";
-gc.options.procspernode = 4;
+gc.options.procspernode = 6;
 gc.options.loghost = "schipp";
 gc.options.logport = 9876;
 
 
 
 
-ring R = 0,(x,y,z),dp;
-poly f = y^8-x^3*(z+x)^5;
-ideal adj = adjointIdeal(f);
+// ring R = 0,(x,y,z),dp;
+// poly f = y^8-x^3*(z+x)^5;
+// ideal adj = adjointIdeal(f);
 // def Rn = mapToRatNormCurve(f,adj);
 // setring(Rn);
 // RNC;
@@ -64,16 +84,127 @@ ideal adj = adjointIdeal(f);
 
 
 
-ideal PHI=adj;
-ideal L=ideal(f);
-print("PHI=");print(PHI);
-print("poly f=");print(L[1]);
+
+// Example0
+// ring S=0, (x0,x1,x2,x3),dp;
+// matrix m[2][3]=x0,x1,x2,x1,x2,x3;
+// ideal rNC=minor(m,2);
+// ring R1=0,(a,b,x,y),dp;
+// map f=S,5*a-7*b,3*a+5*x,13*y+11*b,3*x-2*y;
+// ideal RNC=f(rNC);
+
+
+// ExampleTest
+// ring S=0, (x0,x1,x2,x3),dp;
+// matrix m[2][3]=x0,x1,x2,x1,x2,x3;
+// ideal rNC=minor(m,2);
+// ring R1=0,(a,b,x,y),dp;
+// map f=S,5*a-7*b,3*a+5*x,13*y+11*b,3*x-2*y;
+// ideal RNC=f(rNC);
+
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
+// matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+//  ideal rNC=minor(m,2);
+// // ** redefining S (=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+//  ideal rNC=minor(m,2);
+// ideal RNC=randomid(rNC,36,17);
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t;
+
+// ring S=32003,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
+// matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+//  ideal rNC=minor(m,2);
+// // ** redefining S (=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+//  ideal rNC=minor(m,2);
+// ideal RNC=randomid(rNC,36,17);
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// rncAntiCanonicalMap(rNC);
+// print("timer");
+// rtimer-t;
+
+
+
+// Example1
+ring S=0, (x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
+matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+ ideal RNC=minor(m,2);
+
+//Example2
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
+// matrix m[2][10]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10;
+
+//  ideal RNC=minor(m,2);
+
+//Example3
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
+// matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
+
+//  ideal RNC=minor(m,2);
+
+
+
+//Example4
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12),dp;
+// matrix m[2][12]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12;
+
+//  ideal RNC=minor(m,2);
+
+
+//Example5
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13),dp;
+// matrix m[2][13]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13;
+// print("m=");
+// print(m);
+//  ideal RNC=minor(m,2);
+
+
+//Example6 not terminated?
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15),dp;
+// matrix m[2][15]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15;
+// print("m=");
+// print(m);
+//  ideal RNC=minor(m,2);
+
+
+
+RNC;
+// ideal f=rncItProjOdd(RNC);
+// print("ideal f=");
+// print(f);
+// ideal PHI=f;
+ideal L=std(RNC);
+
+
 
 list #=list(12,3,20,20,30);
 
 // def re = gspc_modular_fres(adj,L,gc,#);
 // re;
-def re = gspc_modular_parametrization_C(PHI,L,gc,#);
+rtimer=0;
+ system("--ticks-per-sec",1000); // set timer resolution to ms
+ int t=rtimer;
+def re = gspc_modular_parametrization_C(L,gc,#);
+
+setring re;
+im;
+print("timer");
+rtimer-t;
+
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// rncAntiCanonicalMap(RNC);
+
+// print("timer");
+// rtimer-t;
+
+
 
 
 
