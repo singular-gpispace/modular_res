@@ -105,8 +105,51 @@ gc.options.logport = 9876;
 // ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
 // matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
 //  ideal rNC=minor(m,2);
-// // ** redefining S (=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+
+// map f=S,x0,5*x0-7*x1,3*x2+5*x3,13*x4+11*x5,3*x6-2*x3,x5,x6,x7,x8,x9;
+// ideal RNC=f(rNC);
+
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t;
+// _[1]=30*x2+50*x3-26*x4-22*x5
+// _[2]=4*x3+130*x4+110*x5-6*x6
+// _[3]=4*x3-11*x6+15*x8
+// _[4]=-x5+11*x7
+// _[5]=-x6+11*x8
+// _[6]=x7
+// _[7]=-x8
+// _[8]=x9
+
+
+
+
+// ring S=32003,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
+// matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
 //  ideal rNC=minor(m,2);
+
+// map f=S,x0,5*x0-7*x1,3*x2+5*x3,13*x4+11*x5,3*x6-2*x3,x5,x6,x7,x8,x9;
+// ideal RNC=f(rNC);
+
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t;
+// _[1]=x2-10666*x3-8535*x4+14934*x5
+// _[2]=-8534*x3+10672*x4-10664*x5+12801*x6
+// _[3]=-9245*x3-14580*x6+5335*x8
+// _[4]=-12473*x5+9191*x7
+// _[5]=-12473*x6+9191*x8
+// _[6]=2134*x7
+// _[7]=-2134*x8
+// _[8]=2134*x9
+
+
 // ideal RNC=randomid(rNC,36,17);
 // rtimer=0;
 //  system("--ticks-per-sec",1000); // set timer resolution to ms
@@ -118,7 +161,7 @@ gc.options.logport = 9876;
 // ring S=32003,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
 // matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
 //  ideal rNC=minor(m,2);
-// // ** redefining S (=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+
 //  ideal rNC=minor(m,2);
 // ideal RNC=randomid(rNC,36,17);
 // rtimer=0;
@@ -130,22 +173,156 @@ gc.options.logport = 9876;
 
 
 
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
+// matrix m[2][10]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10;
+
+//  ideal rNC=minor(m,2);
+
+// map f=S,x0,5*x0-7*x1,3*x2+5*x3,13*x4+11*x5,3*x6-2*x3,x5,x6,x7,x8,x9,x10;
+// ideal RNC=f(rNC);
+
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t;
+// _[1]=30*x2+50*x3-26*x4-22*x5
+// _[2]=4*x3+130*x4+110*x5-6*x6
+// _[3]=4*x3-11*x6+15*x8
+// _[4]=-x5+11*x7
+// _[5]=-x6+11*x8
+// _[6]=x7
+// _[7]=-x8
+// _[8]=x9
+// _[9]=-x10
+// timer
+// 69091
+
+// ring S=32003,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
+// matrix m[2][10]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10;
+
+//  ideal rNC=minor(m,2);
+// map f=S,x0,5*x0-7*x1,3*x2+5*x3,13*x4+11*x5,3*x6-2*x3,x5,x6,x7,x8,x9,x10;
+// ideal RNC=f(rNC);
+
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t;
+
+
+
+
+
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
+// matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
+
+// ideal rNC=minor(m,2);
+
+
+// map f=S,x0,5*x0-7*x1,3*x2+5*x3,13*x4+11*x5,3*x6-2*x3,x5,x6,x7,x8,x9,x10,x11;
+// ideal RNC=f(rNC);
+
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t;
+
+// _[1]=30*x2+50*x3-26*x4-22*x5
+// _[2]=4*x3+130*x4+110*x5-6*x6
+// _[3]=4*x3-11*x6+15*x8
+// _[4]=-x5+11*x7
+// _[5]=-x6+11*x8
+// _[6]=x7
+// _[7]=-x8
+// _[8]=x9
+// _[9]=-x10
+// _[10]=x11
+
+// ring S=32003,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
+// matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
+
+// ideal rNC=minor(m,2);
+// map f=S,x0,5*x0-7*x1,3*x2+5*x3,13*x4+11*x5,3*x6-2*x3,x5,x6,x7,x8,x9,x10,x11;
+// ideal RNC=f(rNC);
+
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t;
+
+// _[1]=x2-10666*x3-8535*x4+14934*x5
+// _[2]=-8534*x3+10672*x4-10664*x5+12801*x6
+// _[3]=-9245*x3-14580*x6+5335*x8
+// _[4]=-12473*x5+9191*x7
+// _[5]=-12473*x6+9191*x8
+// _[6]=2134*x7
+// _[7]=-2134*x8
+// _[8]=2134*x9
+// _[9]=-2134*x10
+// _[10]=2134*x11
+// timer
+// 233977
 // Example1
-ring S=0, (x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
-matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
- ideal RNC=minor(m,2);
+// ring S=0, (x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
+// matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+// ideal rNC=minor(m,2);
+
+
+// ideal RNC=randomid(rNC,36,17);
 
 //Example2
 // ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
 // matrix m[2][10]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10;
 
-//  ideal RNC=minor(m,2);
+// ideal rNC=minor(m,2);
+
+
+// ideal RNC=randomid(rNC,36,17);
 
 //Example3
 // ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
 // matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
 
-//  ideal RNC=minor(m,2);
+// ideal rNC=minor(m,2);
+
+
+// map f=S,x0,5*x0-7*x1,3*x2+5*x3,13*x4+11*x5,3*x6-2*x3,x5,x6,x7,x8,x9,x10,x11;
+// ideal RNC=f(rNC);
+
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t;
+
+
+
+// ring S=32003,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
+// matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
+
+// ideal rNC=minor(m,2);
+
+
+// map f=S,x0,5*x0-7*x1,3*x2+5*x3,13*x4+11*x5,3*x6-2*x3,x5,x6,x7,x8,x9,x10,x11;
+// ideal RNC=f(rNC);
+
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t;
+
+
 
 
 
