@@ -430,8 +430,8 @@ proc gspc_modular_parametrization_C(ideal I, configToken gc, list #) //optional 
 
   setring ringResult; //ring where the result is defined
  def im = re.data[1];
-//  print("ideal im");
-//  print(im);
+ print("ideal im");
+ print(im);
   export(im);
 return(ringResult);
 }

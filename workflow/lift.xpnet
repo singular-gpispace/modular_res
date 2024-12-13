@@ -175,7 +175,7 @@
                         bool cancelled (false) ;
                         
                         if(lhs.hashlead.size() == rhs.hashlead.size())
-                        {
+                        {   std::cout << "lhs.hashlead.size()= " <<lhs.hashlead.size()<<"rhs.hashlead.size()= " <<rhs.hashlead.size()<<std::endl;
                             if(lhs.hashlead == rhs.hashlead)
                             {
                                 _pnetc_context->execute_and_kill_on_cancel_DO_NOT_OUTPUT_TO_STANDARD_STREAMS_FROM_WITHIN
@@ -250,7 +250,7 @@
                                 bal2.emplace_back(we::type::literal::control{});
                             }
                             
-                        }
+                        }   std::cout << " in LIFT= " <<lhs.hashlead.size() <<std::endl;
                         ]]>
                     </code>
                 </module>
