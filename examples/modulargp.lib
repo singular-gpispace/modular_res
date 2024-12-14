@@ -525,54 +525,51 @@ setring R0;
     setring(Rn);
     psi;  // Assume `psi` is computed in Rn as part of the birational map computation.
 
-    // Debug: Write the inverse map
+     // Debug: Write the inverse map
     write(l1, psi, "inverse map");
     close(l1);
 
-    // Set up the new ring `rp` based on `Rn` but with characteristic p
-    def lbr = ringlist(Rn);
-    // write(l1, lbr, "Ring list from Rn before modification");
-    // close(l1);
-    lbr[1] = p;  // Set the new characteristic
-    // write(l1, lbr, "Modified ring list for rp");
-    // close(l1);
-    // Check number of variables in Rn
-int num_vars = nvars(Rn);
-// write(l1, num_vars, "Number of variables in Rn");
-// close(l1);
-    def rp = ring(lbr);
-    // write(l1,rp, "Ring list for rp after creation");
-    // close(l1);
-    setring rp;
-
-    // Map `psi` into the new ring `rp`
-   ideal psi = imap(Rn, psi);
-
-    // Debug: Write size of psi
-    // write(l1, size(psi), "size(psi)");
-    // close(l1);
-
-    // Construct matrix `s0` from `psi`
+   
     list ls;
     matrix s0[1][size(psi)];
     for (int k = 1; k <= size(psi); k++) {
         s0[1, k] = psi[k];
     }
+     ls[1] = s0;
 
     // Debug: Write matrix `s0`
     // write(l1, s0, "matrix s0[1][size(psi)]");
     // close(l1);
 
     // Store the matrix in a list
-    ls[1] = s0;
-    // write(l1, ls, "lift s0");
-    // close(l1);
-setring Rn;
-list ls=fetch(rp,ls);
+   
+   
+
+ //create the target ring
+     
+        
+         def lb = ringlist(Rn);
+            lb[1] = 0;
+        def R0 = ring(lb);
+ filename = "NewRing.ssi";
+    link L = "ssi:w " + path + filename;
+    write(L,  R0, "NewRing");
+    close(L);
+          setring R0;
+        ideal psi = imap(Rn,psi);
+        list ls=fetch(Rn,ls);
+        write(l1, psi, "inverse map=psi");
+    close(l1);
+
+     filename = "psi.ssi";
+    link L = "ssi:w " + path + filename;
+    write(L,  ls, "psi as a list");
+    close(L);
     // Prepare output token
+   
     token output;
     output.fieldnames = list("Lifted_map", "modulus", "numberofprimes", "hash");
-    output.data[1] = ls;  // The lifted map in the new modularized ring
+    output.data[1] =ls;  // The lifted map in the new modularized ring
     output.data[2] = bigint(p);
     output.data[3] = int(1);
     output.data[4] = hashresolution(ls);
@@ -583,7 +580,6 @@ list ls=fetch(rp,ls);
     // Return the output token
     return(output);
 }
-
 
 
 
