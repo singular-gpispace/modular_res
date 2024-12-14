@@ -550,12 +550,12 @@ setring R0;
         
          def lb = ringlist(Rn);
             lb[1] = 0;
-        def R0 = ring(lb);
+        def R1 = ring(lb);
  filename = "NewRing.ssi";
     link L = "ssi:w " + path + filename;
-    write(L,  R0, "NewRing");
+    write(L,  R1, "NewRing");
     close(L);
-          setring R0;
+          setring R1;
         ideal psi = imap(Rn,psi);
         list ls=fetch(Rn,ls);
         write(l1, psi, "inverse map=psi");

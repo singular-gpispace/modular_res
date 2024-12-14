@@ -166,18 +166,57 @@ gc.options.logport = 9876;
 // rtimer-t1;
 
 
-//Example 2
 
-ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
-matrix m[2][10]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10;
 
+//Example Even Case
+//Example 1
+// ring S=0, (x0,x1,x2,x3,x4),dp;
+// matrix m[2][4]=x0,x1,x2,x3,x1,x2,x3,x4;
+// ideal rNC=minor(m,2);
+// ideal I=randomid(maxideal(1),5,11);
+// I;
+// map f=S,I[1..5];
+// ideal RNC=f(rNC);
+
+//Example2
+ring S=0, (x0,x1,x2,x3,x4,x5,x6),dp;
+matrix m[2][6]=x0,x1,x2,x3,x4,x5,x1,x2,x3,x4,x5,x6;
 ideal rNC=minor(m,2);
-
-ideal I=randomid(maxideal(1),11,11);
+ideal I=randomid(maxideal(1),7,11);
 I;
-
-map f=S,I[1..11];
+map f=S,I[1..7];
 ideal RNC=f(rNC);
+//Example 2
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8),dp;
+// matrix m[2][8]=x0,x1,x2,x3,x4,x5,x6,x7,x1,x2,x3,x4,x5,x6,x7,x8;
+
+// ideal rNC=minor(m,2);
+
+// ideal I=randomid(maxideal(1),9,11);
+// I;
+
+// map f=S,I[1..9];
+// ideal RNC=f(rNC);
+// rtimer=0;
+// system("--ticks-per-sec",1000); // set timer resolution to ms
+// int t2=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t2;
+
+//Example Even case
+
+
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
+// matrix m[2][10]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10;
+
+// ideal rNC=minor(m,2);
+
+// ideal I=randomid(maxideal(1),11,11);
+// I;
+
+// map f=S,I[1..11];
+// ideal RNC=f(rNC);
 // rtimer=0;
 // system("--ticks-per-sec",1000); // set timer resolution to ms
 // int t2=rtimer;
