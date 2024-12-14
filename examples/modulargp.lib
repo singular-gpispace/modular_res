@@ -455,10 +455,9 @@ proc modular_invertBirMap(ideal J0, ideal I) {
     ideal mi = maxideal(1);
     print("mi=");print(mi);
    ideal xv = mi[1..n];
-   print("ideal xv=");print(xv);
+  
    ideal yv  = mi[n+1..n+m];
-   print("m=");print(m);print("n=");print(n);
-   print("ideal yv=");print(yv);
+  
 
     matrix HM[2][m] = concat(transpose(yv),transpose(J0));
    ideal graph = sat(I+minor(HM,2),J0)[1];
@@ -562,14 +561,26 @@ proc modular_parametrization_C(token input, token in_prime)
     close(l1);
 
    
+    list ls;
+    matrix s0[1][size(psi)];
+    for (int k = 1; k <= size(psi); k++) {
+        s0[1, k] = psi[k];
+    }
+     ls[1] = s0;
 
+    // Debug: Write matrix `s0`
+    // write(l1, s0, "matrix s0[1][size(psi)]");
+    // close(l1);
+
+    // Store the matrix in a list
+   
    
 
  //create the target ring
      
         
          def lb = ringlist(Rn);
-            lb[1] = p;
+            lb[1] = 0;
         def R0 = ring(lb);
  filename = "NewRing.ssi";
     link L = "ssi:w " + path + filename;
@@ -577,16 +588,22 @@ proc modular_parametrization_C(token input, token in_prime)
     close(L);
           setring R0;
         ideal psi = imap(Rn,psi);
+        list ls=fetch(Rn,ls);
         write(l1, psi, "inverse map=psi");
     close(l1);
+
+     filename = "psi.ssi";
+    link L = "ssi:w " + path + filename;
+    write(L,  ls, "psi as a list");
+    close(L);
     // Prepare output token
    
     token output;
     output.fieldnames = list("Lifted_map", "modulus", "numberofprimes", "hash");
-    output.data[1] = psi;  // The lifted map in the new modularized ring
+    output.data[1] =ls;  // The lifted map in the new modularized ring
     output.data[2] = bigint(p);
     output.data[3] = int(1);
-    output.data[4] = hashlead(psi);
+    output.data[4] = hashresolution(ls);
 
     // Debug: Write final lifted map
    
