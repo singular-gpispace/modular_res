@@ -355,7 +355,35 @@ print("timer");
 
 
 
+# ring S=0, (x0,x1,x2,x3,x4,x5),dp;
+# matrix m[2][5]=x0,x1,x2,x3,x4,x1,x2,x3,x4,x5;
+# ideal rNC=minor(m,2);
+# ideal I=randomid(maxideal(1),6,11);
+# I;
+# map f=S,I[1..6];
+# ideal RNC=f(rNC);
+# ideal L=RNC;
 
+
+
+# list #=list(12,3,20,20,30);
+
+# // def re = gspc_modular_fres(adj,L,gc,#);
+# // re;
+# rtimer=0;
+#  system("--ticks-per-sec",1000); // set timer resolution to ms
+#  int t=rtimer;
+# def re = gspc_modular_parametrization_C(L,gc,#);
+
+# setring re;
+# im;
+
+# rtimer-t;
+# print("timer");
+
+# ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6];
+# map g=S,l[1..6];
+# g(RNC);
 
 
 
