@@ -360,8 +360,9 @@ proc gspc_modular_parametrization_C(ideal I, configToken gc, list #) //optional 
   
   token input;
   input.fieldnames = list("generators");
-  input.data[1] = adj;
-  print("adj ideal=");print(adj);
+  input.data[1] = I;
+  
+  print("ideal I="); print(I);
  
   list l = list(input);
   print("input data");
