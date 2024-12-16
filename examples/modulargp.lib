@@ -466,7 +466,7 @@ proc modular_invertBirMap(ideal J0, ideal I) {
 
 
 
-proc modular_parametrization_C(token input, token in_prime)
+proc modular_parametrization_Conic(token input, token in_prime)
             "USAGE: liftPhi(token input, token in_prime, token phi); input token
             RETURN: a token output containing a free resolution of the input 
             NOTE: The types token are defined. This procedure is 

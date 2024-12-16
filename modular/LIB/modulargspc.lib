@@ -355,7 +355,7 @@ proc gspc_modular_fres(ideal I, configToken gc, list #) //optional arguments: ba
 
 
 
-proc gspc_modular_parametrization_C(ideal I, configToken gc, list #) //optional arguments: bal1, bal2, M1, M2, nb_primes
+proc gspc_modular_parametrization_Conic(ideal I, configToken gc, list #) //optional arguments: bal1, bal2, M1, M2, nb_primes
 {
   
   token input;
@@ -369,7 +369,7 @@ proc gspc_modular_parametrization_C(ideal I, configToken gc, list #) //optional 
   print(l);
   configToken pc = configure_modular(gc);
   print("before liftPhi");
-  pc.options.procCompute = "modular_parametrization_C";
+  pc.options.procCompute = "modular_parametrization_Conic";
   print("after liftPhi");
   //read optional arguments
   if (size(#) > 0)
