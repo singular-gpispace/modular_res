@@ -513,15 +513,15 @@ close(l1);
  
 // Compute rational normal curve map
 def R1= mapToRatNormCurve(f, adj);
-setring R1;
+setring(R1);
 
-RNC:
+RNC;
    write(l,RNC, "RNC");
 close(l);
 // Compute anticanonical map
   filename = "rncAntiCanonicalMap.ssi";
     link l0 = "ssi:w " + path + filename;
-   
+  
 ideal ph0 = rncAntiCanonicalMap(RNC);
 
    write(l0, ph0, "rncAntiCanonicalMap");
