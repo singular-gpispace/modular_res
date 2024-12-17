@@ -362,8 +362,8 @@ gc.options.logport = 9876;
 
 ring R = 0,(x,y,z),dp;
 poly f = y^8-x^3*(z+x)^5;
-
-ideal L=ideal(f);
+ideal A0 = adjointIdeal(f);
+ideal L=A0,ideal(f);
 
 print("poly in L=");print(L);
 
@@ -404,6 +404,14 @@ print("timer");
 
 
 //<include-structs href="/home/gnawali/gspc-modres/modular_res/workflow/structures.xpnet"/>
+
+
+
+
+
+
+
+
 
 
 
