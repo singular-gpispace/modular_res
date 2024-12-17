@@ -477,12 +477,16 @@ proc modular_parametrization_C(token input, token in_prime)
     def R0=basering;
     int p = in_prime.data[1];
     def RNC = input.data[1];
-
+ def lbr = ringlist(R0);
+            lbr[1] = p;
+            def rp = ring(lbr);
+            setring rp;
+            def RNC  = imap(R0,RNC);
     
     //def I = input.data[2];
  def Rc = rncItProjEven(RNC);
 PHI;
-print(Rc);
+
 setring Rc;
 
 
@@ -508,7 +512,8 @@ CONIC;
 // ideal RNC=imap(R0,RNC);
    
    
-setring R0;
+setring rp;
+
     filename = "ideal.ssi";
     link l = "ssi:w " + path + filename;
     write(l, RNC, "ideal");
