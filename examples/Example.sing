@@ -407,6 +407,24 @@ print("timer");
 
 
 
+ ring R = 0,(x,y,z),dp;
+poly f = y^8-x^3*(z+x)^5;
+ideal adj = adjointIdeal(f);
+def Rn = mapToRatNormCurve(f,adj);
+setring Rn;
+RNC;
+ideal ph=rncAntiCanonicalMap(RNC);
+setring R;
+map g=Rn,adj[1..size(adj)];
+ideal phCom=g(ph);
+def R0 = invertBirMap(phCom,ideal(f));
+setring R0;
+psi;
+
+psi[1]=-y(1)^2
+psi[2]=-y(3)*y(4)
+psi[3]=y(1)^2-y(3)^2
+
 
 
 

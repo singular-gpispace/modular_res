@@ -474,39 +474,77 @@ proc modular_parametrization_Conic(token input, token in_prime)
                   workflow."
 {
 
-    LIB "paraplanecurves.lib";
-    int p = in_prime.data[1];
-    
-    def I = input.data[1];
-   poly f=I[1];
-    ideal adj = adjointIdeal(f);
+ LIB "paraplanecurves.lib";
+
+def br = basering;              // Store base ring
+int p = in_prime.data[1];              // Get prime p from input
+def RNc = input.data[1];  
+ideal adj=RNc[1..size(RNc)-1];
+poly f = RNc[size(RNc)];              // Get input ideal RNc
+
+                      // Extract polynomial f
 string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
     string filename;
     filename = "adjideal.ssi";
     link l1 = "ssi:w " + path + filename;
-    write(l1, f, "RNC");
-    close(l1);
-    // Compute inverse birational map
-    def Rn = modular_invertBirMap(adj, I);
-    setring(Rn);
-    J; 
-    def Rc = rncItProjEven(J);
-PHI;
+    write(l1,adj, "Adjoint ideal modulo p");
+close(l1);
+// Create modular ring
+  
+def lbr = ringlist(br);
+lbr[1] = p;                            // Set characteristic p
+def rp = ring(lbr);                    // Create modular ring
+setring rp;
 
-setring Rc;
-CONIC;
+// Transfer data to modular ring
+ideal adj= imap(br,adj);
+poly f=imap(br,f);
 
-def RPc = paraConic(CONIC);
-setring RPc;
-PARACONIC;
-    // Debug: Write the inverse map
+
+ write(l1,f,"poly fp");
+close(l1);
+// Compute adjoint ideal
+
+
+ write(l1,adj,"adjoint of ideal");
+close(l1);
+  filename = "mapToRatNormCurve.ssi";
+    link l = "ssi:w " + path + filename;
+ 
+// Compute rational normal curve map
+def R1= mapToRatNormCurve(f, adj);
+setring R1;
+
+RNC:
+   write(l,RNC, "RNC");
+close(l);
+// Compute anticanonical map
+  filename = "rncAntiCanonicalMap.ssi";
+    link l0 = "ssi:w " + path + filename;
    
+ideal ph0 = rncAntiCanonicalMap(RNC);
+
+   write(l0, ph0, "rncAntiCanonicalMap");
+close(l0);
+// Return to base ring and map adjoint ideal
+setring rp;
+map g = R1, adj[1..size(adj)];
+
+// Compose map
+ideal phCom= g(ph0);
+
+
+// Compute inverse birational map
+def Rn= invertBirMap(phCom, ideal(f));
+setring Rn;
+
+psi;
 
    
     list ls;
-    matrix s0[1][size(PARACONIC)];
-    for (int k = 1; k <= size(PARACONIC); k++) {
-        s0[1, k] = PARACONIC[k];
+    matrix s0[1][size(psi)];
+    for (int k = 1; k <= size(psi); k++) {
+        s0[1, k] = psi[k];
     }
      ls[1] = s0;
 
@@ -521,7 +559,7 @@ PARACONIC;
  //create the target ring
      
         
-         def lb = ringlist(RPc);
+         def lb = ringlist(Rn);
             lb[1] = 0;
         def R0 = ring(lb);
  filename = "NewRing.ssi";
@@ -529,8 +567,8 @@ PARACONIC;
     write(L,  R0, "NewRing");
     close(L);
           setring R0;
-        ideal PARACONIC = imap(RPc,PARACONIC);
-        list ls=fetch(RPc,ls);
+        ideal psi = imap(Rn,psi);
+        list ls=fetch(Rn,ls);
         write(l1, psi, "inverse map=psi");
     close(l1);
 
@@ -553,6 +591,7 @@ PARACONIC;
     // Return the output token
     return(output);
 }
+
 
 
 
