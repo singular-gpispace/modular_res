@@ -417,16 +417,50 @@ print("timer");
 
 
 
-ring R = 0,(x,y,z),dp;
-poly f = y^8-x^3*(z+x)^5;
-ideal I=randomid(maxideal(1),3,5);
-map g=R,I[1..3];
+// Define the base ring
+ring R = 0, (x, y, z), dp;
+
+// Define the polynomial and ideal
+poly f = y^8 - x^3 * (z + x)^5;
+ideal I = randomid(maxideal(1), 3, 15);
+
+// Initialize variables for the loop
+map g = R, I[1..3];
+matrix B;
+while (1) {
+  // Generate a random linear map
+  I = randomid(maxideal(1), 3, 15);
+  
+
+  // Generate the coefficient matrix
+  matrix m = coef(g, x * y * z);
+
+  // Define the submatrix `B` (select rows and columns)
+  intvec v = 2, 3, 4; // Example row indices
+  B = submat(m, v, 1..3); 
+
+  // Compute the determinant of B
+  if (det(B) != 0) { // Check if the determinant is nonzero
+    break; // Exit the loop if B is invertible
+  }
+}
+
+// At this point, B is guaranteed to be invertible
+print("Determinant of B is nonzero, matrix is invertible:");
+print(det(B));
+
+// Proceed with further computations
+matrix Binv = inverse(B); // Compute the inverse of B
+
+
+
+
 poly F=g(f);
 print("Randomised ideal=F");print(F);
 ideal adj= adjointIdeal(F);
 rtimer=0;
  system("--ticks-per-sec",1000); // set timer resolution to ms
- int t=rtimer;
+ int t0=rtimer;
 def Rn = mapToRatNormCurve(F,adj);
 setring Rn;
 RNC;
@@ -438,11 +472,58 @@ def R0 = invertBirMap(phCom,ideal(F));
 setring R0;
 psi;
 
-rtimer-t;
+rtimer-t0;
 print("timer");
 // psi[1]=-y(1)^2
 // psi[2]=-y(3)*y(4)
 // psi[3]=y(1)^2-y(3)^2
+
+// Define the polynomial ring with 4 variables over the integers
+ring R = 0,(x,y,z),dp;
+poly f = y^8-x^3*(z+x)^5;
+ideal I=randomid(maxideal(1),3,15);
+map g=R,I[1..3];
+ poly F=g(f);
+matrix B;
+
+  // Generate a random linear map
+
+  
+
+  // Generate the coefficient matrix
+  matrix m = coef(I, x*y*z);
+ print(m);
+  // Define the submatrix `B` (select rows and columns)
+  intvec v = 2, 3, 4; // Example row indices
+  B = submat(m, v, 1..3); 
+ print("and"); print(B);
+  // Compute the determinant of B
+  if (det(B) != 0) { // Check if the determinant is nonzero
+  
+print("Randomised ideal=F");print(F);
+ideal A0 = adjointIdeal(F);
+ideal L=A0,ideal(F);
+
+print("poly in L=");print(L);
+
+list #=list(12,3,20,20,30);
+
+// def re = gspc_modular_fres(adj,L,gc,#);
+// re;
+rtimer=0;
+ system("--ticks-per-sec",1000); // set timer resolution to ms
+ int t=rtimer;
+def re = gspc_modular_parametrization_PlaneCurve(L,gc,#);
+
+setring re;
+im;
+
+rtimer-t;
+print("timer");
+  }
+ 
+
+// Print the matrix
 
 
 
