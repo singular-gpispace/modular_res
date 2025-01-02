@@ -322,6 +322,8 @@
                     in a workflow.
 "
         {
+            string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
+            string filename;
             def br = basering;
             int p = in_prime.data[1];
             def I = input.data[1];
@@ -334,11 +336,22 @@
             option(redSB);
             //attrib(I,"isSB",1);
             I = std(I);
-            resolution s = fres(I,k);
+             filename = "Ideal.ssi";
+             link l = "ssi:w " + path + filename;
+                   write(l, I, "fres");
+    close(l);
+    
+            def s = fres(I,k);
+         
             list ls;
-            for(int i = 1; i <= size(s); i++)
+               // Write debugging information
+    
+    
+   
+   
+            for(int i = size(s); i <= size(s); i++)
             {
-                ls[i] = matrix(s[i]);
+                ls[1] = matrix(s[i]);
             }
             setring br;  
             list ls = fetch(rp,ls);
