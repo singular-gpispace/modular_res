@@ -362,11 +362,11 @@ proc gspc_modular_parametrization_C(ideal I, configToken gc, list #) //optional 
   input.fieldnames = list("generators");
   input.data[1] = I;
   
-  print("ideal I="); print(I);
+  // print("ideal I="); print(I);
  
   list l = list(input);
-  print("input data");
-  print(l);
+  // print("input data");
+  // print(l);
   configToken pc = configure_modular(gc);
   print("before liftPhi");
   pc.options.procCompute = "modular_parametrization_C";
