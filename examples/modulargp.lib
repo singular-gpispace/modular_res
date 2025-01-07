@@ -499,10 +499,10 @@ CONIC;
     write(l0, p, "prime");
     close(l0);
 
-    filename = "CONIC.ssi";
-    link l = "ssi:w " + path + filename;
-    write(l, CONIC, "conic");
-    close(l);
+    // filename = "CONIC.ssi";
+    // link l = "ssi:w " + path + filename;
+    // write(l, CONIC, "conic");
+    // close(l);
 
 // def lb = ringlist(R0);
 
@@ -534,14 +534,20 @@ setring rp;
     write(l1, psi, "inverse map");
     close(l1);
 
-   
+    ideal CONIC=fetch(Rc,CONIC);
+     filename = "CONIC.ssi";
+    link l = "ssi:w " + path + filename;
+    write(l, CONIC, "conic");
+    close(l);
     list ls;
     matrix s0[1][size(psi)];
     for (int k = 1; k <= size(psi); k++) {
         s0[1, k] = psi[k];
     }
      ls[1] = s0;
-
+     matrix s[1][1];
+     s[1,1]=CONIC;
+     ls[2]=s;
     // Debug: Write matrix `s0`
     // write(l1, s0, "matrix s0[1][size(psi)]");
     // close(l1);
