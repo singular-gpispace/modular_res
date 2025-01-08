@@ -386,6 +386,30 @@ print("timer");
 # g(RNC);
 
 
+# Constructing RNC via kernel and then compute parametrization; then verify
+ ring R=0,(x0,x1,x2,x3,x4,x5),dp;
+// ** redefining R (ring R=0,(x0,x1,x2,x3),dp;)
+ring S=0,(t0,t1),dp;
+// ** redefining S (ring S=0,(t0,t1),dp;)
+ //ideal I=randomid(maxideal(1),4,3);
+ ideal I=randomid(maxideal(5),6);
+
+ map f=R,I[1..6];
+
+ setring R;
+ideal RNC= kernel(S,f);
+ideal phi=rncItProjOdd(RNC);
+rtimer=0;
+ system("--ticks-per-sec",1000); // set timer resolution to ms
+ int t=rtimer;
+def Rn = invertBirMap(phi,RNC);
+rtimer-t;
+
+setring Rn;
+psi;
+ideal l=psi[1..6];
+map g=R,l[1..6];
+g(RNC);
 
 //pnet: cat modular.xpnet | pnetc  | pnet2dot | dot -Tsvg > Modular_res.svg
 
