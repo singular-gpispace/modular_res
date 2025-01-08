@@ -456,3 +456,22 @@ ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5];
 map g=S,l[1..5];
 
 reduce(g(RNC),std(0));
+
+
+//FOr ODD (Cnstructing Rational Curve)
+ ring R=0,(x0,x1,x2,x3),dp;
+// ** redefining R (ring R=0,(x0,x1,x2,x3),dp;)
+ring S=0,(t0,t1),dp;
+// ** redefining S (ring S=0,(t0,t1),dp;)
+ //ideal I=randomid(maxideal(1),4,3);
+ ideal I=randomid(maxideal(3),4);
+
+ map f=R,I[1..4];
+
+ setring R;
+ideal RNC= kernel(S,f);
+ideal phi=rncItProjOdd(RNC);
+def Rn = invertBirMap(phi,RNC);
+
+
+
