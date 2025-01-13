@@ -1,0 +1,82 @@
+
+
+
+
+
+
+//ODD cases
+
+2.  ring R=0,(x(1..10)),dp;
+ring S=0,(t0,t1),dp;
+
+ ideal I=randomid(maxideal(9),10);
+
+ map f=R,I[1..10];
+
+ setring R;
+ideal RNC= kernel(S,f);
+rtimer=0;
+ system("--ticks-per-sec",1000); 
+ int t0=rtimer;
+ideal phi=rncItProjOdd(RNC);
+
+def Rn = invertBirMap(phi,RNC);
+rtimer-t0;
+
+setring Rn;
+psi;
+ideal l=psi[1..10];
+map g=R,l[1..10];
+g(RNC);
+3. ring R=0,(x(1..12)),dp;
+ring S=0,(t0,t1),dp;
+
+ ideal I=randomid(maxideal(11),12);
+
+ map f=R,I[1..12];
+
+ setring R;
+ideal RNC= kernel(S,f);
+rtimer=0;
+ system("--ticks-per-sec",1000); 
+ int t1=rtimer;
+ideal phi=rncItProjOdd(RNC);
+
+def Rn = invertBirMap(phi,RNC);
+rtimer-t1;
+
+setring Rn;
+psi;
+ideal l=psi[1..12];
+map g=R,l[1..12];
+g(RNC);
+4. ring R=0,(x(1..14)),dp;
+ring S=0,(t0,t1),dp;
+
+ ideal I=randomid(maxideal(13),14,3);
+
+ map f=R,I[1..14];
+
+ setring R;
+ideal RNC= kernel(S,f);
+rtimer=0;
+ system("--ticks-per-sec",1000); 
+ int t1=rtimer;
+ideal phi=rncItProjOdd(RNC);
+
+def Rn = invertBirMap(phi,RNC);
+rtimer-t1;
+
+setring Rn;
+psi;
+ideal l=psi[1..14];
+map g=R,l[1..14];
+g(RNC);
+//For Ringular
+ring S=0, (x0,x1,x2,x3,x4,x5,x6),dp;
+matrix m[2][6]=x0,x1,x2,x3,x4,x5,x1,x2,x3,x4,x5,x6;
+ideal RNC=minor(m,2);
+
+def Rc = rncItProjEven(RNC);
+PHI;
+ def Rn = invertBirMap(PHI, RNC);
