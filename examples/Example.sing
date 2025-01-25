@@ -542,3 +542,4 @@ ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7];
 map g=R,l[1..7];
 
 reduce(g(RNC),std(0));
+//Timing to be recorded yet
