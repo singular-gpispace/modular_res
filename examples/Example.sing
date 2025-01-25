@@ -1,242 +1,3 @@
-# Massively parallel modular computations
-
-This package offers a  massively parrallel implementation for modular algorithms for the computation of free resolution. In the implementation,  we separate the coordination and computations layers allowing the integration of different programming languages without the need to rewrite the entire code. It also facilitates easy editing and optimization of the implementation.  The application relies on the task-based workflow provided by [GPI-Space](http://www.gpi-space.de/) for task coordination, and uses the computer algebra  system [Singular](https://www.singular.uni-kl.de/) for computational tasks.
-
-This application  uses the generic  framework for modular methods implemented by Patrick Rakotoarisoa from  the repository
-[framework](https://github.com/singular-gpispace/modular).
-
-To use the framework, installing Singular, GPI-Space, along with their dependencies, and the project code are required. 
-We offer two distinct installation methods. The preferred approach involves using the supercomputing package manager Spack, 
-which automates the handling of all dependencies. Alternatively, a manual installation of components is available,
-serving as anoption if the installation via Spack fails on the target system.
-
-
-# Installation using Spack
-Spack is a package manager specifically aimed at handling software installations in supercomputing environments, but
-usable on anything from a personal computer to an HPC cluster. It supports Linux and macOS (note that the Singular/GPI-Space
-framework and hence our package requires Linux).
-
-We will assume that the user has some directory path with read and
-write access. In the following, we assume this path is set as the environment variable
-`software_ROOT`, as well as `install_ROOT`:
-
-```bash
-export software_ROOT=~/singular-gpispace
-export install_ROOT=~/singular-gpispace
-
-```
-Note, this needs to be set again if you open a new terminal session (preferably set it automatically by adding the line to your .profile file).
-
-## Install Spack
-If Spack is not already present in the above directory, clone Spack from Github:
-```bash
-git clone https://github.com/spack/spack.git $software_ROOT/spack
-
-```
-We check out verison v0.21 of Spack (the current version):
-```bash
-cd $software_ROOT/spack
-git checkout releases/v0.21
-cd $software_ROOT
-
-```
-Spack requires a couple of standard system packages to be present. For example, on an Ubuntu machines they can be installed by the following commands (which typically require sudo privilege)
-
-```bash
-sudo apt update
-
-```
-```bash
-sudo apt install build-essential ca-certificates coreutils curl environment-modules gfortran git gpg lsb-release python3 python3-distutils python3-venv unzip zip
-
-```
-
-To be able to use spack from the command line, run the setup script:
-```bash
-. $software_ROOT/spack/share/spack/setup-env.sh
-
-```
-Note, this script needs to be executed again if you open a new terminal session (preferably set it automatically by adding the line to your .profile file).
-
-Finally, Spack needs to boostrap clingo.  This can be done by concretizing any
-spec, for example
-```bash
-spack spec zlib
-
-```
-
-Note: If you experience connection timeouts due to a slow internet connection you can set in the following file the variable `connect_timeout` to a larger value.
-```bash
-vim $software_ROOT/spack/etc/spack/defaults/config.yaml
-
-```
-
-### How to uninstall Spack
-Note that Spack can be uninstalled by just deleting its directory and its configuration files. Be CAREFUL to do that, since it will delete your Spack setup. Typically you do NOT want to do that now, so the code is commented out. It can be useful if your Spack installation is broken:
-
-```bash
-#cd
-#rm -rf $software_ROOT/spack/
-#rm -rf .spack
-
-```
-## Install modular_res
-
-Once you have installed Spack, our package can be installed with just three lines of code.
-
-Clone the Singular/GPI-Space package repository into this directory:
-```bash
-git clone https://github.com/singular-gpispace/spack-packages.git $software_ROOT/spack-packages
-
-```
-
-Add the Singular/GPI-Space package repository to the Spack installation:
-```bash
-spack repo add $software_ROOT/spack-packages
-
-```
-
-Finally, install modular:
-```bash
-spack install modular
-
-```
-Optionally, the modular framework can be installed in a Spack environment by replacing the last command by the following commands.
-
-Create an environment:
-```bash
-spack env create myenv
-
-```
-Activate the environment:
-```bash
-spack env activate -p myenv
-
-```
-Add the abstract specs of modular to the environment:
-
-```bash
-spack add modular_res
-
-```
-
-Concretize the environment:
-```bash
-spack concretize
-
-```
-Install the environment
-```bash
-spack install
-
-```
-
-Note, this may take quite a bit of time, when doing the initial installation, as it needs to build GPI-Space and Singular
-including dependencies. Installing further components of the framework or updating is then typically quick.
-
-## Load modular
-
-Once modular is installed, to use modular load the package via:
-```bash
-spack load modular_res
-
-```
-If modular is installed in an environment, run the following command to activate the environment:
-```bash
-spack env activate -p myenv
-
-```
-After usage of the package, we can deactivate the environment via the command:
-```bash
-spack env deactivate
-
-```
-
-Note, that this command needs to be executed again if you open a new terminal session. In particular, the environment variable `MODULAR_INSTALL_DIR` is available only after executing this command.
-
-## Set up ssh
-
-GPI-Space requires a working SSH environment with a password-less
-SSH-key when using the SSH RIF strategy. To ensure this, 
-leave the password field empty when generating your ssh keypair.
-
-By default, `${HOME}/.ssh/id_rsa` is used for authentication. If no such key exists,
-```bash
-ssh-keygen -t rsa -b 4096 -N '' -f "${HOME}/.ssh/id_rsa"
-
-```
-can be used to create one. 
-
-If you compute on your personal machine, there must run an ssh server. On an Ubuntu machine, the respective package can be installed by:
-
-```bash
-sudo apt install openssh-server
-
-```
-
-Your key has to be registered with the machine you want to compute on. On a cluster with shared home directory, this only has to be done on one machine. For example, if you compute on your personal machine, you can register the key with:
-```bash
-ssh-copy-id -f -i "${HOME}/.ssh/id_rsa" "${HOSTNAME}"
-
-```
-# Example of how to use the modular package
-If you start in a new terminal session (and did not configure your terminal to do this automatically) make sure to set `software_ROOT` and run the `setup-env.sh` script. Make also sure to load the modular package in Spack. As discussed above this can be done by:
-
-```bash
-export software_ROOT=~/singular-gpispace
-. $software_ROOT/spack/share/spack/setup-env.sh
-spack load modular
-
-```
-## Setup directories and example files
-First, we copy the needed library for the example into `software_ROOT` directory.
-```bash
-cp $MODULAR_INSTALL_DIR/share/examples/modulargp.lib $software_ROOT
-
-```
-We create a nodefile, which contains the names of the nodes used for computations with our framework. In our example, it just contains the result of hostname.
-
-```bash
-hostname > $software_ROOT/nodefile
-
-```
-Moreover, we need a directory for temporary files, which should be accessible from all machines involved in the computation:
-
-```bash
-mkdir -p $software_ROOT/tempdir
-
-```
-## Start the monitor
-
-Optionally, but recommended: We start the GPI-Space Monitor to display computations in form of a Gantt diagram (to do so, you need an X-Server running).
-In case you do not want to use the monitor, you should not set in Singular the fields options.loghostfile and options.logport of the GPI-Space configuration token (see below). In order to use the GPI-Space Monitor, we need a loghostfile with the name of the machine running the monitor.
-
-```bash
-hostname > $software_ROOT/loghostfile
-
-```
-
-On this machine, start the monitor, specifying a port number where the monitor will receive information from GPI-Space. The same port has to be specified in Singular in the field options.logport.
-
-```bash
-gspc-monitor --port 9876 &
-
-```
-## Start Singular
-
-We start Singular in the directory where it will have direct access to all relevant directories we just created, telling it also where to find the libraries for our framework:
-
-```bash
-cd $software_ROOT
-SINGULARPATH="$MODULAR_INSTALL_DIR"  Singular
-
-```
-We will provide two examples of computation using the package. The first is for the computation of the anticanonical map. The second is for the computation of inverse of RNC modulo several primes.
-
-##  Example for modular computation of free resolution.
-In Singular, now do what follows below.
-
-```bash
 // # LIB "modulargspc.lib";
 // # LIB "random.lib";
 
@@ -263,7 +24,7 @@ LIB "paraplanecurves.lib";
 configToken gc = configure_gspc();
 gc.options.tmpdir = "/home/gnawali/gspc-modres/example_dir/temp";
 gc.options.nodefile = "nodefile";
-gc.options.procspernode = 3;
+gc.options.procspernode = 6;
 gc.options.loghost = "schipp";
 gc.options.logport = 9876;
 
@@ -321,112 +82,216 @@ gc.options.logport = 9876;
 //  ideal L=std(J1);
 
 
+// Example1
+// ring S=0, (x0,x1,x2,x3,x4,x5),dp;
+// matrix m[2][5]=x0,x1,x2,x3,x4,x1,x2,x3,x4,x5;
+//  ideal RNC=minor(m,2);
+//  //veryfi
+//  ring R=0, (y1,y2), dp;
+// map f=S,y1^5,y1^4*y2,y1^3*y2^2,y1^2*y2^3,y1*y2^4,y2^5;
+// f(RNC);
 
-//  ring R=0,(x0,x1,x2,x3),dp;
-//  matrix m[2][3]=x0,x1,x2,x1,x2,x3;
+//Example2
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
+// matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
 
-ring S=0, (x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
-matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
+//  ideal RNC=minor(m,2);
+// //  //veryfi
+//  ring R=0, (y(1),y(2), dp;
+// map f=S,y(1)^11,-y(1)^10*y(2),y(1)^9*y(2)^2,-y(1)^8*y(2)^3,y(1)^7*y(2)^4,-y(1)^6*y(2)^5,y(1)^5*y(2)^6,-y(1)^4*y(2)^7,y(1)^3*y(2)^8,-y(1)^2*y(2)^9,y(1)*y(2)^10,-y(2)^11;
+// f(RNC);
 
- ideal RNC=minor(m,2);
- RNC;
- ideal f=rncItProjOdd(RNC);
-print("ideal f=");
-print(f);
-ideal PHI=f;
-ideal L=RNC;
-
-
-
-list #=list(12,3,20,20,30);
-
-// def re = gspc_modular_fres(adj,L,gc,#);
-// re;
-rtimer=0;
- system("--ticks-per-sec",1000); // set timer resolution to ms
- int t=rtimer;
-def re = gspc_modular_parametrization_C(PHI,L,gc,#);
-
-setring re;
-im;
-rtimer-t;
-print("timer");
+//Example3
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13),dp;
+// matrix m[2][13]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13;
+// print("m=");
+// print(m);
+//  ideal RNC=minor(m,2);
 
 
+//Example4
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15),dp;
+// matrix m[2][15]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15;
+// print("m=");
+// print(m);
+//  ideal RNC=minor(m,2);
+
+//Example For Test
+//Example1
+
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
+// matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+// ideal rNC=minor(m,2);
+// ideal I=randomid(maxideal(1),10,11);
+// I;
+
+// map f=S,I[1..10];
+// ideal RNC=f(rNC);
+
+// _[1]=-245112315545912005681853661602172*x0-35078951337734098575272988977274254*x1+81341897098639447117372268282998108*x2+35456532042460255786730169378380427*x3-61238890470344426699593021587942529*x4-37069405005372072659223071748304512*x5+36440361908123637742610732275749560*x6+162910429859844760204083134269011539*x7+46065794481894355457442032403947337*x8+34007797704134794832560540888974521*x9
+// _[2]=-14435807098026202954151393907818534*x0-14250064822785990550223398957368700*x1+47038568523423149981431445282814735*x2-5267612221242781373523944308292381*x3-70465519591054579725326393204298025*x4+93117340053264891254004884659316525*x5+139912887847590524240016809531316912*x6+36440361908123637742610732275749560*x7-54534582833883317559275524190097074*x8+82012240205282805251032723961020483*x9
+// _[3]=-83520917534944548397514966794655944*x0-108723173740467995350922984483015532*x1+30759655427368838455173814644552181*x2-43642330069108634886295408912923817*x3-26505273520344060037812622109617960*x4+166995998102769557134392704922897393*x5+93117340053264891254004884659316525*x6-37069405005372072659223071748304512*x7-55315178329251968153964365009629293*x8-11447358456789792009886907172848838*x9
+// _[4]=-18276458528798171133450327592100606*x0+9975565925907485386973863554589146*x1-47742554143699949858026854977363882*x2-9949934165495375128836795313090677*x3+24456940309919303906238684384969760*x4-26505273520344060037812622109617960*x5-70465519591054579725326393204298025*x6-61238890470344426699593021587942529*x7+1201202560601759773448952565647069*x8-61539739679526665640392442386363821*x9
+// _[5]=-62119669799751725690398200275216316*x0-27885771740626754566325464255974612*x1-17278587363694210260911344882861671*x2-5435125216778617909910243570965378*x3-9949934165495375128836795313090677*x4-43642330069108634886295408912923817*x5-5267612221242781373523944308292381*x6+35456532042460255786730169378380427*x7+10370346802154400789995802965479806*x8-3216977864231425055747508797901869*x9
+// _[6]=13744807799031013236482134553276034*x0+6013342986704224333481126170761968*x1+7254102293006478919608530575168467*x2-17278587363694210260911344882861671*x3-47742554143699949858026854977363882*x4+30759655427368838455173814644552181*x5+47038568523423149981431445282814735*x6+81341897098639447117372268282998108*x7-15357932428022028181802091375618106*x8+79053323171813516592888504726632875*x9
+// _[7]=-38080076673909487249098389904472162*x1+6013342986704224333481126170761968*x2-27885771740626754566325464255974612*x3+9975565925907485386973863554589146*x4-108723173740467995350922984483015532*x5-14250064822785990550223398957368700*x6-35078951337734098575272988977274254*x7-50417805807894783599462552391413109*x8+6291717504663547120386898858397827*x9
+// _[8]=13744807799031013236482134553276034*x2-62119669799751725690398200275216316*x3-18276458528798171133450327592100606*x4-83520917534944548397514966794655944*x5-14435807098026202954151393907818534*x6-245112315545912005681853661602172*x7+100092663287909579820583377512944606*x8-30687205808494147881750817598857948*x9
+// timer
+// 155873
+
+//char=32003
+// ring S=32003,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
+// matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+// ideal rNC=minor(m,2);
+// ideal I=randomid(maxideal(1),10,11);
+// I;
+
+// map f=S,I[1..10];
+// ideal RNC=f(rNC);
+// rtimer=0;
+// system("--ticks-per-sec",1000); // set timer resolution to ms
+// int t1=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t1;
 
 
-# ring S=0, (x0,x1,x2,x3,x4,x5),dp;
-# matrix m[2][5]=x0,x1,x2,x3,x4,x1,x2,x3,x4,x5;
-# ideal rNC=minor(m,2);
-# ideal I=randomid(maxideal(1),6,11);
-# I;
-# map f=S,I[1..6];
-# ideal RNC=f(rNC);
-# ideal L=RNC;
+//Example 2
+
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
+// matrix m[2][10]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10;
+
+// ideal rNC=minor(m,2);
+
+// ideal I=randomid(maxideal(1),11,11);
+// I;
+
+// map f=S,I[1..11];
+// ideal RNC=f(rNC);
+// rtimer=0;
+// system("--ticks-per-sec",1000); // set timer resolution to ms
+// int t2=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t2;
+
+//Example 3
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
+// matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
+
+// ideal rNC=minor(m,2);
+
+// ideal I=randomid(maxideal(1),12,11);
+// I;
+
+// map f=S,I[1..12];
+// ideal RNC=f(rNC);
+// rtimer=0;
+// system("--ticks-per-sec",1000); // set timer resolution to ms
+// int t4=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t4;
+
+//Example 4
+
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12),dp;
+// matrix m[2][12]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12;
+// ideal rNC=minor(m,2);
+
+// ideal I=randomid(maxideal(1),13,11);
+// I;
+
+// map f=S,I[1..13];
+// ideal RNC=f(rNC);
+// rtimer=0;
+// system("--ticks-per-sec",1000); // set timer resolution to ms
+// int t4=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t4;
 
 
 
-# list #=list(12,3,20,20,30);
+//char =32003
+// ring S=32003,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12),dp;
+// matrix m[2][12]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12;
+// ideal rNC=minor(m,2);
 
-# // def re = gspc_modular_fres(adj,L,gc,#);
-# // re;
-# rtimer=0;
-#  system("--ticks-per-sec",1000); // set timer resolution to ms
-#  int t=rtimer;
-# def re = gspc_modular_parametrization_C(L,gc,#);
+// ideal I=randomid(maxideal(1),13,11);
+// I;
 
-# setring re;
-# im;
-
-# rtimer-t;
-# print("timer");
-
-# ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6];
-# map g=S,l[1..6];
-# g(RNC);
+// map f=S,I[1..13];
+// ideal RNC=f(rNC);
+// rtimer=0;
+// system("--ticks-per-sec",1000); // set timer resolution to ms
+// int t4=rtimer;
+// rncAntiCanonicalMap(RNC);
+// print("timer");
+// rtimer-t4;
 
 
-# Constructing RNC via kernel and then compute parametrization; then verify
- ring R=0,(x0,x1,x2,x3,x4,x5),dp;
-// ** redefining R (ring R=0,(x0,x1,x2,x3),dp;)
+
+// //Debugging CRT
+// ring S=0, (x0,x1,x2,x3,x4,x5),dp;
+// matrix m[2][5]=x0,x1,x2,x3,x4,x1,x2,x3,x4,x5;
+
+// ideal rNC=minor(m,2);
+
+// ideal I=randomid(maxideal(1),6,7);
+// I;
+
+// map f=S,I[1..6];
+// ideal RNC=f(rNC);
+// RNC;
+// ideal f=rncItProjOdd(RNC);
+// print("ideal f=");
+// print(f);
+// ideal PHI=f;
+
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
+// matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
+// ideal rNC=minor(m,2);
+// ideal I=randomid(maxideal(1),12,5);
+// I;
+// map f=S,I[1..12];
+// ideal RNC=f(rNC);
+
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+
+// // def re = gspc_modular_fres(adj,L,gc,#);
+// // re;
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10],im[1][11],im[1][12];
+// map g=S,l[1..12];
+// g(RNC);
+
+
+
+//FOr ODD (Cnstructing Rational Curve)
+
+//  1. 
+  ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7),dp;
 ring S=0,(t0,t1),dp;
-// ** redefining S (ring S=0,(t0,t1),dp;)
- //ideal I=randomid(maxideal(1),4,3);
- ideal I=randomid(maxideal(5),6);
 
- map f=R,I[1..6];
+ ideal I=randomid(maxideal(7),8);
+
+ map f=R,I[1..8];
 
  setring R;
 ideal RNC= kernel(S,f);
-ideal phi=rncItProjOdd(RNC);
-rtimer=0;
- system("--ticks-per-sec",1000); // set timer resolution to ms
- int t=rtimer;
-def Rn = invertBirMap(phi,RNC);
-rtimer-t;
 
-setring Rn;
-psi;
-ideal l=psi[1..6];
-map g=R,l[1..6];
-g(RNC);
-
-
-
-
-
-
-
-//3.
-ring R=0,(x(1..14)),dp;
-ring S=0,(t0,t1),dp;
-
- ideal I=randomid(maxideal(13),14,3);
-
- map f=R,I[1..14];
-
- setring R;
-ideal RNC= kernel(S,f);
 ideal L=RNC;
 list #=list(12,3,20,20,30);
 
@@ -443,10 +308,181 @@ im;
 rtimer-t;
 print("timer");
 
-ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10],im[1][11],im[1][12],im[1][13],im[1][14];
-map g=R,l[1..14];
+ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8];
+map g=R,l[1..8];
 g(RNC);
 
+//2. 
+// ring R=0,(x(1..10)),dp;
+// ring S=0,(t0,t1),dp;
+
+//  ideal I=randomid(maxideal(9),10);
+
+//  map f=R,I[1..10];
+
+//  setring R;
+// ideal RNC= kernel(S,f);
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+
+// // def re = gspc_modular_fres(adj,L,gc,#);
+// // re;
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10];
+// map g=R,l[1..10];
+// g(RNC);
+//3.
+// ring R=0,(x(1..14)),dp;
+// ring S=0,(t0,t1),dp;
+
+//  ideal I=randomid(maxideal(13),14,3);
+
+//  map f=R,I[1..14];
+
+//  setring R;
+// ideal RNC= kernel(S,f);
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+
+// // def re = gspc_modular_fres(adj,L,gc,#);
+// // re;
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10],im[1][11],im[1][12],im[1][13],im[1][14];
+// map g=R,l[1..14];
+// g(RNC);
+
+//4.
+// ring R=0,(x(1..14)),dp;
+// ring S=0,(t0,t1),dp;
+
+//  ideal I=randomid(maxideal(13),14);
+
+//  map f=R,I[1..14];
+
+//  setring R;
+// ideal RNC= kernel(S,f);
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+
+// // def re = gspc_modular_fres(adj,L,gc,#);
+// // re;
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10],im[1][11],im[1][12],im[1][13],im[1][14];
+// map g=R,l[1..14];
+// g(RNC);
+// re;
+// 1. 
+// ring R=0,(x0,x1,x2,x3,x4,x5,x6),dp;
+// ring S0=0,(t0,t1),dp;
+
+//  ideal I=randomid(maxideal(6),7,17);
+
+//  map f=R,I[1..7];
+
+//  setring R;
+// ideal RNC= kernel(S0,f);
+
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+// ideal conic=im[2];
+// print("Ideal conic");
+// // ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5];
+// // map g0=S,l[1..5];
+// // print("g0(RNC) in Subring");
+// // g0(RNC);
+// qring R1=std(conic);
+// list im=fetch(re,im);
+
+
+
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7];
+// map g=R,l[1..7];
+
+// reduce(g(RNC),std(0));
+
+
+//2.
+
+
+// 3. Does not finish in almost an hour
+// ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
+// ring S0=0,(t0,t1),dp;
+
+//  ideal I=randomid(maxideal(10),11);
+
+//  map f=R,I[1..11];
+
+//  setring R;
+// ideal RNC= kernel(S0,f);
+
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+// ideal conic=im[2];
+// print("Ideal conic");
+// // ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5];
+// // map g0=S,l[1..5];
+// // print("g0(RNC) in Subring");
+// // g0(RNC);
+// qring R1=std(conic);
+// list im=fetch(re,im);
+
+
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10],im[1][11];
+// map g=R,l[1..11];
+
+// reduce(g(RNC),std(0));
 
 
 //pnet: cat modular.xpnet | pnetc  | pnet2dot | dot -Tsvg > Modular_res.svg
@@ -462,15 +498,5 @@ g(RNC);
 
 
 
-
-
-
-
-
-
-
-
-
-```
 
 
