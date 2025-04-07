@@ -281,7 +281,7 @@
                             mod_res1.nb_prime = 1UL;
                             bal1 = we::type::literal::control{};
                         }
-                        std::cout << " in singularcompute= " <<mod_res1<<std::endl;
+                        // std::cout << " in singularcompute= " <<mod_res1<<std::endl;
                         ]]></code>
                     </module>
                 <condition>
