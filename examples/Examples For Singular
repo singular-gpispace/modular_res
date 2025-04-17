@@ -2,15 +2,15 @@
  
   //Even cases
  
- 1. ring R=0,(x0,x1,x2,x3,x4,x5,x6),dp;
-ring S0=0,(t0,t1),dp;
-
- ideal I=randomid(maxideal(6),7);
-
+ 1. 
+ LIB "random.lib";
+LIB "paraplanecurves.lib";
+ring R=0,(x0,x1,x2,x3,x4,x5,x6),dp;
+ ring S0=0,(t0,t1),dp;
+ ideal I=randomid(maxideal(6),7,17);
  map f=R,I[1..7];
-
  setring R;
-ideal RNC= kernel(S0,f);
+ ideal RNC= kernel(S0,f);
 rtimer=0;
  system("--ticks-per-sec",1000); 
  int t=rtimer;
@@ -37,11 +37,13 @@ reduce(g(RNC),std(0));
 2.  ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8),dp;
 ring S0=0,(t0,t1),dp;
 
- ideal I=randomid(maxideal(8),9,3);
+ideal I=randomid(maxideal(8),9,3);
 
- map f=R,I[1..9];
- setring R;
+map f=R,I[1..9];
+
+setring R;
 ideal RNC= kernel(S0,f);
+
 rtimer=0;
  system("--ticks-per-sec",1000); 
  int t=rtimer;
@@ -65,6 +67,43 @@ map g=R,l[1..9];
 
 reduce(g(RNC),std(0));
 
+3. 
+ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
+ring S0=0,(t0,t1),dp;
+
+ ideal I=randomid(maxideal(10),11,2);
+
+ map f=R,I[1..11];
+
+ setring R;
+ideal RNC= kernel(S0,f);
+
+rtimer=0;
+ system("--ticks-per-sec",1000); 
+ int t=rtimer;
+ def Rc = rncItProjEven(RNC);
+PHI;
+
+setring Rc;
+ideal conic =CONIC;
+setring R;
+ def Rn = invertBirMap(PHI, RNC);
+ rtimer-t;
+    setring(Rn);
+    psi; 
+
+ideal conic=fetch(Rc,conic);
+
+qring R1=std(conic);
+ideal psi=fetch(Rn,psi);
+
+
+qring R1=std(conic);
+ideal psi=fetch(Rn,psi);
+ideal l=psi[1],psi[2],psi[3],psi[4],psi[5],psi[6],psi[7],psi[8],psi[9],psi[10],psi[11];
+map g=R,l[1..11];
+
+reduce(g(RNC),std(0));
 
 
 

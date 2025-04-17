@@ -215,17 +215,17 @@ LIB "normal.lib";
             bigint N = liftedres.data[2];
             int index = liftedres.data[3];
 
-   string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
-    string filename;
-    filename = "fareyy.ssi";
-    link l = "ssi:w " + path + filename;
-    write(l, I, "fareyy");
-    close(l);
+//    string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
+//     string filename;
+//     filename = "fareyy.ssi";
+//     link l = "ssi:w " + path + filename;
+//     write(l, I, "fareyy");
+//     close(l);
             int n = system("--cpus");
             system("--cpus",1);
             def J = farey(I,N);
-             write(l, J, "final Lift");
-    close(l);
+            //write(l, J, "final Lift");
+            //close(l);
             system("--cpus",n);
             token t;
             t.fieldnames = list("farey_lift","Nb_generators","index");
@@ -491,13 +491,13 @@ setring Rc;
 
 
 CONIC;
-  string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
-    string filename;
+//   string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
+//     string filename;
     
-    filename = "prime.ssi";
-     link l0 = "ssi:w " + path + filename;
-    write(l0, p, "prime");
-    close(l0);
+    // filename = "prime.ssi";
+    //  link l0 = "ssi:w " + path + filename;
+    // write(l0, p, "prime");
+    // close(l0);
 
     // filename = "CONIC.ssi";
     // link l = "ssi:w " + path + filename;
@@ -514,15 +514,15 @@ CONIC;
    
 setring rp;
 
-    filename = "ideal.ssi";
-    link l = "ssi:w " + path + filename;
-    write(l, RNC, "ideal");
-    close(l);
+    // filename = "ideal.ssi";
+    // link l = "ssi:w " + path + filename;
+    // write(l, RNC, "ideal");
+    // close(l);
 
-    filename = "adjideal.ssi";
-    link l1 = "ssi:w " + path + filename;
-    write(l1, PHI, "PHI");
-    close(l1);
+    // filename = "adjideal.ssi";
+    // link l1 = "ssi:w " + path + filename;
+    // write(l1, PHI, "PHI");
+    // close(l1);
   
         
     // Compute inverse birational map
@@ -531,14 +531,14 @@ setring rp;
     psi;  // Assume `psi` is computed in Rn as part of the birational map computation.
 
      // Debug: Write the inverse map
-    write(l1, psi, "inverse map");
-    close(l1);
+    // write(l1, psi, "inverse map");
+    // close(l1);
 
     ideal CONIC=fetch(Rc,CONIC);
-     filename = "CONIC.ssi";
-    link l = "ssi:w " + path + filename;
-    write(l, CONIC, "conic");
-    close(l);
+    //  filename = "CONIC.ssi";
+    // link l = "ssi:w " + path + filename;
+    // write(l, CONIC, "conic");
+    // close(l);
     list ls;
     matrix s0[1][size(psi)];
     for (int k = 1; k <= size(psi); k++) {
@@ -562,20 +562,20 @@ setring rp;
          def lb = ringlist(Rn);
             lb[1] = 0;
         def R1 = ring(lb);
- filename = "NewRing.ssi";
-    link L = "ssi:w " + path + filename;
-    write(L,  R1, "NewRing");
-    close(L);
+//  filename = "NewRing.ssi";
+//     link L = "ssi:w " + path + filename;
+//     write(L,  R1, "NewRing");
+//     close(L);
           setring R1;
         ideal psi = imap(Rn,psi);
         list ls=fetch(Rn,ls);
-        write(l1, psi, "inverse map=psi");
-    close(l1);
+    //     write(l1, psi, "inverse map=psi");
+    // close(l1);
 
-     filename = "psi.ssi";
-    link L = "ssi:w " + path + filename;
-    write(L,  ls, "psi as a list");
-    close(L);
+    //  filename = "psi.ssi";
+    // link L = "ssi:w " + path + filename;
+    // write(L,  ls, "psi as a list");
+    // close(L);
     // Prepare output token
    
     token output;
