@@ -34,7 +34,10 @@ map g=R,l[1..7];
 
 reduce(g(RNC),std(0));
 
-2.  ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8),dp;
+2. 
+LIB "random.lib";
+LIB "paraplanecurves.lib";
+ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8),dp;
 ring S0=0,(t0,t1),dp;
 
 ideal I=randomid(maxideal(8),9,3);
@@ -68,6 +71,8 @@ map g=R,l[1..9];
 reduce(g(RNC),std(0));
 
 3. 
+LIB "random.lib";
+LIB "paraplanecurves.lib";
 ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
 ring S0=0,(t0,t1),dp;
 
@@ -96,15 +101,78 @@ ideal conic=fetch(Rc,conic);
 
 qring R1=std(conic);
 ideal psi=fetch(Rn,psi);
-
-
-qring R1=std(conic);
-ideal psi=fetch(Rn,psi);
 ideal l=psi[1],psi[2],psi[3],psi[4],psi[5],psi[6],psi[7],psi[8],psi[9],psi[10],psi[11];
 map g=R,l[1..11];
-
 reduce(g(RNC),std(0));
 
+
+//Ideal from minors
+1.
+LIB "random.lib";
+LIB "paraplanecurves.lib";
+ring R=0, (x0,x1,x2,x3,x4),dp;
+matrix m[2][4]=x0,x1,x2,x3,x1,x2,x3,x4;
+ideal rNC=minor(m,2);
+ideal I=randomid(maxideal(1),5,11);
+I;
+map f=R,I[1..5];
+ideal RNC=f(rNC);
+RNC;
+rtimer=0;
+ system("--ticks-per-sec",1000); 
+ int t=rtimer;
+ def Rc = rncItProjEven(RNC);
+PHI;
+setring Rc;
+ideal conic =CONIC;
+setring R;
+ def Rn = invertBirMap(PHI, RNC);
+ rtimer-t;
+    setring(Rn);
+    psi; 
+
+
+    ideal conic=fetch(Rc,conic);
+
+    qring R1=std(conic);
+    ideal psi=fetch(Rn,psi);
+    ideal l=psi[1],psi[2],psi[3],psi[4],psi[5];
+    map g=R,l[1..5];
+    reduce(g(RNC),std(0));
+
+2. 
+LIB "random.lib";
+LIB "paraplanecurves.lib";
+ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
+matrix m[2][10]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10;
+
+ideal rNC=minor(m,2);
+ideal I=randomid(maxideal(1),11,11);
+I;
+map f=R,I[1..11];
+ideal RNC=f(rNC);
+RNC;
+rtimer=0;
+ system("--ticks-per-sec",1000); 
+ int t=rtimer;
+ def Rc = rncItProjEven(RNC);
+PHI;
+setring Rc;
+ideal conic =CONIC;
+setring R;
+ def Rn = invertBirMap(PHI, RNC);
+ rtimer-t;
+    setring(Rn);
+    psi; 
+
+
+    ideal conic=fetch(Rc,conic);
+
+    qring R1=std(conic);
+    ideal psi=fetch(Rn,psi);
+    ideal l=psi[1],psi[2],psi[3],psi[4],psi[5],psi[6],psi[7],psi[8],psi[9],psi[10],psi[11];
+    map g=R,l[1..11];
+    reduce(g(RNC),std(0));
 
 
 
