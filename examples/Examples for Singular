@@ -1,0 +1,31 @@
+
+
+
+LIB "random.lib";
+LIB "paraplanecurves.lib";
+ring R = 0,(x,y,z),dp;
+poly f = y^8-x^3*(z+x)^5;
+ideal I=randomid(maxideal(1),3,11);
+map g=R,I[1..3];
+poly F=g(f);
+ideal adj = adjointIdeal(F);
+rtimer=0;
+def R1= mapToRatNormCurve(f, adj);
+setring(R1);
+
+RNC;
+ideal ph0 = rncAntiCanonicalMap(RNC);
+
+map g = R1, adj[1..size(adj)];
+
+// Compose map
+ideal phCom= g(ph0);
+
+
+// Compute inverse birational map
+def Rn= invertBirMap(phCom, ideal(f));
+setring Rn;
+
+psi;
+rtimer-t;
+print("timer");
