@@ -189,8 +189,8 @@ LIB "normal.lib";
        {
 
 
-          string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
-    string filename;
+    //       string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
+    // string filename;
   
    
            def J = right.data[1];
@@ -202,42 +202,42 @@ LIB "normal.lib";
 
         
     
-    filename = "prime p.ssi";
-    link l0 = "ssi:w " + path + filename;
-    write(l0, p, "prime");
-    close(l0);
-     filename = "prime q.ssi";
-    link l0 = "ssi:w " + path + filename;
-     write(l0, q, "prime");
-    close(l0);
-      filename = "LIFT1.ssi";
-            link l1 = "ssi:w " + path + filename;
-    write(l1, I, "LIFT=I");
-    close(l1);
-    filename = "LIFT2.ssi";
-     link l2 = "ssi:w " + path + filename;
-           write(l2, J, "LIFT=J");
-    close(l2);
+    // filename = "prime p.ssi";
+    // link l0 = "ssi:w " + path + filename;
+    // write(l0, p, "prime");
+    // close(l0);
+    //  filename = "prime q.ssi";
+    // link l0 = "ssi:w " + path + filename;
+    //  write(l0, q, "prime");
+    // close(l0);
+    //   filename = "LIFT1.ssi";
+    //         link l1 = "ssi:w " + path + filename;
+    // write(l1, I, "LIFT=I");
+    // close(l1);
+    // filename = "LIFT2.ssi";
+    //  link l2 = "ssi:w " + path + filename;
+    //        write(l2, J, "LIFT=J");
+    // close(l2);
            list IJ;
           
-             filename = "CRTI.ssi";
-              link l2 = "ssi:w " + path + filename;
-             filename = "CRTJ.ssi";
-              link l3 = "ssi:w " + path + filename;
-                 write(l2, size(I), "CRT, size(I)");
-                    close(l2);
+            //  filename = "CRTI.ssi";
+            //   link l2 = "ssi:w " + path + filename;
+            //  filename = "CRTJ.ssi";
+            //   link l3 = "ssi:w " + path + filename;
+            //      write(l2, size(I), "CRT, size(I)");
+            //         close(l2);
                     int a=size(I);
                     int b=size(J);
                    
-                          for( int i = 1; i <=size(J); i++)
+                for( int i = 1; i <=size(J); i++)
                              {  
-                  write(l2, I[i], "CRT I[i]");
-                    close(l2);
-                      write(l3,  J[i] , "CRT J[i]");
-                    close(l2);
-                IJ[i] = chinrem(list(I[i],J[i]),list(q,p));
-                  write(l2,  IJ[i] , "CRT IJ");
-                    close(l2);
+                //   write(l2, I[i], "CRT I[i]");
+                //     close(l2);
+                //       write(l3,  J[i] , "CRT J[i]");
+                //     close(l2);
+                           IJ[i] = chinrem(list(I[i],J[i]),list(q,p));
+                //   write(l2,  IJ[i] , "CRT IJ");
+                //     close(l2);
         
                           }
                  
@@ -260,17 +260,17 @@ LIB "normal.lib";
             bigint N = liftedres.data[2];
             int index = liftedres.data[3];
 
-   string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
-    string filename;
-    filename = "fareyy.ssi";
-    link l = "ssi:w " + path + filename;
-    write(l, I, "fareyy");
-    close(l);
+//    string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
+//     string filename;
+//     filename = "fareyy.ssi";
+//     link l = "ssi:w " + path + filename;
+//     write(l, I, "fareyy");
+//     close(l);
             int n = system("--cpus");
             system("--cpus",1);
             def J = farey(I,N);
-             write(l, J, "final Lift");
-    close(l);
+    //          write(l, J, "final Lift");
+    // close(l);
             system("--cpus",n);
             token t;
             t.fieldnames = list("farey_lift","Nb_generators","index");
@@ -532,23 +532,23 @@ proc modular_parametrization_C(token input, token in_prime)
            // RNC  = std(RNC);
   ideal f=rncItProjOdd(RNC);
     // Write debugging information
-    string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
-    string filename;
+    // string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
+    // string filename;
     
-    filename = "prime.ssi";
-    link l0 = "ssi:w " + path + filename;
-    write(l0, p, "prime");
-    close(l0);
+    // filename = "prime.ssi";
+    // link l0 = "ssi:w " + path + filename;
+    // write(l0, p, "prime");
+    // close(l0);
 
-    filename = "ideal.ssi";
-    link l = "ssi:w " + path + filename;
-    write(l, RNC, "ideal");
-    close(l);
+    // filename = "ideal.ssi";
+    // link l = "ssi:w " + path + filename;
+    // write(l, RNC, "ideal");
+    // close(l);
 
-    filename = "adjideal.ssi";
-    link l1 = "ssi:w " + path + filename;
-    write(l1, f, "RNC");
-    close(l1);
+    // filename = "adjideal.ssi";
+    // link l1 = "ssi:w " + path + filename;
+    // write(l1, f, "RNC");
+    // close(l1);
   
         
     // Compute inverse birational map
@@ -557,8 +557,8 @@ proc modular_parametrization_C(token input, token in_prime)
     psi;  // Assume `psi` is computed in Rn as part of the birational map computation.
 
     // Debug: Write the inverse map
-    write(l1, psi, "inverse map");
-    close(l1);
+    // write(l1, psi, "inverse map");
+    // close(l1);
 
    
     list ls;
@@ -582,20 +582,20 @@ proc modular_parametrization_C(token input, token in_prime)
          def lb = ringlist(Rn);
             lb[1] = 0;
         def R0 = ring(lb);
- filename = "NewRing.ssi";
-    link L = "ssi:w " + path + filename;
-    write(L,  R0, "NewRing");
-    close(L);
+//  filename = "NewRing.ssi";
+//     link L = "ssi:w " + path + filename;
+//     write(L,  R0, "NewRing");
+//     close(L);
           setring R0;
         ideal psi = imap(Rn,psi);
         list ls=fetch(Rn,ls);
-        write(l1, psi, "inverse map=psi");
-    close(l1);
+    //     write(l1, psi, "inverse map=psi");
+    // close(l1);
 
-     filename = "psi.ssi";
-    link L = "ssi:w " + path + filename;
-    write(L,  ls, "psi as a list");
-    close(L);
+    //  filename = "psi.ssi";
+    // link L = "ssi:w " + path + filename;
+    // write(L,  ls, "psi as a list");
+    // close(L);
     // Prepare output token
    
     token output;
