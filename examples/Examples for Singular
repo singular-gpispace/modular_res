@@ -80,6 +80,9 @@ g1(F);
 
 
 //Even degree cases
+LIB "random.lib";
+LIB "paraplanecurves.lib";
+system("random", 10 );
 ring R = 0,(x,y,z),dp;
 poly F = y^8-x^3*(z+x)^5;
 ideal I=randomid(maxideal(1),3,13);
@@ -108,6 +111,8 @@ def Rn= invertBirMap(phCom, ideal(f));
 setring Rn;
 
 psi;
+print("timer");
+rtimer-t;
 ideal conic=fetch(Rc,conic);
 qring R1=std(conic);
 ideal psi=fetch(Rn,psi);
@@ -116,16 +121,16 @@ map g1=R,l[1..3];
 
 reduce(g1(f),std(0));
 
-link l="ssi:r temp/adjideal.ssi";
-def m1=read(l);
-def m2=read(l);
-def m3=read(l);
-def m4=read(l);
-def m5=read(l);
-def m6=read(l);
-def m7=read(l);
-def m8=read(l);
-def m9=read(l);
-def m10=read(l);
-def m11=read(l);
-def m12=read(l);
+// link l="ssi:r temp/adjideal.ssi";
+// def m1=read(l);
+// def m2=read(l);
+// def m3=read(l);
+// def m4=read(l);
+// def m5=read(l);
+// def m6=read(l);
+// def m7=read(l);
+// def m8=read(l);
+// def m9=read(l);
+// def m10=read(l);
+// def m11=read(l);
+// def m12=read(l);
