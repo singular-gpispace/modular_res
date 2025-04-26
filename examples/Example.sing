@@ -587,6 +587,7 @@ gc.options.logport = 9876;
 // reduce(g1(f),std(0));
 
 //Odd degree case working
+system("random", 10 );
 ring R = 0,(x,y,z),dp;
 
 poly f= y^5-x^3*(z+x)^2;
