@@ -369,7 +369,7 @@ proc gspc_modular_parametrization_PlaneCurve(ideal I, configToken gc, list #) //
   print(l);
   configToken pc = configure_modular(gc);
   print("before liftPhi");
-  pc.options.procCompute = "modular_parametrization_Conic";
+  pc.options.procCompute = "modular_parametrization_P1";
   print("after liftPhi");
   //read optional arguments
   if (size(#) > 0)

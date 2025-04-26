@@ -24,7 +24,7 @@ LIB "paraplanecurves.lib";
 configToken gc = configure_gspc();
 gc.options.tmpdir = "/home/gnawali/gspc-modres/example_dir/temp";
 gc.options.nodefile = "nodefile";
-gc.options.procspernode = 4;
+gc.options.procspernode = 6;
 gc.options.loghost = "schipp";
 gc.options.logport = 9876;
 
@@ -82,17 +82,7 @@ gc.options.logport = 9876;
 //  ideal L=std(J1);
 
 
-
-
-
-
-// ring S=0, (x0,x1,x2,x3,x4),dp;
-// matrix m[2][4]=x0,x1,x2,x3,x1,x2,x3,x4;
-//  ideal RNC=minor(m,2);
-
-//VERIFY
-
-// Example
+// Example1
 // ring S=0, (x0,x1,x2,x3,x4,x5),dp;
 // matrix m[2][5]=x0,x1,x2,x3,x4,x1,x2,x3,x4,x5;
 //  ideal RNC=minor(m,2);
@@ -111,7 +101,7 @@ gc.options.logport = 9876;
 // map f=S,y(1)^11,-y(1)^10*y(2),y(1)^9*y(2)^2,-y(1)^8*y(2)^3,y(1)^7*y(2)^4,-y(1)^6*y(2)^5,y(1)^5*y(2)^6,-y(1)^4*y(2)^7,y(1)^3*y(2)^8,-y(1)^2*y(2)^9,y(1)*y(2)^10,-y(2)^11;
 // f(RNC);
 
-//Example
+//Example3
 // ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13),dp;
 // matrix m[2][13]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13;
 // print("m=");
@@ -165,58 +155,8 @@ gc.options.logport = 9876;
 // print("timer");
 // rtimer-t1;
 
-//Verification
-// ring S=0, (x0,x1,x2,x3,x4,x5),dp;
-// matrix m[2][5]=x0,x1,x2,x3,x4,x1,x2,x3,x4,x5;
-// ideal rNC=minor(m,2);
-// ideal I=randomid(maxideal(1),6,11);
-// I;
-// map f=S,I[1..6];
-// ideal RNC=f(rNC);
- //veryfi
-//  ring R=0, (y1,y2), dp;
-// map f=S,y1^5,y1^4*y2,y1^3*y2^2,y1^2*y2^3,y1*y2^4,y2^5;
-// f(RNC);
 
-
-//Example Even Case
-//Example 1
-// ring S=0, (x0,x1,x2,x3,x4),dp;
-// matrix m[2][4]=x0,x1,x2,x3,x1,x2,x3,x4;
-// ideal rNC=minor(m,2);
-// ideal I=randomid(maxideal(1),5,11);
-// I;
-// map f=S,I[1..5];
-// ideal RNC=f(rNC);
-
-//Example2
-// ring S=0, (x0,x1,x2,x3,x4,x5,x6),dp;
-// matrix m[2][6]=x0,x1,x2,x3,x4,x5,x1,x2,x3,x4,x5,x6;
-// ideal rNC=minor(m,2);
-// ideal I=randomid(maxideal(1),7,11);
-// I;
-// map f=S,I[1..7];
-// ideal RNC=f(rNC);
 //Example 2
-// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8),dp;
-// matrix m[2][8]=x0,x1,x2,x3,x4,x5,x6,x7,x1,x2,x3,x4,x5,x6,x7,x8;
-
-// ideal rNC=minor(m,2);
-
-// ideal I=randomid(maxideal(1),9,11);
-// I;
-
-// map f=S,I[1..9];
-// ideal RNC=f(rNC);
-// rtimer=0;
-// system("--ticks-per-sec",1000); // set timer resolution to ms
-// int t2=rtimer;
-// rncAntiCanonicalMap(RNC);
-// print("timer");
-// rtimer-t2;
-
-//Example Even case
-
 
 // ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
 // matrix m[2][10]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10;
@@ -307,27 +247,15 @@ gc.options.logport = 9876;
 // ideal f=rncItProjOdd(RNC);
 // print("ideal f=");
 // print(f);
+// ideal PHI=f;
 
-
-// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
-// matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+// ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
+// matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
 // ideal rNC=minor(m,2);
-// ideal I=randomid(maxideal(1),10,11);
+// ideal I=randomid(maxideal(1),12,5);
 // I;
-
-// map f=S,I[1..10];
+// map f=S,I[1..12];
 // ideal RNC=f(rNC);
-// ideal L=RNC;
-
-
-
-// ring S=0, (x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13),dp;
-// matrix m[2][13]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13;
-// ideal rNC=minor(m,2);
-// ideal I=randomid(maxideal(1),14,3);
-// map f=S,I[1..14];
-// ideal RNC=f(rNC);
-
 
 // ideal L=RNC;
 // list #=list(12,3,20,20,30);
@@ -345,59 +273,378 @@ gc.options.logport = 9876;
 // rtimer-t;
 // print("timer");
 
-// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10],im[1][11],im[1][12],im[1][13],im[1][14];
-// map g=S,l[1..14];
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10],im[1][11],im[1][12];
+// map g=S,l[1..12];
 // g(RNC);
 
 
 
-// ring S=0, (x0,x1,x2,x3,x4),dp;
-// matrix m[2][4]=x0,x1,x2,x3,x1,x2,x3,x4;
-// ideal RNC=minor(m,2);
-// ideal I=randomid(maxideal(1),7,11);
-// I;
-// map f=S,I[1..7];
-// ideal RNC=f(rNC);
+//FOr ODD (Cnstructing Rational Curve)
+
+//  1. 
+//   ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7),dp;
+// ring S=0,(t0,t1),dp;
+
+//  ideal I=randomid(maxideal(7),8);
+
+//  map f=R,I[1..8];
+
+//  setring R;
+// ideal RNC= kernel(S,f);
+
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+
+// // def re = gspc_modular_fres(adj,L,gc,#);
+// // re;
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8];
+// map g=R,l[1..8];
+// g(RNC);
+
+//2. 
+// ring R=0,(x(1..10)),dp;
+// ring S=0,(t0,t1),dp;
+
+//  ideal I=randomid(maxideal(9),10,5);
+
+//  map f=R,I[1..10];
+
+//  setring R;
+// ideal RNC= kernel(S,f);
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+
+// // def re = gspc_modular_fres(adj,L,gc,#);
+// // re;
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10];
+// map g=R,l[1..10];
+// g(RNC);
 
 
+//3.  
+// ring R=0,(x(1..12)),dp;
+// ring S=0,(t0,t1),dp;
+
+// ideal I=randomid(maxideal(11),12);
+
+// map f=R,I[1..12];
+
+// setring R;
+// ideal RNC= kernel(S,f);
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+
+
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10],im[1][11],im[1][12];
+// map g=R,l[1..12];
+// g(RNC);
+
+//4.
+// ring R=0,(x(1..14)),dp;
+// ring S=0,(t0,t1),dp;
+
+//  ideal I=randomid(maxideal(13),14,3);
+
+//  map f=R,I[1..14];
+
+//  setring R;
+// ideal RNC= kernel(S,f);
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+
+// // def re = gspc_modular_fres(adj,L,gc,#);
+// // re;
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10],im[1][11],im[1][12],im[1][13],im[1][14];
+// map g=R,l[1..14];
+// g(RNC);
+
+//4.
+// ring R=0,(x(1..14)),dp;
+// ring S=0,(t0,t1),dp;
+
+//  ideal I=randomid(maxideal(13),14,5);
+
+//  map f=R,I[1..14];
+
+//  setring R;
+// ideal RNC= kernel(S,f);
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+
+
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10],im[1][11],im[1][12],im[1][13],im[1][14];
+// map g=R,l[1..14];
+// g(RNC);
+
+
+//For even dimensional case
+
+// 1. 
+// ring R=0,(x0,x1,x2,x3,x4,x5,x6),dp;
+// ring S0=0,(t0,t1),dp;
+
+//  ideal I=randomid(maxideal(6),7,17);
+
+//  map f=R,I[1..7];
+
+//  setring R;
+// ideal RNC= kernel(S0,f);
+
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+// ideal conic=im[2];
+// print("Ideal conic");
+// // ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5];
+// // map g0=S,l[1..5];
+// // print("g0(RNC) in Subring");
+// // g0(RNC);
+// qring R1=std(conic);
+// list im=fetch(re,im);
+
+
+
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7];
+// map g=R,l[1..7];
+
+// reduce(g(RNC),std(0));
+
+
+// 2. 
+// ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8),dp;
+// ring S0=0,(t0,t1),dp;
+
+// ideal I=randomid(maxideal(8),9,3);
+
+// map f=R,I[1..9];
+
+// setring R;
+// ideal RNC= kernel(S0,f);
+
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+// rtimer=0;
+// system("--ticks-per-sec",1000); // set timer resolution to ms
+// int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+// ideal conic=im[2];
+// print("Ideal conic");
+// // ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5];
+// // map g0=S,l[1..5];
+// // print("g0(RNC) in Subring");
+// // g0(RNC);
+// qring R1=std(conic);
+// list im=fetch(re,im);
+
+
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9];
+// map g=R,l[1..9];
+
+// reduce(g(RNC),std(0));
+
+
+// 3. Does not finish in almost 3 hours for b=11
+// ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
+// ring S0=0,(t0,t1),dp;
+
+//  ideal I=randomid(maxideal(10),11,2);
+
+//  map f=R,I[1..11];
+
+//  setring R;
+// ideal RNC= kernel(S0,f);
+
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+// ideal conic=im[2];
+// print("Ideal conic");
+// // ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5];
+// // map g0=S,l[1..5];
+// // print("g0(RNC) in Subring");
+// // g0(RNC);
+// qring R1=std(conic);
+// list im=fetch(re,im);
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10],im[1][11];
+// map g=R,l[1..11];
+
+// reduce(g(RNC),std(0));
+
+//Plane curves
+//Even degree case
+// ring R = 0,(x,y,z),dp;
+// poly F = y^8-x^3*(z+x)^5;
+// ideal I=randomid(maxideal(1),3,13);
+// map g=R,I[1..3];
+// poly f=g(F);
+// // print("Randomised ideal=F");print(F);
+// ideal A0 = adjointIdeal(f);
+// ideal L=A0,f;
+// // print("poly in L=");print(L);
+// list #=list(12,3,20,20,30);
+// rtimer=0;
+// system("--ticks-per-sec",1000); // set timer resolution to ms
+// int t=rtimer;
+// def re =gspc_modular_parametrization_PlaneCurve(L,gc,#);
+// setring re;
+// im;
+// rtimer-t;
+// print("timer");
+
+// ideal conic=im[2];
+// // print("Ideal conic");
+// // conic;
+// qring S=std(conic);
+// list im=fetch(re,im);
+
+
+
+// ideal l=im[1][1],im[1][2],im[1][3];
+// map g1=R,l[1..3];
+
+// reduce(g1(f),std(0));
+
+//Odd degree case working
 ring R = 0,(x,y,z),dp;
-poly f = y^8-x^3*(z+x)^5;
-ideal A0 = adjointIdeal(f);
-ideal L=A0,ideal(f);
 
+poly f= y^5-x^3*(z+x)^2;
+ideal I=randomid(maxideal(1),3,13);
+map g=R,I[1..3];
+poly F=g(f);
+
+ideal A0 = adjointIdeal(F);
+ideal L=A0,F;
 print("poly in L=");print(L);
-
 list #=list(12,3,20,20,30);
-
-// def re = gspc_modular_fres(adj,L,gc,#);
-// re;
 rtimer=0;
- system("--ticks-per-sec",1000); // set timer resolution to ms
- int t=rtimer;
-def re = gspc_modular_parametrization_Conic(L,gc,#);
-
+system("--ticks-per-sec",1000); // set timer resolution to ms
+int t=rtimer;
+def re =gspc_modular_parametrization_PlaneCurve(L,gc,#);
 setring re;
 im;
-
-rtimer-t;
 print("timer");
-// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5];
-// ideal conic=y(2)^2-y(1)*y(3);
+rtimer-t;
+ideal l=im[1][1],im[1][2],im[1][3];
+map g1=R,l[1..3];
+print("verification");
+g1(F);
 
-// map g=S,l[1..5];
+
+
+
+
+
+// ring R=0,(x(1..12)),dp;
+// ring S=0,(t0,t1),dp;
+
+// ideal I=randomid(maxideal(11),12);
+
+// map f=R,I[1..12];
+
+// setring R;
+// ideal RNC= kernel(S,f);
+// ideal L=RNC;
+// list #=list(12,3,20,20,30);
+
+
+// rtimer=0;
+//  system("--ticks-per-sec",1000); // set timer resolution to ms
+//  int t=rtimer;
+// def re = gspc_modular_parametrization_C(L,gc,#);
+
+// setring re;
+// im;
+
+// rtimer-t;
+// print("timer");
+
+// ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10],im[1][11],im[1][12];
+// map g=R,l[1..12];
 // g(RNC);
-// ideal T=g(RNC);
-// qring R=std(conic);
-// // setring re;
-// ideal T=fetch(re,T);
-// // ideal l=fetch(re,l);
-// // print("l=im=");print(l);
-// print("T=g(RNC)=");print(T);
-// // setring re;
 
 
-// map R0=R,y(1),y(2),y(3);
-// R0(T);
 //pnet: cat modular.xpnet | pnetc  | pnet2dot | dot -Tsvg > Modular_res.svg
 
 //Starting monitor:gspc-monitor --port 9876 &
@@ -406,88 +653,6 @@ print("timer");
 //<include-structs href="/home/gnawali/gspc-modres/modular_res/workflow/structures.xpnet"/>
 
 
-
-
-
-
-
-
-
-
-
-
-
-ring R = 0,(x,y,z),dp;
-poly f = y^8-x^3*(z+x)^5;
-ideal I=randomid(maxideal(1),3,7);
-map g=R,I[1..3];
- poly F=g(f);
-matrix B;
-
-  // Generate a random linear map
-
-  
-
-  // Generate the coefficient matrix
-  matrix m = coef(I, x*y*z);
- print(m);
-  // Define the submatrix `B` (select rows and columns)
-  intvec v = 2, 3, 4; // Example row indices
-  B = submat(m, v, 1..3); 
- print("and"); print(B);
-  // Compute the determinant of B
-  if (det(B) != 0) { // Check if the determinant is nonzero
-  
-print("Randomised ideal=F");print(F);
-ideal A0 = adjointIdeal(F);
-ideal L=A0,ideal(F);
-
-print("poly in L=");print(L);
-
-list #=list(12,3,20,20,30);
-
-// def re = gspc_modular_fres(adj,L,gc,#);
-// re;
-rtimer=0;
- system("--ticks-per-sec",1000); // set timer resolution to ms
- int t=rtimer;
-def re = gspc_modular_parametrization_PlaneCurve(L,gc,#);
-
-setring re;
-im;
-
-rtimer-t;
-print("timer");
-  }
- 
-
-
-
-
-print("list im=");
-print(im);
-
-ideal l=im[1][1],im[1][2],im[1][3];
-ideal conic=y(2)^2-y(1)*y(3);
-
-map g0=R,l[1..3];
-poly F=fetch(R,F);
-g0(F);
-poly T=g0(F);
-print("T=g0(F)=");print(T);
-qring r=std(conic);
-setring re;
-poly T=fetch(re,T);
-// ideal l=fetch(re,l);
-// print("l=im=");print(l);
-print("T=g(RNC)=");print(T);
-// setring re;
-
-
-map R0=re,y(1),y(2),y(3);
-R0(T);
-
-// Print the matrix
 
 
 
