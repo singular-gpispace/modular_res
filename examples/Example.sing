@@ -320,6 +320,7 @@ list #=list(12,3,20,20,30);
 
 
 //3. Verify 
+system("random", 10 );
 ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12),dp;
 matrix m[2][12]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12;
 ideal RNC=minor(m,2);
@@ -351,6 +352,7 @@ reduce(g(RNC),std(0));
 
 
 // 2.Verify
+system("random", 10 );
 ring S=0, (x0,x1,x2,x3,x4,x5,x6),dp;
 matrix m[2][6]=x0,x1,x2,x3,x4,x5,x1,x2,x3,x4,x5,x6;
 ideal rNC=minor(m,2);
@@ -402,6 +404,7 @@ reduce(g(RNC),std(0));
 
 
  1. 
+ system("random", 10 );
 ring R=0,(x0,x1,x2,x3,x4,x5,x6),dp;
 ring S0=0,(t0,t1),dp;
 
@@ -441,6 +444,7 @@ map g=R,l[1..7];
 
 reduce(g(RNC),std(0));
 2.
+system("random", 10 );
 ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8),dp;
 ring S0=0,(t0,t1),dp;
 
@@ -480,6 +484,7 @@ map g=R,l[1..9];
 reduce(g(RNC),std(0));
 
 3. 
+system("random", 10 );
 ring R=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10),dp;
 ring S0=0,(t0,t1),dp;
 
