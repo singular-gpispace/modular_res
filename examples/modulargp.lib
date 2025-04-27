@@ -26,7 +26,7 @@ LIB "random.lib";
 LIB "homolog.lib";
 LIB "integralbasis.lib";
 LIB "normal.lib";
-
+LIB "paraplanecurves.lib";
 
 
        proc genNextPrime(token input, int p, int m)
@@ -579,6 +579,30 @@ proc modular_invertBirMap(ideal J0, ideal I) {
 // }
 
 
+proc adjId(poly f)
+{
+    LIB "normal.lib";
+  poly dhf = subst(f,var(3),1);
+  def Roriginal = basering;
+  list rl = ring_list(Roriginal);
+  rl[2] = list(var(1), var(2));
+  rl[3] = list(list("dp",1:2),list("C",0));
+  def Rdummy = ring(rl);
+  setring Rdummy;
+  poly f = imap(Roriginal,dhf);
+ list nor = normal(f);
+  ideal IB = nor[2][1];
+  poly d = nor[2][1][size(nor[2][1])];
+  ideal fd = f, d;
+  ideal IBf = IB, f;
+  ideal AI = quotient(fd, IBf);
+//"#### IB:"; IB;
+//"#### d:", d;
+  setring Roriginal;
+  ideal AI = imap(Rdummy,AI);
+//"#### AI:"; AI;
+  return(AI);
+}
 
 
 
@@ -589,22 +613,24 @@ proc modular_parametrization_Conic(token input, token in_prime)
                  intended to be called as a transition procedure inside the
                  workflow."
 {
-
-LIB "paraplanecurves.lib";
+    string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
+    string filename;
+    filename = "adjideal.ssi";
+    link l1 = "ssi:w " + path + filename;
+// LIB "paraplanecurves.lib";
 
 def br = basering;              // Store base ring
 int p = in_prime.data[1];              // Get prime p from input
-def RNc = input.data[1];  
-ideal adj=RNc[1..size(RNc)-1];
-poly f = RNc[size(RNc)];              // Get input ideal RNc
+ideal RNc = input.data[1];  
+write(l1,RNc, "RNc");
 
-                     // Extract polynomial f
-// string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
-//    string filename;
-//    filename = "adjideal.ssi";
-//    link l1 = "ssi:w " + path + filename;
-//    write(l1,adj, "Adjoint ideal modulo p");
-// close(l1);
+// poly f=input.data[1];  
+// ideal adj=RNc[1..size(RNc)-1];
+poly f = RNc[1];              // Get input ideal RNc
+write(l1,f, "f");
+          // Extract polynomial f
+
+
 // Create modular ring
  
 def lbr = ringlist(br);
@@ -613,24 +639,35 @@ def rp = ring(lbr);                    // Create modular ring
 setring rp;
 
 // Transfer data to modular ring
-ideal adj= imap(br,adj);
+
 poly f=imap(br,f);
+write(l1,f, "after imap f");
+ideal adj=adjId(f);
+write(l1,adj, "Adjoint ideal modulo p");
 
+// list rl = ringlist(rp);
+// write(l1,rl, "ring_list");
+// string z=rl[2][3];//extracting z
+// write(l1,z, "z");
 
+adj=homog(adj,var(3)); //needed to do
 
-
+write(l1,adj, "adj");
+close(l1);
+option(redSB);
+adj=std(adj);
 // Compute rational normal curve map
 def R1= mapToRatNormCurve(f, adj);
 setring(R1);
 
 RNC;
 
-// write(l1,RNC, "RNC");
+write(l1,RNC, "RNC");
 
 // ideal ph0 = rncAntiCanonicalMap(RNC);
 def Rc = rncItProjEven(RNC);
 PHI;
-// write(l1,PHI, "PHI");
+write(l1,PHI, "PHI");
 
 setring Rc;
 
@@ -651,12 +688,12 @@ map g = R1, adj[1..size(adj)];
 // Compose map
 ideal phCom= g(PHI);
 
-// write(l1,phCom, "phCom");
-// write(l1,f, "f");
+write(l1,phCom, "phCom");
+write(l1,f, "f");
 // Compute inverse birational map
 def Rn= invertBirMap(phCom, ideal(f));
-// write(l1,Rn, "Rn");
-// close(l1);
+write(l1,Rn, "Rn");
+close(l1);
 setring Rn;
 
 psi;
