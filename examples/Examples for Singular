@@ -48,8 +48,8 @@ system("random", 10 );
 
 ring R = 0,(x,y,z),dp;
 
-poly f= y^5-x^3*(z+x)^2;
-ideal I=randomid(maxideal(1),3,23);
+poly f= y^9-x^5*(z+x)^4;
+ideal I=randomid(maxideal(1),3,31);
 
 map g=R,I[1..3];
 poly F=g(f);
