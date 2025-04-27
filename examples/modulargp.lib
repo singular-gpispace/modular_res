@@ -215,11 +215,17 @@ LIB "normal.lib";
            bigint N = liftedres.data[2];
            int index = liftedres.data[3];
 
-
+//   string path = "/home/gnawali/gspc-modres/example_dir/temp/";  
+//    string filename;
+//    filename = "fareyy.ssi";
+//    link l = "ssi:w " + path + filename;
+//    write(l, I, "fareyy");
+//    close(l);
            int n = system("--cpus");
            system("--cpus",1);
            def J = farey(I,N);
-        
+//             write(l, J, "final Lift");
+//    close(l);
            system("--cpus",n);
            token t;
            t.fieldnames = list("farey_lift","Nb_generators","index");
