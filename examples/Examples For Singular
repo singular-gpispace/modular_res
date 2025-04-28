@@ -2,6 +2,43 @@
  
   //Even cases
  
+//THis is we construct RNC 
+system("random", 10 );
+ring R = 0,(x,y,z),dp;
+poly F = y^8-x^3*(z+x)^5;
+ideal I=randomid(maxideal(1),3,31);
+map g=R,I[1..3];
+poly f=g(F);
+
+ideal adj = adjointIdeal(f);
+def Rn = mapToRatNormCurve(f,adj);
+setring(Rn);
+RNC;
+
+rtimer=0;
+ system("--ticks-per-sec",1000); 
+ int t=rtimer;
+ def Rc = rncItProjEven(RNC);
+PHI;
+
+setring Rc;
+ideal conic =CONIC;
+setring Rn;
+ def R0 = invertBirMap(PHI, RNC);
+
+    setring(R0);
+    psi; 
+   
+ideal conic=fetch(Rc,conic);
+rtimer-t;
+print("timer");
+qring R1=std(conic);
+ideal psi=fetch(R0,psi);
+ideal l=psi[1],psi[2],psi[3],psi[4],psi[5],psi[6],psi[7];
+map g=Rn,l[1..7];
+
+reduce(g(RNC),std(0));
+
  1. 
  LIB "random.lib";
 LIB "paraplanecurves.lib";
