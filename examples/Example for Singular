@@ -33,7 +33,12 @@ map g=R,l[1..8];
 g(RNC);
 
 
-2.  ring R=0,(x(1..10)),dp;
+2. 
+LIB "random.lib";
+LIB "paraplanecurves.lib";
+
+system("random", 10 );
+ ring R=0,(x(1..10)),dp;
 ring S=0,(t0,t1),dp;
 
  ideal I=randomid(maxideal(9),10);
@@ -59,6 +64,7 @@ g(RNC);
 3. 
 LIB "random.lib";
 LIB "paraplanecurves.lib";
+system("random", 10 );
 ring R=0,(x(1..12)),dp;
 ring S=0,(t0,t1),dp;
 
@@ -81,6 +87,7 @@ psi;
 ideal l=psi[1..12];
 map g=R,l[1..12];
 g(RNC);
+
 4. ring R=0,(x(1..14)),dp;
 ring S=0,(t0,t1),dp;
 
