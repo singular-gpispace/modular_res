@@ -233,138 +233,53 @@ SINGULARPATH="$MODULAR_INSTALL_DIR"  Singular
 ```
 We will provide two examples of computation using the package. The first is for the computation of the anticanonical map. The second is for the computation of inverse of RNC modulo several primes.
 
-##  Example for modular computation of free resolution.
+##  Example for modular computation of parameterization of Rational normal curves.
 In Singular, now do what follows below.
 
 ```bash
-// # LIB "modulargspc.lib";
-// # LIB "random.lib";
-
-// # configToken gc = configure_gspc();
-// # gc.options.tmpdir = "/home/hbn/test/temp";
-// # gc.options.nodefile = "nodefile";
-// # gc.options.procspernode = 4;
-// # gc.options.loghostfile = "loghostfile";
-// # gc.options.logport = 9876;
-
-// # int n = 11;
-// # ring R = 0,(x(1..n+1)),dp;
-// # ideal I = randomid(maxideal(1),n+1,10);
-// # matrix B[2][n] = I[1..n], I[2..n+1];
-// # ideal J = minor(B,2);
-
-// # ideal L= std(J);
-
-// # def re = gspc_modular_fres(L,gc,12,3,20,20,24);
-// re;
 LIB "modulargspc.lib";
 LIB "random.lib";
 LIB "paraplanecurves.lib";
 configToken gc = configure_gspc();
 gc.options.tmpdir = "/home/gnawali/gspc-modres/example_dir/temp";
 gc.options.nodefile = "nodefile";
-gc.options.procspernode = 3;
+gc.options.procspernode = 6;
 gc.options.loghost = "schipp";
 gc.options.logport = 9876;
 
 
 
+system("random", 10 );
+ring R=0,(x0,x1,x2,x3,x4,x5,x6),dp;
+ring S0=0,(t0,t1),dp;
 
-// ring R = 0,(x,y,z),dp;
-// poly f = y^8-x^3*(z+x)^5;
-// ideal adj = adjointIdeal(f);
-// def Rn = mapToRatNormCurve(f,adj);
-// setring(Rn);
-// RNC;
-// print(Rn);
-// def Rc = rncItProjEven(RNC);
-// PHI;
-// print(Rc);
-// setring Rc;
+ideal I=randomid(maxideal(6),7,31);
 
-// CONIC;
-// def lbr = ringlist(Rn);
-// def rp = ring(lbr);
-// setring rp;
-// print(rp);
-// ideal PHI=imap(Rn,PHI);
-// //setring Rc;
-// ideal CONIC=imap(Rc,CONIC);
-// //setring Rn;
-// print("PHI=");print(PHI);
-// ideal L= ideal(CONIC);
-// ideal Adj=ideal(PHI);
-// int n = 11;
-// ring R = 0,(x(1..n+1)),dp;
-// ideal I = randomid(maxideal(1),n+1,10);
-// matrix B[2][n] = I[1..n], I[2..n+1];
-// ideal J = minor(B,2);
+map f=R,I[1..7];
 
-//ideal L= std(J);
+setring R;
+ideal RNC= kernel(S0,f);
 
-
-
-//Koszul Case
-// ring R=0,(u,v,w,x,y,z),(lp,c);
-// ideal L=u,v,w,x,y,z;
-
-// ring R= 0, (w,x,y,z), (dp,c);
-// ideal L= w2-x*z, w*x- y*z, x2-w*y, x*y- z2, y2- w*z;
-
-// def res=fres(L,0);
-// size(res);
-// print("Fres");
-// print(matrix(res[size(res)-1]));
- //Example from Singular book
-//  ring S=0, (x,y,z), (c,dp);
-//  ideal J1=y*z+z^2,y^2 + x*z,x*y+z^2,z^3,x*z^2,x^2*z;
-//  ideal L=std(J1);
-
-
-
-//  ring R=0,(x0,x1,x2,x3),dp;
-//  matrix m[2][3]=x0,x1,x2,x1,x2,x3;
-
-ring S=0, (x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
-matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
-
- ideal RNC=minor(m,2);
- RNC;
- ideal f=rncItProjOdd(RNC);
-print("ideal f=");
-print(f);
-ideal PHI=f;
 ideal L=RNC;
-
-
-
 list #=list(12,3,20,20,30);
-
-// def re = gspc_modular_fres(adj,L,gc,#);
-// re;
 rtimer=0;
- system("--ticks-per-sec",1000); // set timer resolution to ms
- int t=rtimer;
-def re = gspc_modular_parametrization_C(PHI,L,gc,#);
+system("--ticks-per-sec",1000); // set timer resolution to ms
+int t=rtimer;
+def re = gspc_modular_parametrization_C(L,gc,#);
 
 setring re;
 im;
+
 rtimer-t;
 print("timer");
+//For verification
+ideal conic=im[2];
+qring R1=std(conic);
+list im=fetch(re,im);
+ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7];
+map g=R,l[1..7];
 
-
-
-
-
-
-
-
-//pnet: cat modular.xpnet | pnetc  | pnet2dot | dot -Tsvg > Modular_res.svg
-
-//Starting monitor:gspc-monitor --port 9876 &
-
-
-//<include-structs href="/home/gnawali/gspc-modres/modular_res/workflow/structures.xpnet"/>
+reduce(g(RNC),std(0));
 
 
 
