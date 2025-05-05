@@ -236,6 +236,8 @@ Each computation example corresponds to a specific Git branch. Be sure to switch
 
 ##  Example for modular computation of free resolution.
 Ensure you're on the main branch:
+git checkout main
+
 
 ```bash
 LIB "modulargspc.lib";
@@ -262,7 +264,10 @@ re;
 ```
 ##  Example for modular computation of parameterization of rational plane curves .
 Ensure you're on the  PlaneADJOdd branch:
+```bash
 git checkout PlaneADJOdd
+
+```
 Then run the following in Singular:
 ```bash
 LIB "modulargspc.lib";
@@ -302,7 +307,10 @@ g1(F);
 
 ##  Example for modular computation Parameterization of Rational Normal Curves.
 Ensure you're on the  modularRNCOdd branch:
+```bash
 git checkout modularRNCOdd
+
+```
 Then run the following in Singular:
 
 ```bash
@@ -340,5 +348,46 @@ map g=R,l[1..10];
 g(RNC);
 
 
+
+```
+## Modular Computation of the Anticanonical Map
+Ensure you're on the modularRNC branch:
+```bash
+git checkout modularRNC
+```
+Then run the following in Singular:
+
+
+```bash
+
+
+LIB "modulargspc.lib";
+LIB "random.lib";
+LIB "paraplanecurves.lib";
+configToken gc = configure_gspc();
+gc.options.tmpdir = "/home/gnawali/gspc-modres/example_dir/temp";
+gc.options.nodefile = "nodefile";
+gc.options.procspernode = 6;
+gc.options.loghost = "schipp";
+gc.options.logport = 9876;
+system("random", 10 );
+ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
+matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
+ideal rNC=minor(m,2);
+ideal I=randomid(maxideal(1),10,11);
+
+map f=S,I[1..10];
+ideal RNC=f(rNC);
+RNC;
+ideal L=RNC;
+list #=list(12,3,20,20,30);
+rtimer=0;
+system("--ticks-per-sec",1000); // set timer resolution to ms
+int t=rtimer;
+def re = gspc_modular_parametrization_C(L,gc,#);
+setring re;
+im;
+rtimer-t;
+print("timer");
 
 ```
