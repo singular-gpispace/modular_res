@@ -148,10 +148,37 @@ g(RNC);
 
 
 //For Singular
-ring S=0, (x0,x1,x2,x3,x4,x5,x6),dp;
-matrix m[2][6]=x0,x1,x2,x3,x4,x5,x1,x2,x3,x4,x5,x6;
-ideal RNC=minor(m,2);
+// ring S=0, (x0,x1,x2,x3,x4,x5,x6),dp;
+// matrix m[2][6]=x0,x1,x2,x3,x4,x5,x1,x2,x3,x4,x5,x6;
+// ideal RNC=minor(m,2);
 
-def Rc = rncItProjEven(RNC);
-PHI;
- def Rn = invertBirMap(PHI, RNC);
+// def Rc = rncItProjEven(RNC);
+// PHI;
+//  def Rn = invertBirMap(PHI, RNC);
+//minor
+LIB "random.lib";
+LIB "paraplanecurves.lib";
+system("random", 10 );
+ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11),dp;
+matrix m[2][11]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
+ideal rNC=minor(m,2);
+ideal I=randomid(maxideal(1),12,11);
+I;
+map f=S,I[1..12];
+ideal RNC=f(rNC);
+
+rtimer=0;
+ system("--ticks-per-sec",1000); 
+ int t3=rtimer;
+ideal phi=rncItProjOdd(RNC);
+
+def Rn = invertBirMap(phi,RNC);
+
+
+setring Rn;
+psi;
+print("timer:=");
+rtimer-t3;
+ideal l=psi[1..12];
+map g=S,l[1..12];
+g(RNC);

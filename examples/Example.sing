@@ -342,7 +342,7 @@ gc.options.logport = 9876;
 // map g=R,l[1..10];
 // g(RNC);
 
-//3.
+// //3.
 ring R=0,(x(1..12)),dp;
 ring S=0,(t0,t1),dp;
 
