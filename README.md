@@ -231,10 +231,11 @@ cd $software_ROOT
 SINGULARPATH="$MODULAR_INSTALL_DIR"  Singular
 
 ```
-We will provide two examples of computation using the package. The first is for the computation of the image of a rational map. The second is for the computation of Groebner bases.
+## Choose the branch
+Each computation example corresponds to a specific Git branch. Be sure to switch to the right one before running the associated code:
 
 ##  Example for modular computation of free resolution.
-In Singular, now do what follows below.
+Ensure you're on the main branch:
 
 ```bash
 LIB "modulargspc.lib";
@@ -259,5 +260,85 @@ def re = gspc_modular_fres(L,gc,12,3,20,20,24);
 re;
 
 ```
+##  Example for modular computation of parameterization of rational plane curves .
+Ensure you're on the  PlaneADJOdd branch:
+git checkout PlaneADJOdd
+Then run the following in Singular:
+```bash
+LIB "modulargspc.lib";
+LIB "random.lib";
+LIB "paraplanecurves.lib";
+configToken gc = configure_gspc();
+gc.options.tmpdir = "/home/gnawali/gspc-modres/example_dir/temp";
+gc.options.nodefile = "nodefile";
+gc.options.procspernode = 3;
+gc.options.loghost = "schipp";
+gc.options.logport = 9876;
+
+system("random", 10 );
+ring R = 0,(x,y,z),dp;
+poly f= y^9-x^5*(z+x)^4;
+ideal I=randomid(maxideal(1),3,31);
+map g=R,I[1..3];
+poly F=g(f);
+ideal L=ideal(F);
+print("poly in L=");print(L);
+list #=list(12,3,20,20,30);
+rtimer=0;
+system("--ticks-per-sec",1000); // set timer resolution to ms
+int t=rtimer;
+def re =gspc_modular_parametrization_PlaneCurve(L,gc,#);
+setring re;
+im;
+print("timer");
+rtimer-t;
+//For verification;
+ideal l=im[1][1],im[1][2],im[1][3];
+map g1=R,l[1..3];
+
+g1(F);
+
+```
+
+##  Example for modular computation Parameterization of Rational Normal Curves.
+Ensure you're on the  modularRNCOdd branch:
+git checkout modularRNCOdd
+Then run the following in Singular:
+
+```bash
+
+LIB "modulargspc.lib";
+LIB "random.lib";
+LIB "paraplanecurves.lib";
+configToken gc = configure_gspc();
+gc.options.tmpdir = "/home/gnawali/gspc-modres/example_dir/temp";
+gc.options.nodefile = "nodefile";
+gc.options.procspernode = 6;
+gc.options.loghost = "schipp";
+gc.options.logport = 9876;
+
+system("random", 10 );
+ring R=0,(x(1..10)),dp;
+ring S=0,(t0,t1),dp;
+ideal I=randomid(maxideal(9),10,5);
+map f=R,I[1..10];
+setring R;
+ideal RNC= kernel(S,f);
+ideal L=RNC;
+list #=list(12,3,20,20,30);
+rtimer=0;
+system("--ticks-per-sec",1000); // set timer resolution to ms
+int t=rtimer;
+def re = gspc_modular_parametrization_C(L,gc,#);
+setring re;
+im;
+rtimer-t;
+print("timer");
+//For verification
+ideal l=im[1][1],im[1][2],im[1][3],im[1][4],im[1][5],im[1][6],im[1][7],im[1][8],im[1][9],im[1][10];
+map g=R,l[1..10];
+g(RNC);
 
 
+
+```
