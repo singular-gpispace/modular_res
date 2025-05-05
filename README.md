@@ -98,7 +98,7 @@ spack repo add $software_ROOT/spack-packages
 
 Finally, install modular:
 ```bash
-spack install modular
+spack install modular_res
 
 ```
 Optionally, the modular framework can be installed in a Spack environment by replacing the last command by the following commands.
@@ -134,7 +134,7 @@ spack install
 Note, this may take quite a bit of time, when doing the initial installation, as it needs to build GPI-Space and Singular
 including dependencies. Installing further components of the framework or updating is then typically quick.
 
-## Load modular
+## Load modular_res
 
 Once modular is installed, to use modular load the package via:
 ```bash
@@ -247,19 +247,6 @@ gc.options.nodefile = "nodefile";
 gc.options.procspernode = 6;
 gc.options.loghost = "schipp";
 gc.options.logport = 9876;
-
-
-
-
-
-
-
-
-
-
-
-
-
 system("random", 10 );
 ring S=0,(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9),dp;
 matrix m[2][9]=x0,x1,x2,x3,x4,x5,x6,x7,x8,x1,x2,x3,x4,x5,x6,x7,x8,x9;
