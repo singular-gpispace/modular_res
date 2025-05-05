@@ -233,7 +233,7 @@ SINGULARPATH="$MODULAR_INSTALL_DIR"  Singular
 ```
 We will provide two examples of computation using the package. The first is for the computation of the anticanonical map. The second is for the computation of inverse of RNC. The invert is over modulo several primes.
 
-##  Example for modular computation of free resolution.
+##  Modular Computation of the Anticanonical Map.
 In Singular, now do what follows below.
 
 ```bash
