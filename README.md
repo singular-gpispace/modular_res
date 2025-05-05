@@ -236,8 +236,10 @@ Each computation example corresponds to a specific Git branch. Be sure to switch
 
 ##  Example for modular computation of free resolution.
 Ensure you're on the main branch:
+```bash
 git checkout main
 
+```
 
 ```bash
 LIB "modulargspc.lib";
