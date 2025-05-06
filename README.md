@@ -1,9 +1,11 @@
 # Massively parallel modular computations
-
-This package offers a  massively parrallel implementation for modular algorithms for the computation of free resolution. In the implementation,  we separate the coordination and computations layers allowing the integration of different programming languages without the need to rewrite the entire code. It also facilitates easy editing and optimization of the implementation.  The application relies on the task-based workflow provided by [GPI-Space](http://www.gpi-space.de/) for task coordination, and uses the computer algebra  system [Singular](https://www.singular.uni-kl.de/) for computational tasks.
+This readme follows the readme of [modular](https://github.com/singular-gpispace/modular).
+This package offers a  massively parrallel implementation for modular algorithms for the computation of free resolution. In the implementation,  we separate the coordination and computations layers allowing the integration of different programming languages without the need to rewrite the entire code. It also facilitates easy editing and optimization of the implementation. The application relies on the task-based workflow provided by [GPI-Space](http://www.gpi-space.de/) for task coordination, and uses the computer algebra  system [Singular](https://www.singular.uni-kl.de/) for computational tasks.
 
 This application  uses the generic  framework for modular methods implemented by Patrick Rakotoarisoa from  the repository
-[framework](https://github.com/singular-gpispace/modular).
+[modular](https://github.com/singular-gpispace/modular).
+
+This application uses the Singular dynamic module implemented by Lukas Ristau from the repository [framework](https://github.com/singular-gpispace/framework) with minor modifications to trigger the framework directly from the Singular interpreter.
 
 To use the framework, installing Singular, GPI-Space, along with their dependencies, and the project code are required. 
 We offer two distinct installation methods. The preferred approach involves using the supercomputing package manager Spack, 
@@ -96,9 +98,9 @@ spack repo add $software_ROOT/spack-packages
 
 ```
 
-Finally, install modular:
+Finally, install modular_res:
 ```bash
-spack install modular
+spack install modular_res
 
 ```
 Optionally, the modular framework can be installed in a Spack environment by replacing the last command by the following commands.
@@ -134,14 +136,14 @@ spack install
 Note, this may take quite a bit of time, when doing the initial installation, as it needs to build GPI-Space and Singular
 including dependencies. Installing further components of the framework or updating is then typically quick.
 
-## Load modular
+## Load modular_res
 
-Once modular is installed, to use modular load the package via:
+Once modular_res is installed, to use modular_res load the package via:
 ```bash
 spack load modular_res
 
 ```
-If modular is installed in an environment, run the following command to activate the environment:
+If modular_res is installed in an environment, run the following command to activate the environment:
 ```bash
 spack env activate -p myenv
 
