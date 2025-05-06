@@ -1,6 +1,6 @@
 # Massively parallel modular computations
 This readme follows the readme of [modular](https://github.com/singular-gpispace/modular).
-This package offers a  massively parrallel implementation for modular algorithms for the computation of free resolution. In the implementation,  we separate the coordination and computations layers allowing the integration of different programming languages without the need to rewrite the entire code. It also facilitates easy editing and optimization of the implementation. The application relies on the task-based workflow provided by [GPI-Space](http://www.gpi-space.de/) for task coordination, and uses the computer algebra  system [Singular](https://www.singular.uni-kl.de/) for computational tasks.
+This package offers a  massively parallel implementation for modular algorithms for the computation of free resolution,parameterization of rational nrmal curves. In the implementation,  we separate the coordination and computations layers allowing the integration of different programming languages without the need to rewrite the entire code. It also facilitates easy editing and optimization of the implementation. The application relies on the task-based workflow provided by [GPI-Space](http://www.gpi-space.de/) for task coordination, and uses the computer algebra  system [Singular](https://www.singular.uni-kl.de/) for computational tasks.
 
 This application  uses the generic  framework for modular methods implemented by Patrick Rakotoarisoa from  the repository
 [modular](https://github.com/singular-gpispace/modular).
@@ -103,7 +103,7 @@ Finally, install modular_res:
 spack install modular_res
 
 ```
-Optionally, the modular framework can be installed in a Spack environment by replacing the last command by the following commands.
+Optionally, the modular_res framework can be installed in a Spack environment by replacing the last command by the following commands.
 
 Create an environment:
 ```bash
@@ -115,7 +115,7 @@ Activate the environment:
 spack env activate -p myenv
 
 ```
-Add the abstract specs of modular to the environment:
+Add the abstract specs of modular_res to the environment:
 
 ```bash
 spack add modular_res
@@ -181,13 +181,13 @@ Your key has to be registered with the machine you want to compute on. On a clus
 ssh-copy-id -f -i "${HOME}/.ssh/id_rsa" "${HOSTNAME}"
 
 ```
-# Example of how to use the modular package
+# Example of how to use the modular_res package
 If you start in a new terminal session (and did not configure your terminal to do this automatically) make sure to set `software_ROOT` and run the `setup-env.sh` script. Make also sure to load the modular package in Spack. As discussed above this can be done by:
 
 ```bash
 export software_ROOT=~/singular-gpispace
 . $software_ROOT/spack/share/spack/setup-env.sh
-spack load modular
+spack load modular_res
 
 ```
 ## Setup directories and example files
@@ -267,7 +267,7 @@ re;
 
 ```
 ##  Example for modular computation of parameterization of rational plane curves .
-Ensure you're on the  PlaneADJOdd branch:
+Ensure you're on the PlaneADJOdd branch:
 ```bash
 git checkout PlaneADJOdd
 
@@ -309,7 +309,7 @@ g1(F);
 
 ```
 
-##  Example for modular computation Parameterization of Rational Normal Curves.
+##  Example for modular  Parameterization of Rational Normal Curves.
 Ensure you're on the  modularRNCOdd branch:
 ```bash
 git checkout modularRNCOdd
