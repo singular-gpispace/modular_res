@@ -1,10 +1,10 @@
 # Massively parallel modular computations
 This readme follows the readme of [modular](https://github.com/singular-gpispace/modular).
-This package offers a  massively parallel implementation for modular algorithms for the computation of free resolution,parameterization of rational nrmal curves. In the implementation,  we separate the coordination and computations layers allowing the integration of different programming languages without the need to rewrite the entire code. It also facilitates easy editing and optimization of the implementation. The application relies on the task-based workflow provided by [GPI-Space](http://www.gpi-space.de/) for task coordination, and uses the computer algebra  system [Singular](https://www.singular.uni-kl.de/) for computational tasks.
+This package offers a  massively parallel implementation for modular algorithms for the computation of free resolution, parameterization of rational normal curves. In the implementation,  we separate the coordination and computations layers allowing the integration of different programming languages without the need to rewrite the entire code. It also facilitates easy editing and optimization of the implementation. The application relies on the task-based workflow provided by [GPI-Space](http://www.gpi-space.de/) for task coordination, and uses the computer algebra  system [Singular](https://www.singular.uni-kl.de/) for computational tasks.
 
 
 
-This repository builds on infrastructure for using Singular and GPI-Space developed in the repository [modular](https://github.com/singular-gpispace/modular)..
+This repository builds on infrastructure for using Singular and GPI-Space developed in the repository [modular](https://github.com/singular-gpispace/modular).
  
 
 
